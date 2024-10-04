@@ -16,6 +16,7 @@ import RouteButton from "../components/RouteButton.vue"
     bgColor="bg-white"
     borderColor="border-none"
     linkTo="/sign-up"
+    ariaLabel="Sign Up"
   />
       <RouteButton
     text="Login"
@@ -23,6 +24,7 @@ import RouteButton from "../components/RouteButton.vue"
     bgColor="bg-transparent"
     borderColor="border-white"
     linkTo="/login"
+    ariaLabel="Login"
   />
    
     </aside>

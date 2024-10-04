@@ -23,14 +23,15 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  ariaLabel: String
 });
 </script>
 
 <template>
   <RouterLink
     :to="linkTo"
-    :class="`${bgColor} ${borderColor} ${textColor} border rounded-md px-4 py-2`"
-    aria-label="Button link"
+    :class="`${bgColor} ${borderColor} ${textColor} border rounded-md px-4 py-2 w-fit`"
+    :aria-label="ariaLabel"
   >
     {{ text }}
   </RouterLink>
