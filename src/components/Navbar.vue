@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <nav class="z-10 bg-transparent flex items-center justify-between md:w-11/12 mx-auto">
+  <nav class="z-10 absolute top-24 bg-transparent flex items-center justify-between md:w-11/12 mx-auto">
     <RouterLink to="/">
       <img :src="logo" alt="Company logo" />
     </RouterLink>
