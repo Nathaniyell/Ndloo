@@ -20,9 +20,8 @@ import RouteButton from "../components/RouteButton.vue"
   />
       <RouteButton
     text="Login"
-    textColor="text-white"
-    bgColor="bg-transparent"
-    borderColor="border-white"
+    bgColor="bg-light"
+    borderColor="border-light"
     linkTo="/login"
     ariaLabel="Login"
   />

@@ -9,7 +9,7 @@ const props = defineProps({
   },
   textColor: {
     type: String,
-    default: 'text-white',
+    default: 'text-light',
   },
   bgColor: {
     type: String,
