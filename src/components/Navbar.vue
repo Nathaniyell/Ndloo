@@ -13,17 +13,23 @@ import RouteButton from "../components/RouteButton.vue"
              <RouteButton
     text="Sign up"
     textColor="text-primary3"
-    bgColor="bg-white"
+    bgColor="bg-light"
     borderColor="border-none"
     linkTo="/sign-up"
     ariaLabel="Sign Up"
+    hoverTextColor="hover:text-light"
+    hoverBgColor="hover:bg-primary3"
+    hoverBorderColor="hover:border-primary3"
   />
       <RouteButton
     text="Login"
-    bgColor="bg-light"
-    borderColor="border-light"
+    bgColor="bg-transparent"
+    borderColor="border-light border-2"
     linkTo="/login"
     ariaLabel="Login"
+      hoverTextColor="hover:text-primary3"
+    hoverBgColor="hover:bg-light"
+       hoverBorderColor="hover:border-light"
   />
    
     </aside>
