@@ -21,6 +21,7 @@ export default {
         secondary4: "#FF8080",
         secondary5: "#FFAAAA",
         secondary6: "#FFCCCC",
+        light: "#E7E7E7"
       }
     },
   },
