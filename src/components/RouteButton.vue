@@ -35,7 +35,7 @@ const props = defineProps({
 <template>
   <RouterLink
     :to="linkTo"
-    :class="`${bgColor} ${borderColor} ${textColor} ${hoverBgColor} ${hoverBorderColor} ${hoverTextColor} border rounded-md px-4 py-2 w-fit transition-all ease-linear duration-150`"
+    :class="`${bgColor} ${borderColor} ${textColor} ${hoverBgColor} ${hoverBorderColor} ${hoverTextColor} border rounded-md p-2 md:px-4 grid place-items-center md:py-2 w-fit transition-all ease-linear duration-150`"
     :aria-label="ariaLabel"
   >
     {{ text }}
