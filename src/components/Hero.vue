@@ -55,5 +55,4 @@ const slides = [
             </SwiperSlide>
         </Swiper>
     </div>
-    <div>Lorem20000</div>
 </template>
