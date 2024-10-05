@@ -44,7 +44,7 @@ const footerColumns = [
 <template>
     <footer
         class="bg-primary3 h-screen w-full text-light p-10">
-    <div class="w-[90%] mx-auto grid md:grid-cols-2 lg:grid-cols-5 place-items-center items-stretch space-y-8 md:space-y-0 md:space-x-10 mt-14">
+    <div class="w-[90%] mx-auto grid md:grid-cols-2 lg:grid-cols-5 place-items-center items-stretch space-y-8 md:space-y-0 md:space-x-2 mt-14">
         <section class="flex flex-col space-y-6">
             <img :src="logo" class="w-3/5" alt="Logo">
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores est tenetur, distinctio quos </p>

@@ -17,10 +17,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col w-fit">
     <h4 class="font-semibold mb-4">{{ header }}</h4>
     <div>
-      <RouterLink v-for="(link, index) in links" :key="index" class="block mb-2 text-light text-opacity-80" :to="link.linkTo">
+      <RouterLink v-for="(link, index) in links" :key="index" class="block mb-2 hover:underline text-light text-opacity-80 hover:text-opacity-100" :to="link.linkTo">
         {{ link.linkTitle }}
       </RouterLink>
     </div>
