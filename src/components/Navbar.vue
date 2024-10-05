@@ -1,7 +1,7 @@
 <script setup>
 import logo from "../assets/images/ndloo-logo.png";
 import { RouterLink } from 'vue-router';
-import RouteButton from "../components/RouteButton.vue"
+import RouteButton from "./RouteButton.vue"
 </script>
 
 <template>

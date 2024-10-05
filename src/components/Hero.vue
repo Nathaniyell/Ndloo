@@ -2,7 +2,7 @@
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
-// import { Pagination } from 'swiper/pagination';
+// import SwiperCore, { Pagination } from "swiper";
 import RouteButton from './RouteButton.vue';
 
 // Import images
@@ -38,7 +38,7 @@ const slides = [
 
 <template>
     <div class="-z-10 relative overflow-x-hidden">
-        <Swiper :slides-per-view="1" :space-between="50" :loop="true" class="h-screen w-full">
+        <Swiper :slides-per-view="1" :space-between="50"  :pagination="{ clickable: true }" :loop="true" class="h-screen w-full">
             <SwiperSlide v-for="(slide, index) in slides" :key="index">
                 <div class="relative h-screen">
                     <img class="w-full h-full" :src="slide.image" :alt="'Hero Image ' + (index + 1)" />
