@@ -43,8 +43,8 @@ const footerColumns = [
 
 <template>
     <footer
-        class="bg-primary3 h-screen w-full text-light p-10">
-    <div class="w-[90%] mx-auto grid md:grid-cols-2 lg:grid-cols-5 place-items-center items-stretch space-y-8 md:space-y-0 md:space-x-2 mt-14">
+        class="bg-primary3 md:h-screen w-full text-light py-6 px-2 md:px-10 md:py-10 flex flex-col gap-10 justify-around">
+    <div class="w-[90%] mx-auto grid md:grid-cols-4 lg:grid-cols-5 lg:place-items-center items-stretch space-y-8 md:space-y-6 md:gap-6 lg:space-y-0 lg:space-x-2 mt-6">
         <section class="flex flex-col space-y-6">
             <img :src="logo" class="w-3/5" alt="Logo">
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores est tenetur, distinctio quos </p>
@@ -94,5 +94,16 @@ const footerColumns = [
 </div>
     </div>
     </div>
+    <section class="w-[90%] mx-auto pt-6 border-t border-light flex flex-col gap-6 md:flex-row justify-between md:items-center">
+        <h5>Copyright &copy;</h5>
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1 items-start md:items-center">
+  <p>All rights reserved</p>
+  <span class="hidden md:inline">&nbsp;|&nbsp;</span>
+  <a href="#" class="block underline">Terms and Conditions</a>
+  <span class="hidden md:inline">&nbsp;|&nbsp;</span>
+  <a href="#" class="block underline">Privacy Policy</a>
+</div>
+
+    </section>
     </footer>
 </template>
