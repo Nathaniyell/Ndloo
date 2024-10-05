@@ -44,7 +44,7 @@ const footerColumns = [
 <template>
     <footer
         class="bg-primary3 lg:h-screen w-full text-light py-6 px-2 md:px-10 md:py-10 flex flex-col gap-10 justify-around">
-    <div class="w-[90%] mx-auto grid md:grid-cols-4 lg:grid-cols-5 md:place-items-center items-stretch gap-8 md:gap-6 lg:space-y-0 lg:gap-0 mt-6">
+    <div class="w-[90%] mx-auto grid md:grid-cols-4 lg:grid-cols-5 place-items-start lg:place-items-center  items-stretch gap-8 md:gap-6 lg:space-y-0 lg:gap-0 mt-6">
         <section class="flex flex-col space-y-6">
             <img :src="logo" class="w-3/5" alt="Logo">
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores est tenetur, distinctio quos </p>
@@ -74,7 +74,7 @@ const footerColumns = [
         <FooterColumn v-for="(column, index) in footerColumns" :key="index" :header="column.header"
             :links="column.links" />
 
-        <div>
+        <div class="self-start">
             <h4 class="font-semibold">Contacts us</h4>
             <div class="mt-4 flex flex-col space-y-2 text-light text-opacity-80">
   <a href="mailto:contact@company.com">
