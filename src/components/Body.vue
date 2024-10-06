@@ -32,15 +32,15 @@ const featuresData = [
         </div>
     </div>
     <div
-        class="text-white bg-primary3 mb-16 bg-blend-overlay bg-no-repeat bg-cover bg-center md:h-screen"
+        class="text-white bg-primary3 mb-16 bg-blend-overlay bg-no-repeat grid place-items-center bg-cover bg-center md:h-screen"
         :style="{ backgroundImage: `url(${sectionImg})` }"
     >
-        <div class="w-11/12 lg:w-[85%] mx-auto flex flex-col justify-center items-center gap-10 py-20 text-center">
-            <h5 class="text-2xl">What our users say</h5>
-            <p class="text-xl">
+        <div class="w-11/12 lg:w-[85%] mx-auto flex flex-col justify-center items-center gap-16 py-20 text-center">
+            <h5 class="text-5xl">What our users say</h5>
+            <p class="text-2xl">
                 Other dating apps were like shooting fish in a barrel. But my girlfriend and I clicked right away on Ndloo, and the conversation was effortless. We’ve been together for over a year.
             </p>
-            <p class="text-2xl">V. Peter</p>
+            <p class="text-5xl">V. Peter</p>
         </div>
     </div>
 </template>
