@@ -24,9 +24,9 @@ const featuresData = [
 
 
 <template>
-    <div class="w-11/12 mx-auto py-10 leading-8">
-<h3 class="text-4xl mb-3">Make the best use of <br><span class="text-primary2">Ndloo</span> today </h3>
-<div class="grid md:grid-cols-3 gap-8 md:place-items-center">
+    <div class="w-11/12 lg:w-[85%] mx-auto py-20 leading-8">
+<h3 class="text-4xl mb-10">Make the best use of <br><span class="text-primary2">Ndloo</span> today </h3>
+<div class="grid md:grid-cols-3 gap-8 md:place-items-center md:items-stretch">
     <Card v-for="(data, index) in featuresData" :title="data.title" :image="data.image" />
 </div>
     </div>
