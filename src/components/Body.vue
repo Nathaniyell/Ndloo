@@ -85,6 +85,9 @@ const serviceData = [
                     :icon="service.image" />
             </div>
         </div>
+        <div class="flex flex-col items-center pb-10">
+            <h1 class="text-3xl capitalize">get the app now!</h1>
+        </div>
     </div>
 
 </template>
