@@ -7,9 +7,9 @@ import RouteButton from "./RouteButton.vue"
 <template>
   <nav class="z-10 absolute top-10 left-0 right-0 flex items-center justify-between w-11/12 mx-auto">
     <RouterLink to="/">
-      <img :src="logo" class="w-3/4" alt="Company logo" />
+      <img :src="logo" class="w-3/5 md:w-3/4" alt="Company logo" />
     </RouterLink>
-    <aside class="flex space-x-2 md:space-x-4">
+    <aside class="flex w-2/3 items-center justify-end space-x-2 md:space-x-4">
              <RouteButton
     text="Sign up"
     textColor="text-primary3"
@@ -20,6 +20,7 @@ import RouteButton from "./RouteButton.vue"
     hoverTextColor="hover:text-light"
     hoverBgColor="hover:bg-primary3"
     hoverBorderColor="hover:border-primary3"
+    class=""
   />
       <RouteButton
     text="Login"
@@ -30,7 +31,7 @@ import RouteButton from "./RouteButton.vue"
       hoverTextColor="hover:text-primary3"
     hoverBgColor="hover:bg-light"
        hoverBorderColor="hover:border-light"
-       class="md"
+       class=""
   />
    
     </aside>
