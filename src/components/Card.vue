@@ -15,5 +15,8 @@ const props = defineProps({
 </script>
 
 <template>
-
+<div class="flex flex-col space-y-6">
+    <img :src="image" alt="title" class="rounded-md shadow-md">
+    <h6 class="text-xl font-semibold text-center">{{ title }}</h6>
+</div>
 </template>
