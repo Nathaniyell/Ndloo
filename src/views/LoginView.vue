@@ -104,7 +104,7 @@ const togglePasswordVisibility = () => {
                     <button type="submit" class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
                         Login
                     </button>
-                    <label class="text-sm">Don't have an account?  <RouterLink to="/forgot-password" class="text-primary3 font-semibold text-base">Sign up</RouterLink></label>
+                    <label class="text-sm">Don't have an account?  <RouterLink to="/signup" class="text-primary3 font-semibold text-base">Sign up</RouterLink></label>
                 </section>
             </div>
         </form>
