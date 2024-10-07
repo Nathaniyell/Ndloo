@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue';
 import SignUpView from '@/views/SignUpView.vue';
 import LoginView from '@/views/LoginView.vue';
 import LoginWithOTP from '@/views/LoginWithOTP.vue';
+import OTPView from '@/views/OTPView.vue';
 import ForgottenPasswordView from '@/views/ForgottenPasswordView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
@@ -35,10 +36,17 @@ const router = createRouter({
       meta: { showNavbarAndFooter: false },
     },
     {
+      path: '/otp',
+      name: 'otp',
+      component: OTPView,
+      meta: { showNavbarAndFooter: false  },
+      // meta: { showNavbarAndFooter: false, requiresAuth: true  },
+    },
+    {
       path: '/forgot-password',
       name: 'forgot-password',
       component: ForgottenPasswordView,
-      meta: { showNavbarAndFooter: false },
+      meta: { showNavbarAndFooter: false},
     },
 
     {
@@ -48,5 +56,20 @@ const router = createRouter({
     },
   ],
 });
+
+async function authenticateUser(next) {
+  next("/login")
+  //write logic to redirect the user to the login page if the user is not authenticated
+}
+
+router.beforeEach((to,from,next)=>{
+  if(to.meta.requiresAuth){
+    console.log("requiresAuth")
+    authenticateUser(next)
+  }else{
+    next()
+  }
+})
+
 
 export default router;

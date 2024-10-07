@@ -2,7 +2,6 @@
 import { ref } from "vue"
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
-import { RouterLink } from 'vue-router';
 
 const loginFormData = ref({
     email: "",
