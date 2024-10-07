@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from "vue"
 import logo from "@/assets/images/ndloo-logo.png";
-import sectionImg from "@/assets/images/hero2.png"
+import loginBg from "@/assets/images/loginBg.png"
+import { RouterLink } from 'vue-router';
 
 const loginFormData = ref({
     email: "",
-    password: ""
+    password: "",
+    rememberMe: true
 })
 
 const loginFormSubmitHandler = () => {
@@ -21,9 +23,9 @@ const togglePasswordVisibility = () => {
 <template>
 
     <main
-        class="font-inter md:flex items-stretch py-20 px-4 md:py-0 md:px-0 h-full justify-center md:justify-between bg-yellow-600">
-        <div class="hidden text-white bg-primary3 mb-16 bg-blend-overlay bg-no-repeat md:grid place-items-center bg-cover bg-center md:h-screen w-1/2"
-            :style="{ backgroundImage: `url(${sectionImg})` }">
+        class="font-inter md:flex items-stretch py-20 px-4 md:py-0 md:px-0 h-fit justify-center md:justify-between bg-yellow-600">
+        <div class="hidden text-white bg-[#85002882] mb-16 bg-opacity-50 bg-blend-overlay bg-no-repeat md:grid place-items-center bg-cover bg-center w-1/2 h-screen"
+            :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
         <form class="h-screen bg-white md:w-1/2 py-8" @submit.prevent="loginFormSubmitHandler">
@@ -34,11 +36,11 @@ const togglePasswordVisibility = () => {
                     <h1 class="text-4xl font-semibold">Login </h1>
                     <p class="text-[#6A6A6A]">Lets continue writing your love story</p>
                 </div>
-                <div class="grid space-y-3">
+                <div class="grid space-y-6">
                     <div class="relative">
 
                         <input v-model="loginFormData.email" type="email" placeholder="Email"
-                            class="bg-light bg-opacity-20 w-full p-2  pr-10 border focus:!border-primary3 active:border-primary3 rounded" />
+                            class="bg-light bg-opacity-20 w-full p-3  pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                         <button  class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
                             <svg width="24" height="24" viewBox="0 0 36 36" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -54,15 +56,27 @@ const togglePasswordVisibility = () => {
                     <div class="relative">
                         <input v-model="loginFormData.password" :type="isPasswordVisible ? 'text' : 'password'"
                             placeholder="Password"
-                            class="bg-light bg-opacity-20 w-full p-2 pr-10 border focus:border-primary3 active:border-primary3 rounded" />
+                            class="bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                         <button @click="togglePasswordVisibility" type="button"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
                             <font-awesome-icon v-if="isPasswordVisible" icon="fa-regular fa-eye-slash"
                                 class="text-[#E68D8D]" />
                             <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
                         </button>
+
+                        <div class="flex w-full justify-between items-center mt-4 absolute">
+                            <div class="flex items-center space-x-3">
+
+                                <input class="text-primary3 checked:text-primary4" v-model="loginFormData.rememberMe" type="checkbox" id="rememberMe">
+                                <label for="rememberMe" class="text-[#6A6A6A] font-semibold text-sm">Remember me</label>
+                            </div>
+                            <RouterLink to="/forgot-password" class="text-primary3 font-semibold text-sm">Forgot password?</RouterLink>
+                        </div>
                     </div>
                 </div>
+                <section>
+
+                </section>
             </div>
         </form>
     </main>
