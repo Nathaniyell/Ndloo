@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue"
-import logo from "@/assets/images/ndloo-logo.png";
+import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink } from 'vue-router';
 
@@ -11,7 +11,17 @@ const loginFormData = ref({
 })
 
 const loginFormSubmitHandler = () => {
-    console.log(loginFormData)
+    // Log the current values before resetting
+    console.log({
+        email: loginFormData.value.email,
+        password: loginFormData.value.password,
+        rememberMe: loginFormData.value.rememberMe
+    });
+
+    // Reset the form data
+    loginFormData.value.email = "";
+    loginFormData.value.password = "";
+    loginFormData.value.rememberMe = false;
 }
 // Toggle visibility of the password
 const isPasswordVisible = ref(false)
@@ -29,19 +39,19 @@ const togglePasswordVisibility = () => {
             <img :src="logo" alt="logo" />
         </div>
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
-            <div class="w-11/12 lg:w-[85%] mx-auto flex flex-col gap-8 lg:gap-12">
+            <div class="w-11/12 lg:w-[85%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-12">
 
 
                 <div class="flex flex-col space-y-2 text-center">
                     <h1 class="text-4xl font-semibold">Login </h1>
                     <p class="text-[#6A6A6A]">Lets continue writing your love story</p>
                 </div>
-                <div class="grid space-y-5">
+                <div class="grid space-y-8 md:space-y-5">
                     <div class="relative">
 
                         <input v-model="loginFormData.email" required type="email" placeholder="Email"
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3  pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
-                        <button class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                        <button class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
                             <svg width="24" height="24" viewBox="0 0 36 36" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -58,7 +68,7 @@ const togglePasswordVisibility = () => {
                             placeholder="Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                         <button @click="togglePasswordVisibility" type="button"
-                            class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                            class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
                             <font-awesome-icon v-if="isPasswordVisible" icon="fa-regular fa-eye-slash"
                                 class="text-[#E68D8D]" />
                             <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
@@ -77,10 +87,10 @@ const togglePasswordVisibility = () => {
                     </div>
                 </div>
                 <section class="flex flex-col space-y-5 items-center text-[#6A6A6A]">
-                    <div class="flex items-center">
-                        <div class="flex-grow bg bg-[#C9C9C9] h-0.5 lg:w-[235px]"></div>
-                        <div class="flex-grow-0 mx-5 text dark:text-white">or</div>
-                        <div class="flex-grow bg bg-[#C9C9C9] h-0.5 lg:w-[235px]"></div>
+                    <div class="flex gap-3 items-center w-full">
+                     <span class="flex-1 bg-[#656565] h-[0.1rem]"></span>
+                     or
+                     <span class="flex-1 bg-[#656565] h-[0.1rem]"></span>
                     </div>
 
 
