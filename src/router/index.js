@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import SignUpView from '@/views/SignUpView.vue';
 import LoginView from '@/views/LoginView.vue';
+import LoginWithOTP from '@/views/LoginWithOTP.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
 
@@ -24,6 +25,12 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+         meta: { showNavbarAndFooter: false },
+    },
+    {
+      path: '/login-with-otp',
+      name: 'login-with-otp',
+      component: LoginWithOTP,
          meta: { showNavbarAndFooter: false },
     },
    
