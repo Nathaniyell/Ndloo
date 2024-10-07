@@ -87,7 +87,7 @@ const otpInputRefs = ref([]);
                             class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
                             Done
                         </button>
-                        <button type="button"
+                        <button @click="startCountdown" type="button"
                         :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm`">
                             Resend code &nbsp; <span :class="isButtonDisabled ? 'text-primary3' : 'text-gray-400 hidden'">({{countDown}})</span>
                         </button>
