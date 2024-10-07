@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router';
 const loginFormData = ref({
     email: "",
     password: "",
-    rememberMe: true
+    rememberMe: false
 })
 
 const loginFormSubmitHandler = () => {
@@ -23,25 +23,25 @@ const togglePasswordVisibility = () => {
 <template>
 
     <main
-        class="font-inter md:flex items-stretch py-20 px-4 md:py-0 md:px-0 h-fit justify-center md:justify-between bg-yellow-600">
-        <div class="hidden text-white bg-[#85002882] mb-16 bg-opacity-50 bg-blend-overlay bg-no-repeat md:grid place-items-center bg-cover bg-center w-1/2 h-screen"
+        class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
+        <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
-        <form class="h-screen bg-white md:w-1/2 py-8" @submit.prevent="loginFormSubmitHandler">
-            <div class="w-11/12 lg:w-[85%] mx-auto flex flex-col gap-12">
+        <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
+            <div class="w-11/12 lg:w-[85%] mx-auto flex flex-col gap-8 lg:gap-12">
 
 
                 <div class="flex flex-col space-y-2 text-center">
                     <h1 class="text-4xl font-semibold">Login </h1>
                     <p class="text-[#6A6A6A]">Lets continue writing your love story</p>
                 </div>
-                <div class="grid space-y-6">
+                <div class="grid space-y-5">
                     <div class="relative">
 
-                        <input v-model="loginFormData.email" type="email" placeholder="Email"
-                            class="bg-light bg-opacity-20 w-full p-3  pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
-                        <button  class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                        <input v-model="loginFormData.email" required type="email" placeholder="Email"
+                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3  pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                        <button class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
                             <svg width="24" height="24" viewBox="0 0 36 36" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -55,8 +55,8 @@ const togglePasswordVisibility = () => {
                     </div>
                     <div class="relative">
                         <input v-model="loginFormData.password" :type="isPasswordVisible ? 'text' : 'password'"
-                            placeholder="Password"
-                            class="bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                            placeholder="Password" required
+                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                         <button @click="togglePasswordVisibility" type="button"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
                             <font-awesome-icon v-if="isPasswordVisible" icon="fa-regular fa-eye-slash"
@@ -67,15 +67,34 @@ const togglePasswordVisibility = () => {
                         <div class="flex w-full justify-between items-center mt-4 absolute">
                             <div class="flex items-center space-x-3">
 
-                                <input class="text-primary3 checked:text-primary4" v-model="loginFormData.rememberMe" type="checkbox" id="rememberMe">
+                                <input class="checked:!bg-primary4" v-model="loginFormData.rememberMe" type="checkbox"
+                                    id="rememberMe">
                                 <label for="rememberMe" class="text-[#6A6A6A] font-semibold text-sm">Remember me</label>
                             </div>
-                            <RouterLink to="/forgot-password" class="text-primary3 font-semibold text-sm">Forgot password?</RouterLink>
+                            <RouterLink to="/forgot-password" class="text-primary3 font-semibold text-sm">Forgot
+                                password?</RouterLink>
                         </div>
                     </div>
                 </div>
-                <section>
+                <section class="flex flex-col space-y-5 items-center text-[#6A6A6A]">
+                    <div class="flex items-center">
+                        <div class="flex-grow bg bg-[#C9C9C9] h-0.5 lg:w-[235px]"></div>
+                        <div class="flex-grow-0 mx-5 text dark:text-white">or</div>
+                        <div class="flex-grow bg bg-[#C9C9C9] h-0.5 lg:w-[235px]"></div>
+                    </div>
 
+
+                    <RouterLink class="bg-transparent text-[#656565] p-3 font-semibold !border w-full text-center grid place-items-center rounded border-[#C9C9C9]"
+                        to="/login-with-otp">
+                        Login with OTP
+                    </RouterLink>
+                </section>
+                <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
+                  
+                    <button type="submit" class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
+                        Login
+                    </button>
+                    <label class="text-sm">Don't have an account?  <RouterLink to="/forgot-password" class="text-primary3 font-semibold text-base">Sign up</RouterLink></label>
                 </section>
             </div>
         </form>
