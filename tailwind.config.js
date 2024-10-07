@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Tauri', 'sans-serif'],
+        inter: ["Inter", "sans-serif"],
       },
       colors:{
         dark: "#330000",

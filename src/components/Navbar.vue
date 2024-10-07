@@ -1,5 +1,5 @@
 <script setup>
-import logo from "../assets/images/ndloo-logo.png";
+import logo from "@/assets/images/ndloo-logo.png";
 import { RouterLink } from 'vue-router';
 import RouteButton from "./RouteButton.vue"
 </script>
@@ -10,30 +10,13 @@ import RouteButton from "./RouteButton.vue"
       <img :src="logo" class="w-3/5 md:w-3/4" alt="Company logo" />
     </RouterLink>
     <aside class="flex w-2/3 items-center justify-end space-x-2">
-             <RouteButton
-    text="Sign up"
-    textColor="text-primary3"
-    bgColor="bg-light"
-    borderColor="border-none"
-    linkTo="sign-up"
-    ariaLabel="Sign Up"
-    hoverTextColor="hover:text-light"
-    hoverBgColor="hover:bg-primary3"
-    hoverBorderColor="hover:border-primary3"
-    class=""
-  />
-      <RouteButton
-    text="Login"
-    bgColor="bg-transparent"
-    borderColor="border-light border-2"
-    linkTo="login"
-    ariaLabel="Login"
-      hoverTextColor="hover:text-primary3"
-    hoverBgColor="hover:bg-light"
-       hoverBorderColor="hover:border-light"
-       class=""
-  />
-   
+      <RouteButton text="Sign up" textColor="text-primary3" bgColor="bg-light" borderColor="border-none" linkTo="signup"
+        ariaLabel="Sign Up" hoverTextColor="hover:text-light" hoverBgColor="hover:bg-primary3"
+        hoverBorderColor="hover:border-primary3" class="" />
+      <RouteButton text="Login" bgColor="bg-transparent" borderColor="border-light border-2" linkTo="login"
+        ariaLabel="Login" hoverTextColor="hover:text-primary3" hoverBgColor="hover:bg-light"
+        hoverBorderColor="hover:border-light" class="" />
+
     </aside>
   </nav>
 </template>

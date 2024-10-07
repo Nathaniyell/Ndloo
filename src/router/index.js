@@ -12,16 +12,19 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      meta: { showNavbarAndFooter: true },
     },
     {
-      path: '/sign-up',
-      name: 'sign-up',
+      path: '/signup',
+      name: 'signup',
       component: SignUpView,
+         meta: { showNavbarAndFooter: false },
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
+         meta: { showNavbarAndFooter: false },
     },
    
     {

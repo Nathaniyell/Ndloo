@@ -17,28 +17,29 @@ const slides = [
         title: 'Find your spark. Let love Ignite',
         description: 'Explore profiles and find your love story.',
         buttonText: 'Get started',
-        link: '/sign-up',
+        link: '/signup',
     },
     {
         image: hero2,
         title: 'Find your match. Ignite your journey',
         description: 'Connect with people and make memories.',
         buttonText: 'Join Now',
-        link: '/sign-up',
+        link: '/signup',
     },
     {
         image: hero3,
         title: 'Discover love. Embrace the future',
         description: 'Your love story begins here.',
         buttonText: 'Explore',
-        link: '/sign-up',
+        link: '/signup',
     },
 ];
 </script>
 
 <template>
     <div class="-z-10 relative overflow-x-hidden">
-        <Swiper :slides-per-view="1" :space-between="50"  :pagination="{ clickable: true }" :loop="true" class="h-screen w-full">
+        <Swiper :slides-per-view="1" :space-between="50" :pagination="{ clickable: true }" :loop="true"
+            class="h-screen w-full">
             <SwiperSlide v-for="(slide, index) in slides" :key="index">
                 <div class="relative h-screen">
                     <img class="w-full h-full" :src="slide.image" :alt="'Hero Image ' + (index + 1)" />
