@@ -2,9 +2,30 @@
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink } from 'vue-router';
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 
 const otp = ref(['', '', '', '']);
+const countDown = ref(60)
+let timer = null;
+const isButtonDisabled = ref(false)
+
+    const startCountdown = () => {
+      isButtonDisabled.value = true;
+      countDown.value = 60;
+
+      timer = setInterval(() => {
+        if (countDown.value > 0) {
+          countDown.value--;
+        } else {
+          clearInterval(timer);
+          isButtonDisabled.value = false; // Enable button after countdown
+        }
+      }, 1000);
+    };
+
+    onMounted(() => {
+      startCountdown(); // Start countdown when component mounts
+    });
 
 const handleInput = async (index) => {
     if (otp.value[index].length === 1 && index < otp.value.length - 1) {
@@ -60,15 +81,15 @@ const otpInputRefs = ref([]);
                     </div>
 
 
-                    <div>
+                    <div class="flex flex-col space-y-6">
 
                         <button @click="verifyOTP" type="submit"
                             class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
                             Done
                         </button>
                         <button type="button"
-                            class="bg-transparent text-[#6A6A6A] p-3 font-semibold w-full text-center flex items-center justify-center text-sm">
-                            Resend code ( <span class="text-primary3">60</span> )
+                        :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm`">
+                            Resend code &nbsp; <span :class="isButtonDisabled ? 'text-primary3' : 'text-gray-400 hidden'">({{countDown}})</span>
                         </button>
 
                     </div>
