@@ -95,7 +95,7 @@ const togglePasswordVisibility = () => {
 
 
                     <RouterLink class="bg-transparent text-[#656565] p-3 font-semibold !border w-full text-center grid place-items-center rounded border-[#C9C9C9]"
-                        to="/login-with-otp">
+                        to="/otp-login">
                         Login with OTP
                     </RouterLink>
                 </section>

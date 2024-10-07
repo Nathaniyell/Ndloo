@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue';
 import SignUpView from '@/views/SignUpView.vue';
 import LoginView from '@/views/LoginView.vue';
 import LoginWithOTP from '@/views/LoginWithOTP.vue';
+import ForgottenPasswordView from '@/views/ForgottenPasswordView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
 
@@ -19,21 +20,27 @@ const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: SignUpView,
-         meta: { showNavbarAndFooter: false },
+      meta: { showNavbarAndFooter: false },
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
-         meta: { showNavbarAndFooter: false },
+      meta: { showNavbarAndFooter: false },
     },
     {
-      path: '/login-with-otp',
-      name: 'login-with-otp',
+      path: '/otp-login',
+      name: 'otp-login',
       component: LoginWithOTP,
-         meta: { showNavbarAndFooter: false },
+      meta: { showNavbarAndFooter: false },
     },
-   
+    {
+      path: '/forgotten-password',
+      name: 'forgotten-password',
+      component: ForgottenPasswordView,
+      meta: { showNavbarAndFooter: false },
+    },
+
     {
       path: '/:catchAll(.*)',
       name: 'not-found',
