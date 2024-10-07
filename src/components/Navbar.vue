@@ -5,11 +5,11 @@ import RouteButton from "./RouteButton.vue"
 </script>
 
 <template>
-  <nav class="z-10 absolute top-10 left-0 right-0 flex items-center justify-between w-11/12 mx-auto">
+  <nav class="z-10 absolute top-10 left-0 right-0 flex items-center justify-between w-11/12 lg:w-[85%] mx-auto">
     <RouterLink to="/">
       <img :src="logo" class="w-3/5 md:w-3/4" alt="Company logo" />
     </RouterLink>
-    <aside class="flex w-2/3 items-center justify-end space-x-2 md:space-x-4">
+    <aside class="flex w-2/3 items-center justify-end space-x-2">
              <RouteButton
     text="Sign up"
     textColor="text-primary3"
