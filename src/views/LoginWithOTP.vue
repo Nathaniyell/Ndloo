@@ -36,7 +36,7 @@ const loginFormSubmitHandler = () => {
 
                 <div class="flex flex-col space-y-2 text-center">
                     <h1 class="text-4xl font-semibold">Login with OTP </h1>
-                    <p class="text-[#6A6A6A]">Please input your used email</p>
+                    <p class="text-[#6A6A6A]">Please input your used email below</p>
                 </div>
                 <div class="grid space-y-8 md:space-y-10">
                     <div class="relative">

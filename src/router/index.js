@@ -35,8 +35,8 @@ const router = createRouter({
       meta: { showNavbarAndFooter: false },
     },
     {
-      path: '/forgotten-password',
-      name: 'forgotten-password',
+      path: '/forgot-password',
+      name: 'forgot-password',
       component: ForgottenPasswordView,
       meta: { showNavbarAndFooter: false },
     },
