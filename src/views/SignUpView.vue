@@ -145,6 +145,15 @@ formData.value = {
                     <label class="text-sm">Already have an account? <RouterLink to="/login"
                             class="text-primary3 font-semibold text-base">Login</RouterLink></label>
                 </section>
+                 <!-- Step Indicators -->
+    <div class="flex justify-center mt-4 space-x-2">
+      <span 
+        v-for="step in totalSteps" 
+        :key="step" 
+        :class="{'bg-primary3': currentStep === step, 'bg-gray-300': currentStep !== step}" 
+        class="h-3 w-3 rounded-full"></span>
+    </div>
+
             </div>
         </form>
     </main>
