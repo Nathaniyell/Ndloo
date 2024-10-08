@@ -190,8 +190,8 @@ const signUpFormSubmitHandler = () => {
                             class="text-primary3 font-semibold text-base">Login</RouterLink></label>
                             <div class="flex justify-center mt-4 space-x-2">
                                 <span v-for="step in totalSteps" :key="step"
-                                    :class="{ 'bg-primary3': currentStep === step, 'bg-gray-300': currentStep !== step }"
-                                    class="h-3 w-3 rounded-full"></span>
+                                    :class="{ 'bg-primary3': currentStep === step, 'bg-gray-300 h-2 w-2': currentStep !== step }"
+                                    class="h-2 w-8 rounded-lg"></span>
                             </div>
                 </section>
             </div>
