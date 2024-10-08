@@ -65,7 +65,7 @@ const otpInputRefs = ref([]);
         </div>
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
             @submit.prevent="loginFormSubmitHandler">
-            <div class="w-11/12 lg:w-[85%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
+            <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
 
 
                 <div class="flex flex-col space-y-2 text-center">
