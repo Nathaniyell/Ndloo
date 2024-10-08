@@ -135,24 +135,24 @@ formData.value = {
 
                     </div>
 
+                    <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
+    
+                        <button @click="nextStep" type="button"
+                            class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
+                            Next
+                        </button>
+                        <label class="text-sm">Already have an account? <RouterLink to="/login"
+                                class="text-primary3 font-semibold text-base">Login</RouterLink></label>
+                    </section>
+                    <div class="flex justify-center mt-4 space-x-2">
+                      <span 
+                        v-for="step in totalSteps" 
+                        :key="step" 
+                        :class="{'bg-primary3': currentStep === step, 'bg-gray-300': currentStep !== step}" 
+                        class="h-3 w-3 rounded-full"></span>
+                    </div>
                 </div>
-                <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
-
-                    <button @click="nextStep" type="button"
-                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                        Next
-                    </button>
-                    <label class="text-sm">Already have an account? <RouterLink to="/login"
-                            class="text-primary3 font-semibold text-base">Login</RouterLink></label>
-                </section>
-                 <!-- Step Indicators -->
-    <div class="flex justify-center mt-4 space-x-2">
-      <span 
-        v-for="step in totalSteps" 
-        :key="step" 
-        :class="{'bg-primary3': currentStep === step, 'bg-gray-300': currentStep !== step}" 
-        class="h-3 w-3 rounded-full"></span>
-    </div>
+                 
 
             </div>
         </form>
