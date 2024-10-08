@@ -20,19 +20,19 @@ const currentStep = ref(1);
 const totalSteps = 2;
 
 const nextStep = () => {
-  if (currentStep.value < totalSteps) {
-    currentStep.value += 1;
-  }
+    if (currentStep.value < totalSteps) {
+        currentStep.value += 1;
+    }
 };
 
 const prevStep = () => {
-  if (currentStep.value > 1) {
-    currentStep.value -= 1;
-  }
+    if (currentStep.value > 1) {
+        currentStep.value -= 1;
+    }
 };
 
 const signUpFormSubmitHandler = () => {
- 
+
     // Log the current values before resetting
     console.log({
         email: formData.value.firstName,
@@ -46,18 +46,18 @@ const signUpFormSubmitHandler = () => {
         password: formData.value.password2,
         rememberMe: formData.value.termsAndConditions
     });
-formData.value = {
-    firstName: "",
-    lastName: "",
-    username: "",
-    mobileNo: { phoneNumber: "", countryCode: "" },
-    gender: "",
-    dateOfBirth: "",
-    email: "",
-    password1: "",
-    password2: "",
-    termsAndConditions: false
-}
+    formData.value = {
+        firstName: "",
+        lastName: "",
+        username: "",
+        mobileNo: { phoneNumber: "", countryCode: "" },
+        gender: "",
+        dateOfBirth: "",
+        email: "",
+        password1: "",
+        password2: "",
+        termsAndConditions: false
+    }
     // Reset the form data
     // formData.value.firstName = ""
     // formData.value.lastName = ""
@@ -70,6 +70,10 @@ formData.value = {
     // formData.value.password2 = ""
     // formData.value.termsAndConditions = ""
     currentStep.value = 1;
+    const isPasswordVisible = ref(false)
+    const togglePasswordVisibility = () => {
+        isPasswordVisible.value = !isPasswordVisible.value
+    }
 }
 </script>
 
@@ -81,14 +85,14 @@ formData.value = {
             <img :src="logo" alt="logo" />
         </div>
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="signUpFormSubmitHandler">
-            <div v-if="currentStep === 1" class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-12 lg:gap-10">
+            <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-10 lg:gap-8">
 
 
                 <div class="flex flex-col space-y-2 text-center">
                     <h1 class="text-4xl font-semibold">Create an account </h1>
                     <p class="text-[#6A6A6A]">Let the love journey begin now</p>
                 </div>
-                <div class="grid space-y-6 md:space-y-4">
+                <div v-if="currentStep === 1" class="grid space-y-6 md:space-y-4">
                     <div class="flex flex-col space-y-4 md:space-y-0 md:items-center md:space-x-6 md:flex-row">
 
                         <input v-model="formData.firstName" required type="firstName" placeholder="First name"
@@ -134,26 +138,62 @@ formData.value = {
                             class="w-full text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
 
                     </div>
+                </div>
 
-                    <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
-    
-                        <button @click="nextStep" type="button"
-                            class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                            Next
+                <div v-if="currentStep === 2" class="flex flex-col space-y-6">
+                    <input v-model="formData.email" type="email" placeholder="Email" required
+                        class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                    <div class="relative">
+                        <input v-model="formData.password1" type="password" placeholder="Password" required
+                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                        <button @click="togglePasswordVisibility" type="button"
+                            class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                            <font-awesome-icon v-if="isPasswordVisible" icon="fa-regular fa-eye-slash"
+                                class="text-[#E68D8D]" />
+                            <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
                         </button>
-                        <label class="text-sm">Already have an account? <RouterLink to="/login"
-                                class="text-primary3 font-semibold text-base">Login</RouterLink></label>
-                    </section>
-                    <div class="flex justify-center mt-4 space-x-2">
-                      <span 
-                        v-for="step in totalSteps" 
-                        :key="step" 
-                        :class="{'bg-primary3': currentStep === step, 'bg-gray-300': currentStep !== step}" 
-                        class="h-3 w-3 rounded-full"></span>
+                    </div>
+                    <div class="relative">
+                        <input v-model="formData.password2" type="password" placeholder="Confirm Password" required
+                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                        <button @click="togglePasswordVisibility" type="button"
+                            class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                            <font-awesome-icon v-if="isPasswordVisible" icon="fa-regular fa-eye-slash"
+                                class="text-[#E68D8D]" />
+                            <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-3">
+
+                        <input class="checked:!bg-primary4" v-model="formData.termsAndConditions" type="checkbox"
+                            id="rememberMe">
+                        <label for="rememberMe" class="text-[#6A6A6A] font-semibold text-sm">I accept all <span
+                                class="text-primary3"> terms and conditions</span> and <span
+                                class="text-primary3">privacy
+                                and policy</span></label>
                     </div>
                 </div>
-                 
+                <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
 
+                    <button v-if="currentStep < totalSteps" @click="nextStep" type="button"
+                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
+                        Next
+                    </button>
+                    <button v-if="currentStep === 2" @click="prevStep" type="button"
+                        class="bg-white text-primary3 p-3 font-semibold w-full text-center grid place-items-center border border-[#C9C9C9] outline-none rounded ">
+                        Previous
+                    </button>
+                    <button v-if="currentStep === 2" type="submit" class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
+                       Sign Up
+                    </button>
+                    <label class="text-sm">Already have an account? <RouterLink to="/login"
+                            class="text-primary3 font-semibold text-base">Login</RouterLink></label>
+                            <div class="flex justify-center mt-4 space-x-2">
+                                <span v-for="step in totalSteps" :key="step"
+                                    :class="{ 'bg-primary3': currentStep === step, 'bg-gray-300': currentStep !== step }"
+                                    class="h-3 w-3 rounded-full"></span>
+                            </div>
+                </section>
             </div>
         </form>
     </main>
