@@ -6,6 +6,15 @@ import LoginWithOTP from '@/views/LoginWithOTP.vue';
 import OTPView from '@/views/OTPView.vue';
 import ForgottenPasswordView from '@/views/ForgottenPasswordView.vue';
 import Dashboard from '@/views/DashboardView.vue'
+import Messages from '@/views/MessagesView.vue'
+import Matches from '@/views/MatchesView.vue'
+import Likes from '@/views/LikesView.vue'
+import Dislikes from '@/views/DislikesView.vue'
+import Profile from '@/views/ProfileView.vue'
+import Settings from '@/views/SettingsView.vue'
+import Blocked from '@/views/BlockedView.vue'
+import WhoLikesMe from '@/views/WhoLikesMeView.vue'
+import BoostProfile from '@/views/BoostProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue';
 
 
@@ -40,22 +49,46 @@ const router = createRouter({
       path: '/otp',
       name: 'otp',
       component: OTPView,
-      meta: { showNavbarAndFooter: false  },
+      meta: { showNavbarAndFooter: false },
       // meta: { showNavbarAndFooter: false, requiresAuth: true  },
     },
     {
       path: '/forgot-password',
       name: 'forgot-password',
       component: ForgottenPasswordView,
-      meta: { showNavbarAndFooter: false},
+      meta: { showNavbarAndFooter: false },
     },
     {
       path: '/dashboard',
       component: Dashboard,
       children: [
         {
-          path: 'home',
-          component: Home
+          path: 'my-matches',
+          component: Matches
+        },
+        {
+          path: 'likes',
+          component: Likes
+        },
+        {
+          path: 'who-likes-me',
+          component: WhoLikesMe
+        },
+        {
+          path: 'dislikes',
+          component: Dislikes
+        },
+        {
+          path: 'boost-profile',
+          component: BoostProfile
+        },
+        {
+          path: 'blocked',
+          component: Blocked
+        },
+        {
+          path: 'messages',
+          component: Messages
         },
         {
           path: 'profile',
@@ -66,7 +99,7 @@ const router = createRouter({
           component: Settings
         }
       ]
-    }
+    },
 
     {
       path: '/:catchAll(.*)',
@@ -81,11 +114,11 @@ async function authenticateUser(next) {
   //write logic to redirect the user to the login page if the user is not authenticated
 }
 
-router.beforeEach((to,from,next)=>{
-  if(to.meta.requiresAuth){
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
     console.log("requiresAuth")
     authenticateUser(next)
-  }else{
+  } else {
     next()
   }
 })
