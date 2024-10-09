@@ -2,34 +2,40 @@
 import logo from "@/assets/images/ndloo-logo.png";
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 import asideImg from "@/assets/images/hero2.png";
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faUser, faHeart, faMessage, faBan, faGear, faRocket } from '@fortawesome/free-solid-svg-icons';
+import matchesIcon from "@/assets/icons/lovely.png"
+import whoLikesIcon from "@/assets/icons/like.png"
+import likesIcon from "@/assets/icons/heart.png"
+import messageIcon from "@/assets/icons/messages.png"
+import blockedIcon from "@/assets/icons/blocked.png"
+import boostIcon from "@/assets/icons/boost.png"
+import logoutIcon from "@/assets/icons/logout.png"
+import settingsIcon from "@/assets/icons/setting.png"
 
 const route = useRoute();
 
 // Define the navigation items as an array of objects
 const navItems = [
-  { path: '/dashboard/profile', label: 'Profile', icon: faUser },
-  { path: '/dashboard/my-matches', label: 'My Matches', icon: faHeart },
-  { path: '/dashboard/messages', label: 'Messages', icon: faMessage },
-  { path: '/dashboard/likes', label: 'My Likes', icon: faHeart },
-  { path: '/dashboard/who-likes-me', label: 'Who Likes Me', icon: faHeart },
-  { path: '/dashboard/dislikes', label: 'My Dislikes', icon: faHeart },
-  { path: '/dashboard/blocked', label: 'Blocked Users', icon: faBan },
-  { path: '/dashboard/boost-profile', label: 'Boost Profile', icon: faRocket },
-  { path: '/dashboard/settings', label: 'Settings', icon: faGear },
+  { path: '/dashboard', label: 'Profile', icon: settingsIcon },
+  { path: '/dashboard/my-matches', label: 'My Matches', icon: matchesIcon },
+  { path: '/dashboard/messages', label: 'Messages', icon: messageIcon },
+  { path: '/dashboard/likes', label: 'My Likes', icon: likesIcon },
+  { path: '/dashboard/who-likes-me', label: 'Who Likes Me', icon: whoLikesIcon },
+  { path: '/dashboard/dislikes', label: 'My Dislikes', icon: whoLikesIcon },
+  { path: '/dashboard/blocked', label: 'Blocked Users', icon: blockedIcon },
+  { path: '/dashboard/boost-profile', label: 'Boost Profile', icon: boostIcon },
+  { path: '/dashboard/settings', label: 'Settings', icon: settingsIcon },
 ];
 </script>
 
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen font-inter">
     <!-- Sidebar -->
     <aside
-      class="w-1/4 text-white bg-[#850028] bg-opacity-70 bg-no-repeat bg-center bg-cover p-4 flex flex-col space-y-4"
-      :style="{ backgroundImage: `url(${asideImg})` }">
+      class="w-1/4 bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-4 flex flex-col space-y-4"
+      :style="{ backgroundImage: `url(${asideImg})`}">
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center mb-6">
-        <img :src="logo" class="w-2/5" alt="Ndloo Logo" />
+        <img :src="logo" class="md:w-2/5" alt="Ndloo Logo" />
       </RouterLink>
 
       <!-- Sidebar Links -->
@@ -37,17 +43,17 @@ const navItems = [
         <div v-for="item in navItems" :key="item.path">
           <RouterLink
             :to="item.path"
-            :class="[{ 'text-red-500 font-bold': route.path === item.path }, 'flex items-center space-x-2 p-2 rounded hover:bg-gray-700']">
-            <FontAwesomeIcon :icon="item.icon" class="w-4 h-4" />
-            <span>{{ item.label }}</span>
+            :class="[{ 'bg-[#652436] bg-opacity-60 text-white text-opacity-100': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light text-opacity-80 hover:text-white']">
+            <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
+            <span class="hidden md:block">{{ item.label }}</span>
           </RouterLink>
         </div>
       </nav>
 
       <!-- Logout Button -->
-      <button class="mt-auto p-2 rounded hover:bg-gray-700 flex items-center space-x-2">
-        <FontAwesomeIcon icon="sign-out-alt" class="w-4 h-4" />
-        <span>Logout</span>
+      <button title="Logout" class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 flex justify-center md:justify-start items-center space-x-2 text-light hover:text-white">
+        <img :src="logoutIcon" alt="Logout" class="w-5 h-5" />
+        <span class="hidden md:block">Logout</span>
       </button>
     </aside>
 
