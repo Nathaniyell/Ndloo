@@ -5,6 +5,7 @@ import LoginView from '@/views/LoginView.vue';
 import LoginWithOTP from '@/views/LoginWithOTP.vue';
 import OTPView from '@/views/OTPView.vue';
 import ForgottenPasswordView from '@/views/ForgottenPasswordView.vue';
+import Dashboard from '@/views/DashboardView.vue'
 import NotFoundView from '@/views/NotFoundView.vue';
 
 
@@ -48,6 +49,24 @@ const router = createRouter({
       component: ForgottenPasswordView,
       meta: { showNavbarAndFooter: false},
     },
+    {
+      path: '/dashboard',
+      component: Dashboard,
+      children: [
+        {
+          path: 'home',
+          component: Home
+        },
+        {
+          path: 'profile',
+          component: Profile
+        },
+        {
+          path: 'settings',
+          component: Settings
+        }
+      ]
+    }
 
     {
       path: '/:catchAll(.*)',
