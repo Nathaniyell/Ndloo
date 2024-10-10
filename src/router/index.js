@@ -63,7 +63,7 @@ const router = createRouter({
       component: Dashboard,
       children: [
         {
-          path: 'my-matches',
+          path: '',
           component: Matches
         },
         {
@@ -90,10 +90,10 @@ const router = createRouter({
           path: 'messages',
           component: Messages
         },
-        {
-          path: '',
-          component: Profile
-        },
+        // {
+        //   path: '',
+        //   component: Profile
+        // },
         {
           path: 'settings',
           component: Settings
