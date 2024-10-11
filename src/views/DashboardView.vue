@@ -29,46 +29,46 @@ const navItems = [
 </script>
 
 <template>
-  <div class="flex min-h-screen font-inter">
+  <div class="flex min-h-screen overflow-hidden font-inter">
     <!-- Sidebar -->
     <aside
-      class="w-full md:w-1/4 fixed md:relative bottom-0 md:bottom-auto bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-4 flex flex-row md:flex-col items-center md:items-start md:space-y-6 space-x-4 md:space-x-0"
+      class="w-full mt-20 md:mt-0 md:w-1/4 fixed md:relative bottom-0 md:bottom-auto bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-2 md:p-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:space-y-6"
       :style="{ backgroundImage: `url(${asideImg})` }">
       <!-- Logo -->
-      <RouterLink to="/" class="mb-8">
-        <img :src="logo" class="w-8 md:w-3/5" alt="Ndloo Logo" />
+      <RouterLink to="/" class="">
+        <img :src="logo" class="md:w-3/5 hidden md:block mb-8" alt="Ndloo Logo" />
       </RouterLink>
 
       <!-- Sidebar Links -->
-      <nav class="flex flex-row md:flex-col w-full space-y-3 justify-around md:justify-start">
+      <nav class="flex justify-between flex-row md:flex-col w-full md:space-y-3 md:justify-start">
         <div v-for="item in navItems" :key="item.path" class="flex">
           <RouterLink :to="item.path"
-            :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+            :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
             <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
             <span class="hidden md:block">{{ item.label }}</span>
           </RouterLink>
         </div>
       </nav>
 
-      <div class="!mt-12 !justify-self-end self-end md:self-start">
+      <div class="hidden md:flex md:flex-col md:!mt-10">
         <RouterLink to="/dashboard/settings" :class="[
           { 'bg-[#652436] bg-opacity-60 text-white': route.path === '/dashboard/settings' },
-          'flex items-center space-x-2 p-2 hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white'
+          'flex items-center md:space-x-2 p-2 hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white'
         ]">
-          <img :src="settingsIcon" alt="Settings" class="w-5 h-5" />
-          <span class="hidden md:inline">Settings</span>
+          <img :src="settingsIcon" alt="Settings" class="md:w-5 md:h-5" />
+          <span class="hidden md:block">Settings</span>
         </RouterLink>
 
         <button title="Logout"
-          class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 flex justify-center md:justify-start items-center space-x-2 text-light hover:text-white">
-          <img :src="logoutIcon" alt="Logout" class="w-5 h-5" />
+          class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 flex justify-center md:justify-start items-center md:space-x-2 text-light hover:text-white">
+          <img :src="logoutIcon" alt="Logout" class="md:w-5 md:h-5" />
           <span class="hidden md:block">Logout</span>
         </button>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="w-full md:w-3/4 p-8 ml-0 md:ml-auto">
+    <main class="w-full md:w-3/4 -z-10 p-4 md:p-8 ml-0 md:ml-auto">
       <RouterView />
     </main>
   </div>

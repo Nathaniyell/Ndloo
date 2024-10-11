@@ -5,7 +5,7 @@ const pillBtns = ["Dogs", "Tech", "Hiphop"]
 </script>
 
 <template>
-    <div class="relative rounded w-72">
+    <div class="relative rounded w-96 md:w-72">
         <img :src="picture1" class="w-fit" alt="">
         <div class="absolute bottom-1 text-center rounded flex flex-col justify-center items-center gap-4 bg-black bg-opacity-25 p-2 pb-6 text-white">
             <div class="w-full flex items-center space-x-2 text-2xl text-white">

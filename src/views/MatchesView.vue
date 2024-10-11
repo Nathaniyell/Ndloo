@@ -5,4 +5,5 @@ import ProfileCard from '@/components/ProfileCard.vue';
 <template>
     <h1>Matches</h1>
     <ProfileCard />
+    
 </template>
