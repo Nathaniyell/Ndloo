@@ -1,13 +1,13 @@
 <script setup>
 import picture1 from "@/assets/images/virtue.png"
 
-const pillBtns = ["Dogs", "Tech", "HipHop"]
+const pillBtns = ["Dogs", "Tech", "Hiphop"]
 </script>
 
 <template>
     <div class="relative rounded w-72">
         <img :src="picture1" class="w-fit" alt="">
-        <div class="absolute bottom-1 left-1 flex flex-col justify-center items-center gap-4 bg-black bg-opacity-25 p-2 text-white">
+        <div class="absolute bottom-1 text-center rounded flex flex-col justify-center items-center gap-4 bg-black bg-opacity-25 p-2 pb-6 text-white">
             <div class="w-full flex items-center space-x-2 text-2xl text-white">
                 <span class="h-3 w-3 rounded-full bg-[#1ED400]"></span>
                 <h2>Virtue Andrew</h2>
@@ -26,7 +26,7 @@ const pillBtns = ["Dogs", "Tech", "HipHop"]
                 <p class="text-[14px]">51 Kilometers away from you</p>
             </div>
             <div class="flex items-center justify-center space-x-2">
-                <button :class="['rounded-md border border-white px-2 text-center bg-transparent', {'!bg-primary3': index === 0 }]" v-for="(pill, index) in pillBtns" :key="index">
+                <button :class="[ {'!bg-primary3 !border-primary3': index === 0 },'rounded-xl border-[1.8px] border-white px-2 text-center bg-transparent']" v-for="(pill, index) in pillBtns" :key="index">
                     {{ pill }}
                 </button>
             </div>
