@@ -90,10 +90,10 @@ const router = createRouter({
           path: 'messages',
           component: Messages
         },
-        // {
-        //   path: '',
-        //   component: Profile
-        // },
+        {
+          path: 'profile',
+          component: Profile
+        },
         {
           path: 'settings',
           component: Settings
