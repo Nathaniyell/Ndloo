@@ -2,8 +2,10 @@
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/autoplay'; // Import autoplay styles
-import { Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css/autoplay';
+import 'swiper/css/navigation';
+import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+
 
 import RouteButton from './RouteButton.vue';
 
@@ -41,9 +43,10 @@ const slides = [
 </script>
 
 <template>
-    <div class="-z-10 relative overflow-x-hidden">
+    <div class="relative overflow-x-hidden">
         <Swiper :slides-per-view="1" :pagination="{ clickable: true }" :autoplay="{ delay: 3000 }" loop
-            :modules="[Pagination, Autoplay]" class="h-screen w-full">
+   
+            :modules="[Autoplay, Pagination]" class="h-screen w-full">
             <SwiperSlide v-for="(slide, index) in slides" :key="index">
                 <div class="relative h-screen">
                     <img class="w-full h-full" :src="slide.image" :alt="'Hero Image ' + (index + 1)" />
@@ -61,3 +64,13 @@ const slides = [
         </Swiper>
     </div>
 </template>
+
+<style scoped>.swiper-pagination-bullet {
+    background-color: #ccc !important; 
+    cursor: pointer; 
+  }
+  
+  .swiper-pagination-bullet-active {
+    background-color: #000 !important; 
+  }
+</style>

@@ -3,6 +3,7 @@ import './assets/style.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import VueSplide from '@splidejs/vue-splide';
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -21,5 +22,6 @@ const app = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(router);
+app.use( VueSplide );
 
 app.mount('#app');
