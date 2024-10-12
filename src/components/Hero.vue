@@ -2,7 +2,9 @@
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
-// import SwiperCore, { Pagination } from "swiper";
+import 'swiper/css/autoplay'; // Import autoplay styles
+import { Pagination, Autoplay } from 'swiper/modules';
+
 import RouteButton from './RouteButton.vue';
 
 // Import images
@@ -13,19 +15,20 @@ import hero3 from '../assets/images/hero3.png';
 // Hero slide data
 const slides = [
     {
-        image: hero1,
-        title: 'Find your spark. Let love Ignite',
-        description: 'Explore profiles and find your love story.',
-        buttonText: 'Get started',
-        link: '/signup',
-    },
-    {
         image: hero2,
         title: 'Find your match. Ignite your journey',
         description: 'Connect with people and make memories.',
         buttonText: 'Join Now',
         link: '/signup',
     },
+    {
+        image: hero1,
+        title: 'Find your spark. Let love Ignite',
+        description: 'Explore profiles and find your love story.',
+        buttonText: 'Get started',
+        link: '/signup',
+    },
+
     {
         image: hero3,
         title: 'Discover love. Embrace the future',
@@ -34,12 +37,13 @@ const slides = [
         link: '/signup',
     },
 ];
+
 </script>
 
 <template>
     <div class="-z-10 relative overflow-x-hidden">
-        <Swiper :slides-per-view="1" :space-between="50" :pagination="{ clickable: true }" :loop="true"
-            class="h-screen w-full">
+        <Swiper :slides-per-view="1" :pagination="{ clickable: true }" :autoplay="{ delay: 3000 }" loop
+            :modules="[Pagination, Autoplay]" class="h-screen w-full">
             <SwiperSlide v-for="(slide, index) in slides" :key="index">
                 <div class="relative h-screen">
                     <img class="w-full h-full" :src="slide.image" :alt="'Hero Image ' + (index + 1)" />
