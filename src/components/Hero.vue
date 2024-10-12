@@ -45,7 +45,6 @@ const slides = [
 <template>
     <div class="relative overflow-x-hidden">
         <Swiper :slides-per-view="1" :pagination="{ clickable: true }" :autoplay="{ delay: 3000 }" loop
-   
             :modules="[Autoplay, Pagination]" class="h-screen w-full">
             <SwiperSlide v-for="(slide, index) in slides" :key="index">
                 <div class="relative h-screen">
@@ -54,10 +53,7 @@ const slides = [
                         class="absolute bottom-12 left-0 right-0 w-11/12 lg:w-[85%] mx-auto flex flex-col space-y-6 text-light">
                         <h1 class="text-4xl md:text-6xl w-4/5 md:w-3/5 lg:w-2/5">{{ slide.title }}</h1>
                         <p>{{ slide.description }}</p>
-                        <RouteButton :text="slide.buttonText" textColor="text-light" bgColor="bg-primary3"
-                            borderColor="border-primary3" :linkTo="slide.link" :ariaLabel="slide.buttonText"
-                            hoverBgColor="hover:bg-light" hoverTextColor="hover:text-primary3"
-                            hoverBorderColor="hover:border-light" />
+                        <RouteButton :text="slide.buttonText" :linkTo="slide.link" :ariaLabel="slide.buttonText" styles="bg-primary3 border-primary3 text-white hover:bg-transparent hover:text-primary3 hover:border-white hover:bg-white" />
                     </div>
                 </div>
             </SwiperSlide>
@@ -65,12 +61,13 @@ const slides = [
     </div>
 </template>
 
-<style scoped>.swiper-pagination-bullet {
-    background-color: #ccc !important; 
-    cursor: pointer; 
-  }
-  
-  .swiper-pagination-bullet-active {
-    background-color: #000 !important; 
-  }
+<style scoped>
+.swiper-pagination-bullet {
+    background-color: #ccc !important;
+    cursor: pointer;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #000 !important;
+}
 </style>
