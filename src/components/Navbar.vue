@@ -29,14 +29,14 @@ onUnmounted(() => {
       'flex items-center justify-between w-11/12 lg:w-[90%] mx-auto'
     ]">
       <RouterLink to="/">
-        <img :src="isScrolled ? logo2 : logo" class="w-3/5 md:w-3/4" alt="Company logo" />
+        <img :src="isScrolled ? logo2 : logo" class="w-4/5 md:w-3/4" alt="Company logo" />
       </RouterLink>
-      <aside class="flex w-2/3 items-center justify-end space-x-2">
+      <aside class=" w-full flex md:w-2/ text-sm md:text-base items-center justify-end space-x-2">
         <RouteButton text="Sign up"
           :styles="[isScrolled ? 'bg-primary3 border-primary3 text-white hover:bg-transparent hover:text-primary3 hover:border-primary3 ' : 'border-white bg-white text-primary3 hover:text-white hover:bg-primary3 hover:border-primary3']"
           linkTo="signup" ariaLabel="Sign Up" />
         <RouteButton text="Login" linkTo="login"
-          :styles="[isScrolled ? 'border-primary3 text-primary3 hover:text-white hover:bg-primary3 hover:border-primary3 ' : 'border-white bg-transparent text-white hover:bg-white hover:text-primary3']"
+          :styles="[isScrolled ? 'border-primary3 text-primary3 hover:text-white hover:bg-primary3 hover:border-primary3 ' : 'text-sm border-white bg-transparent text-white hover:bg-white hover:text-primary3']"
           ariaLabel="Login" />
       </aside>
     </nav>

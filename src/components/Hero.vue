@@ -45,10 +45,10 @@ const slides = [
 <template>
     <div class="relative overflow-x-hidden">
         <Swiper :slides-per-view="1" :pagination="{ clickable: true }" :autoplay="{ delay: 3000 }" loop
-            :modules="[Autoplay, Pagination]" class="h-screen w-full">
+            :modules="[Autoplay, Pagination]" class="h-full w-full">
             <SwiperSlide v-for="(slide, index) in slides" :key="index">
                 <div class="relative h-screen">
-                    <img class="w-full h-full" :src="slide.image" :alt="'Hero Image ' + (index + 1)" />
+                    <img class="size-full object-fill" :src="slide.image" :alt="'Hero Image ' + (index + 1)" />
                     <div
                         class="absolute bottom-12 left-0 right-0 w-11/12 lg:w-[85%] mx-auto flex flex-col space-y-6 text-light">
                         <h1 class="text-4xl md:text-6xl w-4/5 md:w-3/5 lg:w-2/5">{{ slide.title }}</h1>

@@ -9,7 +9,7 @@ const props = defineProps({
   },
  
   styles: {
-    type: String,
+    type: [String, Object],
     required: true,
   },
  

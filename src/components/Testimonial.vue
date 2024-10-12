@@ -24,7 +24,7 @@ const testimonials = [
         class="text-white bg-primary3 mb-16 bg-blend-overlay bg-no-repeat flex justify-center bg-cover bg-center overflow-x-hidden"
         :style="{ backgroundImage: `url(${sectionImg})` }"
     >
-        <div class="w-11/12 lg:w-[85%]  flex flex-col justify-center items-center gap-16 py-20 text-center">
+        <div class="w-11/12 lg:w-[85%] mx-auto  flex flex-col justify-center items-center gap-16 py-20 text-center">
             <h5 class="text-5xl">What our users say</h5>
             
             <Splide
