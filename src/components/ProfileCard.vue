@@ -1,12 +1,18 @@
 <script setup>
 import picture1 from "@/assets/images/virtue.png"
+import likedHeart from "@/assets/icons/heart.png"
 
 const pillBtns = ["Dogs", "Tech", "Hiphop"]
 </script>
 
 <template>
-    <div class="relative rounded w-96 md:w-72">
-        <img :src="picture1" class="w-fit" alt="">
+    <div class="relative rounded w-fit">
+        <img :src="picture1" class="w-fit" alt="Profile Image">
+        
+        <div class="flex absolute top-2 px-2 text-white w-full items-center justify-between">
+            <img :src="likedHeart" class="" alt="Liked">
+            <p>3 days ago</p>
+        </div>
         <div class="absolute bottom-1 text-center rounded flex flex-col justify-center items-center gap-4 bg-black bg-opacity-25 p-2 pb-6 text-white">
             <div class="w-full flex items-center space-x-2 text-2xl text-white">
                 <span class="h-3 w-3 rounded-full bg-[#1ED400]"></span>
