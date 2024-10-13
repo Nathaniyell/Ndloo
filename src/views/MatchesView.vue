@@ -49,8 +49,8 @@ const data = [
 
 <template>
     <h1>My Matcheds</h1>
-    <div class="grid place-items-center" >
+    <div class="grid md:grid-cols-3 gap-6 place-items-center" >
 
-        <ProfileCard :cardDetails="data" :whoLikesMe="true" />
+        <ProfileCard :cardDetails="data" />
     </div>
 </template>
