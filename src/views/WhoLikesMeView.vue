@@ -25,9 +25,9 @@ const data = [
     },
     {
         location: "51 Kilometers away from you",
-        image: virtue,
+        image: profile1,
         name: "Virtue Andrew",
-        age: "23"
+        age: "22"
     },
     {
         location: "51 Kilometers away from you",
@@ -37,10 +37,11 @@ const data = [
     },
     {
         location: "51 Kilometers away from you",
-        image: profile1,
+        image: virtue,
         name: "Virtue Andrew",
-        age: "22"
+        age: "23"
     },
+   
     
 ]
 
