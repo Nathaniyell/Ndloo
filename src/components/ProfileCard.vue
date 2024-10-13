@@ -1,6 +1,16 @@
 <script setup>
 import picture1 from "@/assets/images/virtue.png"
 import likedHeart from "@/assets/icons/heart.png"
+import { defineProps } from "vue";
+
+
+const profileCardProps = defineProps({
+    isBlockedUsers:{
+        type: Boolean,
+        default: true,
+        required: true
+    }
+})
 
 const pillBtns = ["Dogs", "Tech", "Hiphop"]
 </script>
@@ -9,7 +19,7 @@ const pillBtns = ["Dogs", "Tech", "Hiphop"]
     <div class="relative rounded w-fit">
         <img :src="picture1" class="w-fit" alt="Profile Image">
         
-        <div class="flex absolute top-2 px-2 text-white w-full items-center justify-between">
+        <div :class="['flex absolute top-2 px-2 text-white w-full items-center justify-between', isBlockedUsers && 'flex-row-reverse']">
             <img :src="likedHeart" class="" alt="Liked">
             <p>3 days ago</p>
         </div>
