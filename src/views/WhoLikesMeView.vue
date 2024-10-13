@@ -22,14 +22,33 @@ const data = [
         image: profile2,
         name: "Virtue Andrew",
         age: "25"
-    }
+    },
+    {
+        location: "51 Kilometers away from you",
+        image: virtue,
+        name: "Virtue Andrew",
+        age: "23"
+    },
+    {
+        location: "51 Kilometers away from you",
+        image: profile2,
+        name: "Virtue Andrew",
+        age: "25"
+    },
+    {
+        location: "51 Kilometers away from you",
+        image: profile1,
+        name: "Virtue Andrew",
+        age: "22"
+    },
+    
 ]
 
 </script>
 
 <template>
     <h1>Who Likes Me</h1>
-    <div class="grid md:grid-cols-3 items-stretch justify-items-stretch">
+    <div class="grid md:grid-cols-3 gap-6 place-items-center">
 
         <ProfileCard :cardDetails="data" :whoLikesMe="true" />
     </div>

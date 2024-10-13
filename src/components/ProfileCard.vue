@@ -27,8 +27,8 @@ const pillBtns = ["Dogs", "Tech", "Hiphop"]
 </script>
 
 <template>
-    <div v-for="(detail, index) in cardDetails" :key="index" class="relative rounded w-fit">
-        <img :src="detail.image" class="w-fit" alt="Profile Image">
+    <div v-for="(detail, index) in cardDetails" :key="index" class="relative w-[250px] rounded">
+        <img :src="detail.image" class="w-full" alt="Profile Image">
         
         <div :class="['flex absolute top-2 px-2 text-white w-full items-center justify-between', isBlocked && 'flex-row-reverse']">
             <svg v-if="whoLikesMe" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +39,7 @@ const pillBtns = ["Dogs", "Tech", "Hiphop"]
             <p>3 days ago</p>
         </div>
         
-        <div class="absolute bottom-1 text-center rounded flex flex-col justify-center items-center gap-4 bg-black bg-opacity-25 p-2 pb-6 text-white">
+        <div class="absolute bottom-1 right-0 left-0 text-center rounded flex flex-col justify-between items-center gap-4 bg-black bg-opacity-25 p-2 pb-6 text-white">
             <div class="w-full flex items-center space-x-2 text-2xl text-white">
                 <span class="h-3 w-3 rounded-full bg-[#1ED400]"></span>
                 <h2>{{ detail.name }}</h2>
