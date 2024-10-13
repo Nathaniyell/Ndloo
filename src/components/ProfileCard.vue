@@ -5,7 +5,12 @@ import { defineProps } from "vue";
 
 
 const profileCardProps = defineProps({
-    isBlockedUsers:{
+    whoLikesMe:{
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    isBlocked:{
         type: Boolean,
         default: true,
         required: true
@@ -19,8 +24,12 @@ const pillBtns = ["Dogs", "Tech", "Hiphop"]
     <div class="relative rounded w-fit">
         <img :src="picture1" class="w-fit" alt="Profile Image">
         
-        <div :class="['flex absolute top-2 px-2 text-white w-full items-center justify-between', isBlockedUsers && 'flex-row-reverse']">
-            <img :src="likedHeart" class="" alt="Liked">
+        <div :class="['flex absolute top-2 px-2 text-white w-full items-center justify-between', isBlocked && 'flex-row-reverse']">
+            <svg v-if="whoLikesMe" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.827 27.7466C16.3737 27.9066 15.627 27.9066 15.1737 27.7466C11.307 26.4266 2.66699 20.92 2.66699 11.5866C2.66699 7.46663 5.98699 4.1333 10.0803 4.1333C12.507 4.1333 14.6537 5.30663 16.0003 7.11997C17.347 5.30663 19.507 4.1333 21.9203 4.1333C26.0137 4.1333 29.3337 7.46663 29.3337 11.5866C29.3337 20.92 20.6937 26.4266 16.827 27.7466Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p v-else-if="isBlocked" class="grid place-items-center px-2 py-1 font-[550] rounded-md text-primary3 bg-white">Unblock</p>
+            <img v-else :src="likedHeart" class="" alt="Liked"> 
             <p>3 days ago</p>
         </div>
         <div class="absolute bottom-1 text-center rounded flex flex-col justify-center items-center gap-4 bg-black bg-opacity-25 p-2 pb-6 text-white">
