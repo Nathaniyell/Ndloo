@@ -64,7 +64,7 @@ const data = [
             <RouteButton 
               text="Find Match" 
               styles="bg-primary3 border-primary3 text-white cursor-pointer hover:bg-transparent hover:text-primary3 hover:border-primary3" 
-              linkTo="" 
+              linkTo="/dashboard" 
               ariaLabel="Find Match" 
             />
           </div>
