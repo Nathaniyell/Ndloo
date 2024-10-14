@@ -3,9 +3,12 @@ import ProfileCard from '@/components/ProfileCard.vue';
 import profile1 from "@/assets/images/profile1.png"
 import profile2 from "@/assets/images/profile2.png"
 import virtue from "@/assets/images/virtue.png"
+import emptyMatch from "@/assets/images/empty match.png"
+import RouteButton from '@/components/RouteButton.vue';
 
 const data = [
-    {
+   
+{
         location: "51 Kilometers away from you",
         image: virtue,
         name: "Virtue Andrew",
@@ -42,15 +45,35 @@ const data = [
         age: "23"
     },
    
-    
 ]
 
 </script>
 
 <template>
-    <h1>My Matcheds</h1>
-    <div class="grid md:grid-cols-3 gap-6 place-items-center" >
-
-        <ProfileCard :cardDetails="data" />
+    <div class="grid place-items-center">
+      <h1>My Matches</h1>
+      <div :class="[
+        'grid gap-6 place-items-center', 
+        data.length > 0 ? 'md:grid-cols-3' : 'w-full flex justify-center items-center'
+      ]">
+        <!-- Message and image for empty state -->
+        <div v-if="data.length < 1" class="flex flex-col items-center justify-center gap-10 w-full md:w-1/2">
+          <img :src="emptyMatch" alt="Empty Match">
+          <div class="text-center flex flex-col gap-5 items-center">
+            <p class="font-semibold">Oops, you haven't found one yet</p>
+            <RouteButton 
+              text="Find Match" 
+              styles="bg-primary3 border-primary3 text-white cursor-pointer hover:bg-transparent hover:text-primary3 hover:border-primary3" 
+              linkTo="" 
+              ariaLabel="Find Match" 
+            />
+          </div>
+        </div>
+        
+        <!-- Profile cards for matches -->
+        <ProfileCard v-else :cardDetails="data" />
+      </div>
     </div>
-</template>
+  </template>
+
+  

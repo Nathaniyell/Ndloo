@@ -3,6 +3,8 @@ import ProfileCard from '@/components/ProfileCard.vue';
 import profile1 from "@/assets/images/profile1.png"
 import profile2 from "@/assets/images/profile2.png"
 import virtue from "@/assets/images/virtue.png"
+import RouteButton from '@/components/RouteButton.vue';
+import emptyMatch from "@/assets/images/empty match.png"
 
 const data = [
     {
@@ -41,15 +43,33 @@ const data = [
         name: "Virtue Andrew",
         age: "23"
     },
-   
-    
+
+
 ]
 </script>
 
 <template>
-    <h1>Likes</h1>
-    <div class="grid md:grid-cols-3 gap-6 place-items-center">
+    <div class="grid place-items-center">
+        <h1>Likes</h1>
+        <div :class="[
+            'grid gap-6 place-items-center',
+            data.length > 0 ? 'md:grid-cols-3' : 'w-full flex justify-center items-center'
+        ]">
+            <ProfileCard :cardDetails="data" />
+            <!-- Message and image for empty state -->
+            <div v-if="data.length < 1" class="flex flex-col items-center justify-center gap-10 w-full md:w-1/2">
+                <img :src="emptyMatch" alt="Empty Match">
+                <div class="text-center flex flex-col gap-5 items-center">
+                    <p class="font-semibold">Oops, you haven't found one yet</p>
+                    <!-- <RouterLink to="/dashbboard" class="bg-primary3 border-primary3 text-white cursor-pointer hover:bg-transparent hover:text-primary3 hover:border-primary3" >Find Matche</RouterLink> -->
+                    <RouteButton text="Find Match"
+                        styles="bg-primary3 border-primary3 text-white cursor-pointer hover:bg-transparent hover:text-primary3 hover:border-primary3"
+                        linkTo="/dashboard" ariaLabel="Find Match" />
+                </div>
+            </div>
+        </div>
 
-        <ProfileCard :cardDetails="data" />
+
     </div>
+
 </template>
