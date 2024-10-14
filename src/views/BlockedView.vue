@@ -48,7 +48,7 @@ const data = [
 
 <template>
     <h1>Blocked</h1>
-    <div class="grid md:grid-cols-3 gap-6 place-items-center">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
         
         <ProfileCard :cardDetails="data" :isBlocked="true" />
     </div>

@@ -54,7 +54,7 @@ const data = [
       <h1>My Matches</h1>
       <div :class="[
         'grid gap-6 place-items-center', 
-        data.length > 0 ? 'md:grid-cols-3' : 'w-full flex justify-center items-center'
+        data.length > 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'w-full flex justify-center items-center'
       ]">
         <!-- Message and image for empty state -->
         <div v-if="data.length < 1" class="flex flex-col items-center justify-center gap-10 w-full md:w-1/2">

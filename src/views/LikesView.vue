@@ -53,7 +53,7 @@ const data = [
         <h1>Likes</h1>
         <div :class="[
             'grid gap-6 place-items-center',
-            data.length > 0 ? 'md:grid-cols-3' : 'w-full flex justify-center items-center'
+            data.length > 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'w-full flex justify-center items-center'
         ]">
             <ProfileCard :cardDetails="data" />
             <!-- Message and image for empty state -->
