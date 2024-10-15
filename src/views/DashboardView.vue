@@ -14,6 +14,7 @@ import settingsIcon from "@/assets/icons/setting.png"
 import profilePicture from "@/assets/images/profile-pics.png"
 import { ref } from "vue";
 import router from "@/router";
+import Filter from "@/components/Filter.vue";
 
 const route = useRoute();
 
@@ -100,7 +101,8 @@ const setShowFilter = () => {
      
         </aside>
       </header>
-      <RouterView />
+      <Filter v-if="showFilter" />
+      <RouterView v-else />
     </main>
   </div>
 </template>
