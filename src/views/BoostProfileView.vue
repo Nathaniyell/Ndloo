@@ -13,8 +13,8 @@ const applyBoost = () => {
 </script>
 
 <template>
-    <div class="flex justify-center items-center pb-6">
-        <div class="bg-white p-6 rounded-lg shadow-md w-10/12 max-w-md space-y-6">
+    <div class="flex justify-center items-center pb-6 ">
+        <div class="bg-white p-6 rounded-lg shadow-md w-[95%] max-w-md space-y-6">
             <h2 class="text-xl text-[#212121] mb-4">Boost Profile </h2>
 
             <div class="grid place-items-center p-10 w-fit h-fit mx-auto bg-[#D9D9D9] rounded-full">

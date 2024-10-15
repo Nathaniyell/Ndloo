@@ -118,14 +118,34 @@ watch(() => route.path, (newPath) => {
 
         <div v-show="showMore"
           class="flex bg-black h-screen w-full left-0 overflow-y-scroll absolute bottom-0 flex-col p-4 gap-6 md:hidden">
-          <div v-for="item in navItems.slice(4, 8)" :key="item.path" class="flex">
+          <section class="w-full flex items-center justify-between">
+            <h4 class="text-white text-xl">More</h4>
+            <button
+            @click="setShowMore"
+              class="bg-white text-primary3 grid place-items-center text-center text-2xl font-bold h-7 w-8 rounded-full">x</button>
+          </section>
+          <section class="w-full flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="bg-light rounded-full h-10 w-10"></div>
+              <div>
+                <h4 class="text-light text-xl mb-1">Virtue Andrew</h4>
+                <p class="text-[#767676]">lorem@mail.com</p>
+              </div>
+            </div>
+            <button class="text-white"><svg fill="#fff" width="25px" height="25px" viewBox="0 0 256 256" id="Flat"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M96,212a4,4,0,0,1-2.82861-6.82837L170.34326,128,93.17139,50.82837a4.00009,4.00009,0,0,1,5.65722-5.65674l80,80a4,4,0,0,1,0,5.65674l-80,80A3.98805,3.98805,0,0,1,96,212Z" />
+              </svg></button>
+          </section>
+          <div v-for="item in navItems.slice(4, 8)" :key="item.path">
             <RouterLink @click="setShowMore" :to="item.path"
               :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-start space-x-2 p-1 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
               <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
               <span class="">{{ item.label }}</span>
             </RouterLink>
           </div>
-          <div v-for="(item,index) in moreItems" :key="index" class="flex">
+          <div v-for="(item, index) in moreItems" :key="index">
             <RouterLink @click="setShowMore" :to="item.path"
               :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-start space-x-2 p-1 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
               <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
@@ -133,10 +153,10 @@ watch(() => route.path, (newPath) => {
             </RouterLink>
           </div>
           <button title="Logout"
-          class="flex items-center justify-start space-x-2 p-1 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white">
-          <img :src="logoutIcon" alt="Logout" class="w-5 h-5" />
-          <span class="">Logout</span>
-        </button>
+            class="flex items-center justify-start space-x-2 p-1 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white">
+            <img :src="logoutIcon" alt="Logout" class="w-5 h-5" />
+            <span class="">Logout</span>
+          </button>
 
         </div>
         <button @click="setShowMore" v-show="screenWidth < 768" title="More"
@@ -166,7 +186,7 @@ watch(() => route.path, (newPath) => {
     </aside>
 
     <!-- Main Content -->
-    <main class="relative w-full md:w-3/4 ml-0 md:ml-auto" :class="showFilter ? '' : 'bg-light'"
+    <main class="relative w-full md:w-3/4 ml-0 md:ml-auto pb-20 md:pb-0" :class="showFilter ? '' : 'bg-light'"
       :style="showFilter && route.path === '/dashboard/' ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}">
       <div v-if="loading"
         class="inset-0 grid place-content-center min-h-screen items-center justify-center z-50 w-full">
