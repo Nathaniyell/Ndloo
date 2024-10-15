@@ -55,12 +55,12 @@ const navItems = [
 ];
 
 const moreItems = [
-  { path: '/dashboard/', label: 'Upgrade', icon: matchesIcon },
-  { path: '/dashboard/', label: 'Boost', icon: matchesIcon },
-  { path: '/dashboard/', label: 'Wallet', icon: matchesIcon },
-  { path: '/dashboard/', label: 'Settings', icon: matchesIcon },
-  { path: '/dashboard/', label: 'Change Email', icon: matchesIcon },
-  { path: '/dashboard/', label: 'Change Password', icon: matchesIcon },
+  { path: '', label: 'Upgrade', icon: matchesIcon },
+  { path: '', label: 'Boost', icon: matchesIcon },
+  { path: '', label: 'Wallet', icon: matchesIcon },
+  { path: '', label: 'Settings', icon: matchesIcon },
+  { path: '', label: 'Change Email', icon: matchesIcon },
+  { path: '', label: 'Change Password', icon: matchesIcon },
 ]
 
 const setShowFilter = () => {
@@ -117,21 +117,26 @@ watch(() => route.path, (newPath) => {
         </div>
 
         <div v-show="showMore"
-          class="flex bg-black h-screen w-full left-0 absolute bottom-2 flex-col p-4 gap-6 md:hidden">
+          class="flex bg-black h-screen w-full left-0 overflow-y-scroll absolute bottom-0 flex-col p-4 gap-6 md:hidden">
           <div v-for="item in navItems.slice(4, 8)" :key="item.path" class="flex">
-            <RouterLink :to="item.path"
-              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+            <RouterLink @click="setShowMore" :to="item.path"
+              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-start space-x-2 p-1 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
               <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
-              <span class="hidden md:block">{{ item.label }}</span>
+              <span class="">{{ item.label }}</span>
             </RouterLink>
           </div>
           <div v-for="(item,index) in moreItems" :key="index" class="flex">
-            <RouterLink :to="item.path"
-              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+            <RouterLink @click="setShowMore" :to="item.path"
+              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-start space-x-2 p-1 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
               <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
-              <span class="text-[12px] md:text-base">{{ item.label }}</span>
+              <span class="">{{ item.label }}</span>
             </RouterLink>
           </div>
+          <button title="Logout"
+          class="flex items-center justify-start space-x-2 p-1 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white">
+          <img :src="logoutIcon" alt="Logout" class="w-5 h-5" />
+          <span class="">Logout</span>
+        </button>
 
         </div>
         <button @click="setShowMore" v-show="screenWidth < 768" title="More"
