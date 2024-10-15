@@ -12,7 +12,7 @@ import boostIcon from "@/assets/icons/boost.png";
 import logoutIcon from "@/assets/icons/logout.png";
 import settingsIcon from "@/assets/icons/setting.png";
 import profilePicture from "@/assets/images/profile-pics.png";
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import router from "@/router";
 import Filter from "@/components/Filter.vue";
 import bgDesigned from "@/assets/images/bg-designed.png";
@@ -21,17 +21,27 @@ const route = useRoute();
 const loading = ref(true);
 const showFilter = ref(false);
 
+const screenWidth = ref(window.innerWidth);
+
+// Update screen width on resize
+const updateScreenWidth = () => {
+  screenWidth.value = window.innerWidth;
+};
+
 onMounted(() => {
   window.addEventListener('load', handleLoad);
+  window.addEventListener('resize', updateScreenWidth);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('load', handleLoad);
+  window.removeEventListener('resize', updateScreenWidth);
 });
 
 function handleLoad() {
   loading.value = false;
 }
+
 
 const navItems = [
   { path: '/dashboard/', label: 'My Matches', icon: matchesIcon },
@@ -60,7 +70,11 @@ const getHeaderText = (path) => {
   }
 };
 
-// Use the function to get the header text based on the route path
+const displayedNavItems = computed(() => {
+  return screenWidth.value >= 768 ? navItems : navItems.slice(0, 4);
+});
+
+
 const headerText = ref(getHeaderText(route.path));
 
 // Watch for changes to route.path to update headerText dynamically
@@ -81,23 +95,35 @@ watch(() => route.path, (newPath) => {
 
       <!-- Sidebar Links -->
       <nav class="flex justify-between flex-row md:flex-col w-full md:space-y-3 md:justify-start">
-        <div v-for="item in navItems" :key="item.path" class="flex">
-          <RouterLink
-            :to="item.path"
-            :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
-            <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
-            <span class="hidden md:block">{{ item.label }}</span>
-          </RouterLink>
-        </div>
+        <div v-for="item in displayedNavItems" :key="item.path" class="flex">
+            <RouterLink :to="item.path"
+              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex flex-col md:flex-row items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+              <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
+              <span class="text-[12px] md:text-base">{{ item.label }}</span>
+            </RouterLink>
+          </div>
+        
+
+        <button v-show="screenWidth  <768" title="More"
+          class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 w-fit flex flex-col md:flex-row justify-center md:justify-start items-center md:space-x-2 text-light hover:text-white">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.97"
+              d="M16.69 2.5H8.31C4.67 2.5 2.5 4.67 2.5 8.31V16.68C2.5 20.33 4.67 22.5 8.31 22.5H16.68C20.32 22.5 22.49 20.33 22.49 16.69V8.31C22.5 4.67 20.33 2.5 16.69 2.5ZM8.81 16.81C8.09 16.81 7.5 16.22 7.5 15.5C7.5 14.78 8.09 14.19 8.81 14.19C9.53 14.19 10.12 14.78 10.12 15.5C10.12 16.22 9.53 16.81 8.81 16.81ZM12.5 10.81C11.78 10.81 11.19 10.22 11.19 9.5C11.19 8.78 11.78 8.19 12.5 8.19C13.22 8.19 13.81 8.78 13.81 9.5C13.81 10.22 13.22 10.81 12.5 10.81ZM16.19 16.81C15.47 16.81 14.88 16.22 14.88 15.5C14.88 14.78 15.47 14.19 16.19 14.19C16.91 14.19 17.5 14.78 17.5 15.5C17.5 16.22 16.91 16.81 16.19 16.81Z"
+              fill="#fff" />
+          </svg>
+          <span class="text-[12px] md:text-base">More</span>
+        </button>
       </nav>
 
       <div class="hidden md:flex md:flex-col md:!mt-4">
-        <RouterLink to="/dashboard/settings" :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === '/dashboard/settings' }, 'flex items-center md:space-x-2 p-2 hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+        <RouterLink to="/dashboard/settings"
+          :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === '/dashboard/settings' }, 'flex items-center md:space-x-2 p-2 hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
           <img :src="settingsIcon" alt="Settings" class="md:w-5 md:h-5" />
           <span class="hidden md:block">Settings</span>
         </RouterLink>
 
-        <button title="Logout" class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 flex justify-center md:justify-start items-center md:space-x-2 text-light hover:text-white">
+        <button title="Logout"
+          class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 flex justify-center md:justify-start items-center md:space-x-2 text-light hover:text-white">
           <img :src="logoutIcon" alt="Logout" class="md:w-5 md:h-5" />
           <span class="hidden md:block">Logout</span>
         </button>
@@ -105,10 +131,13 @@ watch(() => route.path, (newPath) => {
     </aside>
 
     <!-- Main Content -->
-    <main class="relative w-full md:w-3/4 ml-0 md:ml-auto" :class="showFilter ? '' : 'bg-light'" :style="showFilter && route.path==='/dashboard/' ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}">
-      <div v-if="loading" class="inset-0 grid place-content-center min-h-screen items-center justify-center z-50 w-full">
+    <main class="relative w-full md:w-3/4 ml-0 md:ml-auto" :class="showFilter ? '' : 'bg-light'"
+      :style="showFilter && route.path === '/dashboard/' ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}">
+      <div v-if="loading"
+        class="inset-0 grid place-content-center min-h-screen items-center justify-center z-50 w-full">
         <!-- Loading Spinner -->
-        <div class="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-primary4" role="status"></div>
+        <div class="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-primary4"
+          role="status"></div>
       </div>
 
       <header class="w-full px-4 h-20 flex items-center justify-between">
@@ -127,14 +156,15 @@ watch(() => route.path, (newPath) => {
                 fill="#585858" />
             </svg>
           </button>
-          <button @click="router.push('/dashboard/profile')" class=""><img class="h-10 w-10" :src="profilePicture" alt="Profile Picture">
+          <button @click="router.push('/dashboard/profile')" class=""><img class="h-10 w-10" :src="profilePicture"
+              alt="Profile Picture">
           </button>
         </aside>
-      </header>    
+      </header>
       <div v-if="!loading">
-      <RouterView v-if="route.path !== '/dashboard/' || !showFilter" />
-      <Filter v-if="showFilter && route.path === '/dashboard/'" :closeFilter="setShowFilter" />
-    </div>
+        <RouterView v-if="route.path !== '/dashboard/' || !showFilter" />
+        <Filter v-if="showFilter && route.path === '/dashboard/'" :closeFilter="setShowFilter" />
+      </div>
     </main>
   </div>
 </template>
@@ -144,7 +174,8 @@ watch(() => route.path, (newPath) => {
 /* Spinner styling */
 .spinner-border {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top-color: #D40000; /* Spinner color */
+  border-top-color: #D40000;
+  /* Spinner color */
   border-radius: 50%;
 }
 </style>
