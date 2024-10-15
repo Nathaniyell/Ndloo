@@ -52,7 +52,7 @@ const data = [
 <template>
     <div class="grid place-items-center">
       <div :class="[
-        'grid gap-6 place-items-center', 
+        'grid gap-6 place-items-center w-full', 
         data.length > 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'w-full flex justify-center items-center'
       ]">
         <!-- Message and image for empty state -->

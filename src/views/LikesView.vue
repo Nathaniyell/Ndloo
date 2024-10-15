@@ -52,7 +52,7 @@ const data = [
     <div class="grid place-items-center">
         <!-- <h1>Likes</h1> -->
         <div :class="[
-            'grid gap-6 place-items-center',
+            'grid gap-6 place-items-center w-full',
             data.length > 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'w-full flex justify-center items-center'
         ]">
             <ProfileCard :cardDetails="data" />
