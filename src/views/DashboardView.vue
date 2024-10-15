@@ -13,6 +13,7 @@ import logoutIcon from "@/assets/icons/logout.png"
 import settingsIcon from "@/assets/icons/setting.png"
 import profilePicture from "@/assets/images/profile-pics.png"
 import { ref } from "vue";
+import router from "@/router";
 
 const route = useRoute();
 
@@ -75,7 +76,7 @@ const setShowFilter = () => {
     </aside>
 
     <!-- Main Content -->
-    <main class="w-full md:w-3/4 -z-10 ml-0md:ml-auto">
+    <main class="w-full md:w-3/4 ml-0 md:ml-auto">
       <header class="mb-6 w-full  px-4 h-20 flex items-center justify-between">
         <div>
           <p class="text-[#767676]">Good morning,</p>
@@ -92,10 +93,11 @@ const setShowFilter = () => {
                 fill="#585858" />
             </svg>
           </button>
-         <RouterLink to="/dashboard/profile">
-          
-          <img class="h-10 w-10" :src="profilePicture" alt="Profile Picture">
-          </RouterLink>
+          <button @click="router.push('/dashboard/profile')" class="">
+            
+            <img class="h-10 w-10" :src="profilePicture" alt="Profile Picture">
+            </button> 
+     
         </aside>
       </header>
       <RouterView />
