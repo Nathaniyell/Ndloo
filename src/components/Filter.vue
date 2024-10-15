@@ -33,7 +33,7 @@ const applyFilter = async () => {
 </script>
 
 <template>
-    <div class="flex justify-center items-center min-h-screen pb-6">
+    <div class="flex justify-center items-center min-h-screen pb-6 mt-2">
         <div class="bg-white p-6 rounded-lg shadow-md w-10/12 max-w-md space-y-4">
             <div class="flex items-center justify-between">
 
