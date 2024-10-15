@@ -31,7 +31,7 @@ const pillBtns = ["Dogs", "Tech", "Hiphop"]
 </script>
 
 <template>
-    <div v-for="(detail, index) in cardDetails" :key="index" class="relative w-[250px] rounded">
+    <div v-for="(detail, index) in cardDetails" :key="index" :class="`relative w-[250px] rounded`" >
         <img :src="detail.image" class="w-full" alt="Profile Image">
 
         <div
