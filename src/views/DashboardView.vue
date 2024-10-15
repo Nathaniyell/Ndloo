@@ -132,7 +132,7 @@ watch(
         <!-- Loading Spinner -->
         <div class="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-primary4"
           role="status">
-          // <span class="visually-hidden">Loading...</span>
+          
         </div>
       </div>
 
@@ -142,7 +142,7 @@ watch(
           <p class="text-dark text-xl font-semibold">{{ headerText }}</p>
         </div>
         <aside class="flex items-center space-x-3">
-          <button @click="setShowFilter" class="">
+          <button v-show="route.path === '/dashboard/'" @click="setShowFilter" class="">
             <svg width="30" height="30" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M32.8533 11.6783C32.2483 11.5316 31.6066 11.4583 30.9466 11.4583C26.1433 11.4583 22.2383 15.3633 22.2383 20.1666C22.2383 21.7983 22.6966 23.3383 23.5033 24.6583C24.1816 25.7949 25.1166 26.7666 26.2533 27.4633C27.6099 28.3616 29.2233 28.8749 30.9466 28.8749C34.1366 28.8749 36.905 27.1699 38.4083 24.6583C39.215 23.3383 39.6549 21.7983 39.6549 20.1666C39.6549 16.0233 36.7583 12.5399 32.8533 11.6783ZM34.5216 19.3783L30.0666 23.8333C29.9016 23.9983 29.5533 24.1633 29.3149 24.1999L27.6099 24.4383C26.9866 24.5299 26.5649 24.0899 26.6566 23.4849L26.8949 21.7799C26.9316 21.5416 27.0966 21.2116 27.2616 21.0283L31.075 17.2149L31.7166 16.5733C32.4866 15.8033 33.3849 15.4366 34.5033 16.5733C35.6216 17.7099 35.2916 18.6083 34.5216 19.3783Z"
@@ -160,7 +160,7 @@ watch(
         </aside>
       </header>
       <Filter :closeFilter="setShowFilter" v-if="showFilter" />
-      <RouterView v-else />
+      <RouterView v-show="!loading" v-else />
     </main>
   </div>
 </template>
