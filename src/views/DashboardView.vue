@@ -20,6 +20,7 @@ import bgDesigned from "@/assets/images/bg-designed.png";
 const route = useRoute();
 const loading = ref(true);
 const showFilter = ref(false);
+const showMore = ref(false);
 
 const screenWidth = ref(window.innerWidth);
 
@@ -53,8 +54,20 @@ const navItems = [
   { path: '/dashboard/boost-profile', label: 'Boost Profile', icon: boostIcon },
 ];
 
+const moreItems = [
+  { path: '/dashboard/', label: 'Upgrade', icon: matchesIcon },
+  { path: '/dashboard/', label: 'Boost', icon: matchesIcon },
+  { path: '/dashboard/', label: 'Wallet', icon: matchesIcon },
+  { path: '/dashboard/', label: 'Settings', icon: matchesIcon },
+  { path: '/dashboard/', label: 'Change Email', icon: matchesIcon },
+  { path: '/dashboard/', label: 'Change Password', icon: matchesIcon },
+]
+
 const setShowFilter = () => {
   showFilter.value = !showFilter.value;
+};
+const setShowMore = () => {
+  showMore.value = !showMore.value;
 };
 
 const getHeaderText = (path) => {
@@ -96,22 +109,39 @@ watch(() => route.path, (newPath) => {
       <!-- Sidebar Links -->
       <nav class="flex justify-between flex-row md:flex-col w-full md:space-y-3 md:justify-start">
         <div v-for="item in displayedNavItems" :key="item.path" class="flex">
+          <RouterLink :to="item.path"
+            :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex flex-col md:flex-row items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+            <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
+            <span class="hidden md:block">{{ item.label }}</span>
+          </RouterLink>
+        </div>
+
+        <div v-show="showMore"
+          class="flex bg-black h-screen w-full left-0 absolute bottom-2 flex-col p-4 gap-6 md:hidden">
+          <div v-for="item in navItems.slice(4, 8)" :key="item.path" class="flex">
             <RouterLink :to="item.path"
-              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex flex-col md:flex-row items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
+              <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
+              <span class="hidden md:block">{{ item.label }}</span>
+            </RouterLink>
+          </div>
+          <div v-for="(item,index) in moreItems" :key="index" class="flex">
+            <RouterLink :to="item.path"
+              :class="[{ 'bg-[#652436] bg-opacity-60 text-white': route.path === item.path }, 'flex items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white']">
               <img :title="item.label" :src="item.icon" :alt="item.label" class="w-5 h-5" />
               <span class="text-[12px] md:text-base">{{ item.label }}</span>
             </RouterLink>
           </div>
-        
 
-        <button v-show="screenWidth  <768" title="More"
+        </div>
+        <button @click="setShowMore" v-show="screenWidth < 768" title="More"
           class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 w-fit flex flex-col md:flex-row justify-center md:justify-start items-center md:space-x-2 text-light hover:text-white">
           <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.97"
               d="M16.69 2.5H8.31C4.67 2.5 2.5 4.67 2.5 8.31V16.68C2.5 20.33 4.67 22.5 8.31 22.5H16.68C20.32 22.5 22.49 20.33 22.49 16.69V8.31C22.5 4.67 20.33 2.5 16.69 2.5ZM8.81 16.81C8.09 16.81 7.5 16.22 7.5 15.5C7.5 14.78 8.09 14.19 8.81 14.19C9.53 14.19 10.12 14.78 10.12 15.5C10.12 16.22 9.53 16.81 8.81 16.81ZM12.5 10.81C11.78 10.81 11.19 10.22 11.19 9.5C11.19 8.78 11.78 8.19 12.5 8.19C13.22 8.19 13.81 8.78 13.81 9.5C13.81 10.22 13.22 10.81 12.5 10.81ZM16.19 16.81C15.47 16.81 14.88 16.22 14.88 15.5C14.88 14.78 15.47 14.19 16.19 14.19C16.91 14.19 17.5 14.78 17.5 15.5C17.5 16.22 16.91 16.81 16.19 16.81Z"
               fill="#fff" />
           </svg>
-          <span class="text-[12px] md:text-base">More</span>
+          <span class="hidden md:block">More</span>
         </button>
       </nav>
 
