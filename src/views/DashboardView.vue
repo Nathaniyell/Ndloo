@@ -12,7 +12,7 @@ import boostIcon from "@/assets/icons/boost.png"
 import logoutIcon from "@/assets/icons/logout.png"
 import settingsIcon from "@/assets/icons/setting.png"
 import profilePicture from "@/assets/images/profile-pics.png"
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import router from "@/router";
 import Filter from "@/components/Filter.vue";
 import bgDesigned from "@/assets/images/bg-designed.png"
@@ -36,17 +36,50 @@ const showFilter = ref(false)
 const setShowFilter = () => {
   showFilter.value = !showFilter.value
 }
+const getHeaderText = (path) => {
+  switch (path) {
+    case "/dashboard/likes":
+      return "My Likes";
+    case "/dashboard/who-likes-me":
+      return "Who Likes Me";
+    case "/dashboard/blocked":
+      return "Blocked Users";
+    case "/dashboard/settings":
+      return "Settings";
+    case "/dashboard/profile":
+      return "Profile";
+    case "/dashboard/dislikes":
+      return "My Dislikes";
+    case "/dashboard/boost-profile":
+      return "Boost Profile";
+    default:
+      return "Welcome Back, Virtue";
+  }
+};
+
+// Use the function to get the header text based on the route path
+const headerText = ref(getHeaderText(route.path));
+
+// Watch for changes to route.path to update headerText dynamically
+watch(
+  () => route.path,
+  (newPath) => {
+    headerText.value = getHeaderText(newPath);
+  }
+);
+
+
 </script>
 
 <template>
   <div class="flex min-h-screen overflow-hidden font-inter">
     <!-- Sidebar -->
     <aside
-      class="w-full z-10 mt-20 md:mt-0 md:w-1/4 fixed md:relative bottom-0 md:bottom-auto bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-2 md:p-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:space-y-6"
-      :style="{ backgroundImage: `url(${asideImg})` }">
+      class="w-full z-10 mt-20 md:mt-0 md:w-1/4 fixed bottom-0 md:bottom-auto bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-2 md:p-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:space-y-6"
+      :style="{ backgroundImage: `url(${asideImg})`}">
       <!-- Logo -->
       <RouterLink to="/" class="">
-        <img :src="logo" class="md:w-3/5 hidden md:block mb-8" alt="Ndloo Logo" />
+        <img :src="logo" class="md:w-3/5 hidden md:block mb-4" alt="Ndloo Logo" />
       </RouterLink>
 
       <!-- Sidebar Links -->
@@ -60,7 +93,7 @@ const setShowFilter = () => {
         </div>
       </nav>
 
-      <div class="hidden md:flex md:flex-col md:!mt-10">
+      <div class="hidden md:flex md:flex-col md:!mt-4">
         <RouterLink to="/dashboard/settings" :class="[
           { 'bg-[#652436] bg-opacity-60 text-white': route.path === '/dashboard/settings' },
           'flex items-center md:space-x-2 p-2 hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white'
@@ -88,8 +121,8 @@ const setShowFilter = () => {
   >
       <header class="mb-6 w-full  px-4 h-20 flex items-center justify-between">
         <div>
-          <p class="text-[#767676]">Good morning,</p>
-          <p class="text-dark text-xl font-semibold">Welcome Back, Virtue</p>
+          <p v-show="route.path === '/dashboard/'" class="text-[#767676]">Good morning,</p>
+          <p class="text-dark text-xl font-semibold">{{headerText}}</p>
         </div>
         <aside class="flex items-center space-x-3">
           <button @click="setShowFilter" class="">
