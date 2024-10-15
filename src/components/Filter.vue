@@ -26,8 +26,8 @@ const applyFilter = () => {
         <div class="bg-white p-6 rounded-lg shadow-md w-10/12 max-w-md space-y-4">
             <div class="flex items-center justify-between">
 
-                <h2 class="text-xl font-semibold mb-4">Filter </h2>
-                <button @click="closeFilter" class="text-red-600 hover:text-gray-900">
+                <h2 class="text-xl text-[#767676] font-semibold mb-4">Filter </h2>
+                <button @click="closeFilter" class="text-primary4 hover:text-primary3">
                     Close
                 </button>
             </div>

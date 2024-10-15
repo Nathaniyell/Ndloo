@@ -12,14 +12,24 @@ import boostIcon from "@/assets/icons/boost.png"
 import logoutIcon from "@/assets/icons/logout.png"
 import settingsIcon from "@/assets/icons/setting.png"
 import profilePicture from "@/assets/images/profile-pics.png"
-import { ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import router from "@/router";
 import Filter from "@/components/Filter.vue";
 import bgDesigned from "@/assets/images/bg-designed.png"
 
 const route = useRoute();
+const loading = ref(true);
+onMounted(() => {
+  window.addEventListener('load', handleLoad);
+});
 
-// Define the navigation items as an array of objects
+onBeforeUnmount(() => {
+  window.removeEventListener('load', handleLoad);
+});
+
+function handleLoad() {
+  loading.value = false;
+}
 const navItems = [
   // { path: '/dashboard', label: 'Profile', icon: settingsIcon },
   { path: '/dashboard/', label: 'My Matches', icon: matchesIcon },
@@ -64,9 +74,12 @@ const headerText = ref(getHeaderText(route.path));
 watch(
   () => route.path,
   (newPath) => {
+   
     headerText.value = getHeaderText(newPath);
-  }
+
+  } 
 );
+
 
 
 </script>
@@ -76,7 +89,7 @@ watch(
     <!-- Sidebar -->
     <aside
       class="w-full z-10 mt-20 md:mt-0 md:w-1/4 fixed bottom-0 md:bottom-auto bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-2 md:p-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:space-y-6"
-      :style="{ backgroundImage: `url(${asideImg})`}">
+      :style="{ backgroundImage: `url(${asideImg})` }">
       <!-- Logo -->
       <RouterLink to="/" class="">
         <img :src="logo" class="md:w-3/5 hidden md:block mb-4" alt="Ndloo Logo" />
@@ -112,17 +125,21 @@ watch(
 
     <!-- Main Content -->
 
-  <main
-    class="w-full md:w-3/4 ml-0 md:ml-auto"
-    :class="showFilter ? '' : 'bg-light'"
-    :style="showFilter
+    <main class="w-full md:w-3/4 ml-0 md:ml-auto" :class="showFilter ? '' : 'bg-light'" :style="showFilter
       ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-      : {}"
-  >
+      : {}">
+      <div v-if="loading" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-70 z-50">
+        <!-- Loading Spinner -->
+        <div class="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-primary4"
+          role="status">
+          // <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
       <header class="mb-6 w-full  px-4 h-20 flex items-center justify-between">
         <div>
           <p v-show="route.path === '/dashboard/'" class="text-[#767676]">Good morning,</p>
-          <p class="text-dark text-xl font-semibold">{{headerText}}</p>
+          <p class="text-dark text-xl font-semibold">{{ headerText }}</p>
         </div>
         <aside class="flex items-center space-x-3">
           <button @click="setShowFilter" class="">
@@ -136,10 +153,10 @@ watch(
             </svg>
           </button>
           <button @click="router.push('/dashboard/profile')" class="">
-            
+
             <img class="h-10 w-10" :src="profilePicture" alt="Profile Picture">
-            </button> 
-     
+          </button>
+
         </aside>
       </header>
       <Filter :closeFilter="setShowFilter" v-if="showFilter" />
@@ -147,3 +164,12 @@ watch(
     </main>
   </div>
 </template>
+
+<style scoped>
+/* Spinner styling */
+.spinner-border {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #D40000; /* Spinner color */
+  border-radius: 50%;
+}
+</style>
