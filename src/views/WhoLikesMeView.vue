@@ -48,7 +48,7 @@ const data = [
 </script>
 
 <template>
-    <h1>Who Likes Me</h1>
+  
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
 
         <ProfileCard :cardDetails="data" :whoLikesMe="true" />
