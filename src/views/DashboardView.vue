@@ -15,6 +15,7 @@ import profilePicture from "@/assets/images/profile-pics.png"
 import { ref } from "vue";
 import router from "@/router";
 import Filter from "@/components/Filter.vue";
+import bgDesigned from "@/assets/images/bg-designed.png"
 
 const route = useRoute();
 
@@ -77,7 +78,14 @@ const setShowFilter = () => {
     </aside>
 
     <!-- Main Content -->
-    <main class="w-full md:w-3/4 ml-0 md:ml-auto">
+
+  <main
+    class="w-full md:w-3/4 ml-0 md:ml-auto"
+    :class="showFilter ? '' : 'bg-light'"
+    :style="showFilter
+      ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+      : {}"
+  >
       <header class="mb-6 w-full  px-4 h-20 flex items-center justify-between">
         <div>
           <p class="text-[#767676]">Good morning,</p>
