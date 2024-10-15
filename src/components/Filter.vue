@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import bgDesigned from "@/assets/images/bg-designed.png"
+import { defineProps } from 'vue';
 
-// Set up filter data
+
 const filters = ref({
     name: '',
     location: '',
@@ -11,7 +11,10 @@ const filters = ref({
     gender: 'both'
 });
 
-// Method to handle filter application
+const filterProps = defineProps({
+closeFilter: Function
+})
+
 const applyFilter = () => {
     // Here you could emit an event or directly handle the filters object
     console.log('Applied Filters:', filters.value);
@@ -24,7 +27,7 @@ const applyFilter = () => {
             <div class="flex items-center justify-between">
 
                 <h2 class="text-xl font-semibold mb-4">Filter </h2>
-                <button @click="setShowFilter" class="text-red-600 hover:text-gray-900">
+                <button @click="closeFilter" class="text-red-600 hover:text-gray-900">
                     Close
                 </button>
             </div>

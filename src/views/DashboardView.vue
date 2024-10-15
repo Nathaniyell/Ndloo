@@ -42,7 +42,7 @@ const setShowFilter = () => {
   <div class="flex min-h-screen overflow-hidden font-inter">
     <!-- Sidebar -->
     <aside
-      class="w-full mt-20 md:mt-0 md:w-1/4 fixed md:relative bottom-0 md:bottom-auto bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-2 md:p-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:space-y-6"
+      class="w-full z-10 mt-20 md:mt-0 md:w-1/4 fixed md:relative bottom-0 md:bottom-auto bg-[#8500288A] bg-blend-overlay bg-opacity-80 bg-no-repeat bg-center bg-cover p-2 md:p-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:space-y-6"
       :style="{ backgroundImage: `url(${asideImg})` }">
       <!-- Logo -->
       <RouterLink to="/" class="">
@@ -109,7 +109,7 @@ const setShowFilter = () => {
      
         </aside>
       </header>
-      <Filter v-if="showFilter" />
+      <Filter :closeFilter="setShowFilter" v-if="showFilter" />
       <RouterView v-else />
     </main>
   </div>
