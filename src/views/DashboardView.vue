@@ -3,6 +3,10 @@ import logo from "@/assets/images/ndloo-logo.png";
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 import asideImg from "@/assets/images/hero2.png";
 import matchesIcon from "@/assets/icons/lovely.png";
+import walletIcon from "@/assets/icons/wallet-money.svg";
+import lockIcon from "@/assets/icons/lock.svg";
+import diamondIcon from "@/assets/icons/diamonds.svg";
+import smsIcon from "@/assets/icons/sms-edit.svg";
 import whoLikesIcon from "@/assets/icons/like.png";
 import disklikesIcon from "@/assets/icons/dislike.png";
 import likesIcon from "@/assets/icons/heart.png";
@@ -16,6 +20,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import router from "@/router";
 import Filter from "@/components/Filter.vue";
 import bgDesigned from "@/assets/images/bg-designed.png";
+
 
 const route = useRoute();
 const loading = ref(true);
@@ -55,12 +60,11 @@ const navItems = [
 ];
 
 const moreItems = [
-  { path: '', label: 'Upgrade', icon: matchesIcon },
-  { path: '', label: 'Boost', icon: matchesIcon },
-  { path: '', label: 'Wallet', icon: matchesIcon },
-  { path: '', label: 'Settings', icon: matchesIcon },
-  { path: '', label: 'Change Email', icon: matchesIcon },
-  { path: '', label: 'Change Password', icon: matchesIcon },
+  { path: '', label: 'Upgrade', icon: diamondIcon },
+  { path: '', label: 'Wallet', icon: walletIcon },
+  { path: '', label: 'Settings', icon: settingsIcon },
+  { path: '', label: 'Change Email', icon: smsIcon },
+  { path: '', label: 'Change Password', icon: lockIcon },
 ]
 
 const setShowFilter = () => {
