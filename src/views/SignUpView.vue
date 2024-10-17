@@ -7,10 +7,9 @@ import { RouterLink } from 'vue-router';
 const formData = ref({
     firstName: "",
     lastName: "",
-    username: "",
     mobileNo: { phoneNumber: "", countryCode: "" },
     gender: "",
-    dateOfBirth: "",
+    age: "",
     email: "",
     password1: "",
     password2: "",
@@ -31,49 +30,69 @@ const prevStep = () => {
     }
 };
 
-const signUpFormSubmitHandler = () => {
+const signUpFormSubmitHandler = async () => {
+    const {firstName, lastName, mobileNo, gender, age, email, password1, termsAndConditions,} = formData.value
+    try {
+        // Send a POST request with the form data
+        const response = await fetch(`${import.meta.env.VITE_BASE_UR}/details/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                mobileNo: mobileNo,
+                gender: gender,
+                age: age,
+                email: email,
+                password: password1,
+            })
+        });
 
-    // Log the current values before resetting
-    console.log({
-        email: formData.value.firstName,
-        password: formData.value.lastName,
-        password: formData.value.username,
-        password: formData.value.mobileNo,
-        password: formData.value.gender,
-        password: formData.value.dateOfBirth,
-        password: formData.value.email,
-        password: formData.value.password1,
-        password: formData.value.password2,
-        rememberMe: formData.value.termsAndConditions
-    });
-    formData.value = {
+        // Log the current values before resetting
+        console.log({
+            firstName,
+            lastName,
+            email,
+            mobileNo,
+            gender,
+            age,
+            password1,
+            termsAndConditions,
+        });
+
+        // Check if the response is successful
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Registration successful:", data);
+           formData.value = {
         firstName: "",
         lastName: "",
-        username: "",
+        email: "",
         mobileNo: { phoneNumber: "", countryCode: "" },
         gender: "",
-        dateOfBirth: "",
-        email: "",
+        age: "",
         password1: "",
         password2: "",
         termsAndConditions: false
     }
-    // Reset the form data
-    // formData.value.firstName = ""
-    // formData.value.lastName = ""
-    // formData.value.username = ""
-    // formData.value.mobileNo = ""
-    // formData.value.gender = ""
-    // formData.value.dateOfBirth = ""
-    // formData.value.email = ""
-    // formData.value.password1 = ""
-    // formData.value.password2 = ""
-    // formData.value.termsAndConditions = ""
+    
     currentStep.value = 1;
-    const isPasswordVisible = ref(false)
-    const togglePasswordVisibility = () => {
-        isPasswordVisible.value = !isPasswordVisible.value
+        } else {
+            const errorData = await response.json();
+            console.error("Error during registration:", errorData);
+            // Handle error (e.g., display an error message to the user)
+        }
+    } catch (error) {
+        console.error("Network or server error:", error);
+        // Handle the network or other unexpected errors
     }
+};
+
+const isPasswordVisible = ref(false)
+const togglePasswordVisibility = () => {
+    isPasswordVisible.value = !isPasswordVisible.value
 }
 </script>
 
@@ -102,8 +121,8 @@ const signUpFormSubmitHandler = () => {
 
                     </div>
                     <div class="relative">
-                        <input v-model="formData.username" type="text" placeholder="Username" required
-                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                        <input v-model="formData.email" type="email" placeholder="Email" required
+                        class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                     </div>
                     <div class="flex items-center space-x-2 w-full">
                         <!-- Country Code Select -->
@@ -134,15 +153,13 @@ const signUpFormSubmitHandler = () => {
                         </select>
                     </div>
                     <div class="w-full">
-                        <input type="date" v-model="formData.dateOfBirth"
+                        <input type="number" v-model="formData.age"
                             class="w-full text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
 
                     </div>
                 </div>
 
                 <div v-if="currentStep === 2" class="flex flex-col space-y-6">
-                    <input v-model="formData.email" type="email" placeholder="Email" required
-                        class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                     <div class="relative">
                         <input v-model="formData.password1" type="password" placeholder="Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
@@ -153,6 +170,7 @@ const signUpFormSubmitHandler = () => {
                             <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
                         </button>
                     </div>
+                    <p v-if="formData.password1 !== formData.password2" class="text-blue-600 text-sm">Passwords do not match please check and try again</p>
                     <div class="relative">
                         <input v-model="formData.password2" type="password" placeholder="Confirm Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
@@ -163,6 +181,7 @@ const signUpFormSubmitHandler = () => {
                             <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
                         </button>
                     </div>
+                    
                     <div class="flex items-center space-x-3">
 
                         <input class="checked:!bg-primary4" v-model="formData.termsAndConditions" type="checkbox"
