@@ -77,7 +77,7 @@ const signUpFormSubmitHandler = async () => {
           lastName: lastName,
           age: age,
           country: country,
-          phone: phone,
+          phone: `+${country}${phone}`,
           gender: gender,
           latitude: latitude,
           longitude: longitude,
