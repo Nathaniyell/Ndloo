@@ -45,7 +45,7 @@ const showToast = () => {
 };
 
 const toastClasses = computed(() => [
-  'fixed top-4 left-1/2 transform -translate-x-1/2 transition-all duration-300 ease-out text-white p-4 rounded-md shadow-lg max-w-lg w-full text-center',
+  'fixed top-4 left-1/2 transform -translate-x-1/2 transition-all duration-300 ease-out text-white p-4 rounded-md shadow-lg max-w-lg w-10/12 mx-auto text-center',
   isVisible.value ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0',
   toastType.value === 'error' ? 'bg-red-600' : 'bg-green-600',
 ]);

@@ -5,6 +5,7 @@ import logo2 from "@/assets/images/red-logo.png";
 import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
+import FormToast from "@/components/FormToast.vue";
 
 const formData = ref({
   firstName: "",
@@ -21,6 +22,8 @@ const formData = ref({
 const currentStep = ref(1);
 const countries = ref([]);
 const totalSteps = 2;
+const errorMessage = ref(null);
+const successMessage = ref(null);
 
 const nextStep = () => {
   if (currentStep.value < totalSteps) {
@@ -44,9 +47,11 @@ onMounted(async () => {
         phonecode: country.phonecode
       }));
       console.log(countries.value); // Check the extracted data in the console
+      successMessage.value = "Successfully fetched Countries data"
     }
   } catch (error) {
     console.error("Error fetching countries:", error);
+    errorMessage.value = error.message
   }
 });
 
@@ -72,6 +77,7 @@ const signUpFormSubmitHandler = async () => {
           password: password1,
           password_confirmation: password2
         });
+        successMessage.value = "Registration successful!";
         console.log({
           email: email,
           firstName: firstName,
@@ -85,6 +91,7 @@ const signUpFormSubmitHandler = async () => {
           password: password1,
           password_confirmation: password2
         });
+        toastMessage
 
         // Reset the form data
         formData.value = {
@@ -103,10 +110,12 @@ const signUpFormSubmitHandler = async () => {
       },
       (error) => {
         console.error("Error getting location", error);
+        errorMessage.value = error.message
         alert("Unable to retrieve location. Please enable location services and try again.");
       }
     );
   } else {
+    errorMessage.value = "Geolocation is not supported by your browser."
     alert("Geolocation is not supported by your browser.");
   }
 };
@@ -120,6 +129,7 @@ const togglePasswordVisibility = () => {
 <template>
 
     <main class="font-inter md:flex md:items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
+        <FormToast :error="errorMessage" :success="successMessage" />
         <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
