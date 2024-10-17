@@ -1,5 +1,4 @@
-// src/services/api.js
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_BASE_URL;
 
 // Function to handle the POST request for registration
 export const registerUser = async (userData) => {
@@ -48,7 +47,7 @@ export const loginUser = async (loginData) => {
 };
 export const getCountries = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/details/login`)
+        const response = await fetch(`${BASE_URL}/countries`)
         const data = await response.json()
         if (!response.ok) {
             const errorData = await response.json();

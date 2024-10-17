@@ -6,34 +6,34 @@ import { RouterLink } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
 
 const formData = ref({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    country: "",
-    gender: "",
-    age: "",
-    email: "",
-    password1: "",
-    password2: "",
-    termsAndConditions: false
-})
+  firstName: "",
+  lastName: "",
+  phone: "",
+  country: "",
+  gender: "",
+  age: "",
+  email: "",
+  password1: "",
+  password2: "",
+  termsAndConditions: false
+});
 const currentStep = ref(1);
 const countries = ref([]);
 const totalSteps = 2;
 
 const nextStep = () => {
-    if (currentStep.value < totalSteps) {
-        currentStep.value += 1;
-    }
+  if (currentStep.value < totalSteps) {
+    currentStep.value += 1;
+  }
 };
 
 const prevStep = () => {
-    if (currentStep.value > 1) {
-        currentStep.value -= 1;
-    }
+  if (currentStep.value > 1) {
+    currentStep.value -= 1;
+  }
 };
 
-//Get the country code and ISO Initials
+// Fetch countries and extract iso3 and phonecode
 onMounted(async () => {
   try {
     const countriesData = await getCountries();
@@ -49,32 +49,41 @@ onMounted(async () => {
   }
 });
 
-
 const signUpFormSubmitHandler = async () => {
   const { firstName, lastName, phone, gender, age, email, password1, password2, country } = formData.value;
-  
+
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        await registerUser({
-            email,
-          firstName,
-          lastName,
-          age,
-          country,
-          phone,
-          gender,
-          latitude,
-          longitude,
-          password:password1,
-          password_confirmation:password2
+        // await registerUser({
+        //   email: email,
+        //   firstName: firstName,
+        //   lastName: lastName,
+        //   age: age,
+        //   country: country,
+        //   phone: phone,
+        //   gender: gender,
+        //   latitude: latitude,
+        //   longitude: longitude,
+        //   password: password1,
+        //   password_confirmation: password2
+        // });
+        console.log({
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          age: age,
+          country: country,
+          phone: phone,
+          gender: gender,
+          latitude: latitude,
+          longitude: longitude,
+          password: password1,
+          password_confirmation: password2
         });
-
-        // Log the current values before resetting
-        console.log({ firstName, lastName, email, phone, gender, age, password1, termsAndConditions });
 
         // Reset the form data
         formData.value = {
@@ -133,24 +142,20 @@ const togglePasswordVisibility = () => {
                     </div>
                     <div class="relative">
                         <input v-model="formData.email" type="email" placeholder="Email" required
-                        class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                     </div>
                     <div class="flex items-center space-x-2 w-full">
                         <!-- Country Code Select -->
                         <select v-model="formData.country"
                             class="w-[30%] text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded">
-                            <option value="">+234 </option>
-                            <option value="+1">+234 (NGA)</option>
-                            <option value="+1">+1 (US)</option>
-                            <option value="+44">+44 (UK)</option>
-                            <option value="+91">+91 (IN)</option>
-                            <option value="+234">+234 (NG)</option>
-                            <option value="+61">+61 (AU)</option>
-                            <option value="+81">+81 (JP)</option>
-                            <!-- Add more country codes as needed -->
+                            <option value="">Country Code</option>
+                            <option v-for="country in countries" :key="country.phonecode" :value="country.phonecode">
+                                {{ country.iso3 }} (+{{ country.phonecode }})
+                            </option>
                         </select>
 
-                        <input type="text" v-model="formData.phone.phoneNumber" placeholder="Mobile Number"
+
+                        <input type="text" v-model="formData.phone" placeholder="Mobile Number"
                             class="w-[70%] text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                     </div>
 
@@ -166,7 +171,8 @@ const togglePasswordVisibility = () => {
                     <div class="w-full">
 
                         <input type="number" v-model="formData.age"
-                            class="w-full text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" placeholder="Age" />
+                            class="w-full text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded"
+                            placeholder="Age" />
 
                     </div>
                 </div>
@@ -182,7 +188,8 @@ const togglePasswordVisibility = () => {
                             <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
                         </button>
                     </div>
-                    <p v-if="formData.password1 !== formData.password2" class="text-blue-600 text-sm">Passwords do not match please check and try again</p>
+                    <p v-if="formData.password1 !== formData.password2" class="text-blue-600 text-sm">Passwords do not
+                        match please check and try again</p>
                     <div class="relative">
                         <input v-model="formData.password2" type="password" placeholder="Confirm Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
@@ -193,7 +200,7 @@ const togglePasswordVisibility = () => {
                             <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
                         </button>
                     </div>
-                    
+
                     <div class="flex items-center space-x-3">
 
                         <input class="checked:!bg-primary4" v-model="formData.termsAndConditions" type="checkbox"
@@ -214,16 +221,17 @@ const togglePasswordVisibility = () => {
                         class="bg-white text-primary3 p-3 font-semibold w-full text-center grid place-items-center border border-[#C9C9C9] outline-none rounded ">
                         Previous
                     </button>
-                    <button v-if="currentStep === 2" type="submit" class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                       Sign Up
+                    <button v-if="currentStep === 2" type="submit"
+                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
+                        Sign Up
                     </button>
                     <label class="text-sm">Already have an account? <RouterLink to="/login"
                             class="text-primary3 font-semibold text-base">Login</RouterLink></label>
-                            <div class="flex justify-center mt-4 space-x-2">
-                                <span v-for="step in totalSteps" :key="step"
-                                    :class="{ 'bg-primary3': currentStep === step, 'bg-gray-300 h-2 w-2': currentStep !== step }"
-                                    class="h-2 w-8 rounded-lg"></span>
-                            </div>
+                    <div class="flex justify-center mt-4 space-x-2">
+                        <span v-for="step in totalSteps" :key="step"
+                            :class="{ 'bg-primary3': currentStep === step, 'bg-gray-300 h-2 w-2': currentStep !== step }"
+                            class="h-2 w-8 rounded-lg"></span>
+                    </div>
                 </section>
             </div>
         </form>
