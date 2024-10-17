@@ -1,13 +1,15 @@
 <script setup>
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink } from 'vue-router';
+import { getCountries, registerUser } from "@/composables/FetchData";
 
 const formData = ref({
     firstName: "",
     lastName: "",
-    mobileNo: { phoneNumber: "", countryCode: "" },
+    phone: "",
+    country: "",
     gender: "",
     age: "",
     email: "",
@@ -16,6 +18,7 @@ const formData = ref({
     termsAndConditions: false
 })
 const currentStep = ref(1);
+const countries = ref([]);
 const totalSteps = 2;
 
 const nextStep = () => {
@@ -30,64 +33,72 @@ const prevStep = () => {
     }
 };
 
+//Get the country code and ISO Initials
+onMounted(async () => {
+  try {
+    const countriesData = await getCountries();
+    if (countriesData.status === "success" && countriesData.data) {
+      countries.value = countriesData.data.countries.map(country => ({
+        iso3: country.iso3,
+        phonecode: country.phonecode
+      }));
+      console.log(countries.value); // Check the extracted data in the console
+    }
+  } catch (error) {
+    console.error("Error fetching countries:", error);
+  }
+});
+
+
 const signUpFormSubmitHandler = async () => {
-    const {firstName, lastName, mobileNo, gender, age, email, password1, termsAndConditions,} = formData.value
-    try {
-        // Send a POST request with the form data
-        const response = await fetch(`${import.meta.env.VITE_BASE_UR}/details/register`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-                mobileNo: mobileNo,
-                gender: gender,
-                age: age,
-                email: email,
-                password: password1,
-            })
+  const { firstName, lastName, phone, gender, age, email, password1, password2, country } = formData.value;
+  
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        await registerUser({
+            email,
+          firstName,
+          lastName,
+          age,
+          country,
+          phone,
+          gender,
+          latitude,
+          longitude,
+          password:password1,
+          password_confirmation:password2
         });
 
         // Log the current values before resetting
-        console.log({
-            firstName,
-            lastName,
-            email,
-            mobileNo,
-            gender,
-            age,
-            password1,
-            termsAndConditions,
-        });
+        console.log({ firstName, lastName, email, phone, gender, age, password1, termsAndConditions });
 
-        // Check if the response is successful
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Registration successful:", data);
-           formData.value = {
-        firstName: "",
-        lastName: "",
-        email: "",
-        mobileNo: { phoneNumber: "", countryCode: "" },
-        gender: "",
-        age: "",
-        password1: "",
-        password2: "",
-        termsAndConditions: false
-    }
-    
-    currentStep.value = 1;
-        } else {
-            const errorData = await response.json();
-            console.error("Error during registration:", errorData);
-            // Handle error (e.g., display an error message to the user)
-        }
-    } catch (error) {
-        console.error("Network or server error:", error);
-        // Handle the network or other unexpected errors
-    }
+        // Reset the form data
+        formData.value = {
+          firstName: "",
+          lastName: "",
+          phone: "",
+          country: "",
+          gender: "",
+          age: "",
+          email: "",
+          password1: "",
+          password2: "",
+          termsAndConditions: false
+        };
+        currentStep.value = 1;
+      },
+      (error) => {
+        console.error("Error getting location", error);
+        alert("Unable to retrieve location. Please enable location services and try again.");
+      }
+    );
+  } else {
+    alert("Geolocation is not supported by your browser.");
+  }
 };
 
 const isPasswordVisible = ref(false)
@@ -126,7 +137,7 @@ const togglePasswordVisibility = () => {
                     </div>
                     <div class="flex items-center space-x-2 w-full">
                         <!-- Country Code Select -->
-                        <select v-model="formData.mobileNo.countryCode"
+                        <select v-model="formData.country"
                             class="w-[30%] text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded">
                             <option value="">+234 </option>
                             <option value="+1">+234 (NGA)</option>
@@ -139,7 +150,7 @@ const togglePasswordVisibility = () => {
                             <!-- Add more country codes as needed -->
                         </select>
 
-                        <input type="text" v-model="formData.mobileNo.phoneNumber" placeholder="Mobile Number"
+                        <input type="text" v-model="formData.phone.phoneNumber" placeholder="Mobile Number"
                             class="w-[70%] text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                     </div>
 
@@ -153,8 +164,9 @@ const togglePasswordVisibility = () => {
                         </select>
                     </div>
                     <div class="w-full">
+
                         <input type="number" v-model="formData.age"
-                            class="w-full text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
+                            class="w-full text-[#6A6A6A] font-semibold bg-light bg-opacity-20 p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" placeholder="Age" />
 
                     </div>
                 </div>
