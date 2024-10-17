@@ -59,19 +59,19 @@ const signUpFormSubmitHandler = async () => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        // await registerUser({
-        //   email: email,
-        //   firstName: firstName,
-        //   lastName: lastName,
-        //   age: age,
-        //   country: country,
-        //   phone: phone,
-        //   gender: gender,
-        //   latitude: latitude,
-        //   longitude: longitude,
-        //   password: password1,
-        //   password_confirmation: password2
-        // });
+        await registerUser({
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          age: age,
+          country: country,
+           phone: `+${country}${phone}`,
+          gender: gender,
+          latitude: latitude,
+          longitude: longitude,
+          password: password1,
+          password_confirmation: password2
+        });
         console.log({
           email: email,
           firstName: firstName,
