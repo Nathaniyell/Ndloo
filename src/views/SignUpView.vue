@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue"
 import logo from "@/assets/images/ndloo.png";
+import logo2 from "@/assets/images/red-logo.png";
 import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
@@ -118,11 +119,13 @@ const togglePasswordVisibility = () => {
 
 <template>
 
-    <main class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
+    <main class="font-inter md:flex md:items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
         <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
+        <img class="md:hidden mx-auto" :src="logo2" alt="logo" />
+
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="signUpFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-10 lg:gap-8">
 
