@@ -120,13 +120,13 @@ watch(() => route.path, (newPath) => {
           </RouterLink>
         </div>
 
-        <div v-show="showMore"
+        <div v-if="showMore"
           class="flex bg-black h-screen w-full left-0 overflow-y-scroll absolute bottom-0 flex-col p-4 gap-6 md:hidden">
           <section class="w-full flex items-center justify-between">
             <h4 class="text-white text-xl">More</h4>
             <button
             @click="setShowMore"
-              class="bg-white text-primary3 grid place-items-center text-center text-2xl font-bold h-7 w-8 rounded-full">x</button>
+              class="bg-white text-primary3 text-2xl  h-8 w-8 flex justify-center items-center rounded-full">x</button>
           </section>
           <section class="w-full flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -163,7 +163,7 @@ watch(() => route.path, (newPath) => {
           </button>
 
         </div>
-        <button @click="setShowMore" v-show="screenWidth < 768" title="More"
+        <button v-if="!showMore" @click="setShowMore" v-show="screenWidth < 768" title="More"
           class="mt-auto p-2 hover:translate-x-2 transition-all ease-in-out duration-200 w-fit flex flex-col md:flex-row justify-center md:justify-start items-center md:space-x-2 text-light hover:text-white">
           <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.97"
