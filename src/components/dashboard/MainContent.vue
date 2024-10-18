@@ -7,12 +7,8 @@ import { useShowFilterStore } from "@/store/state";
 
 const showFilterStore = useShowFilterStore()
 const route = useRoute();
-const showFilter = ref(false);
 const loading = ref(true);
 
-const toggleFilter = () => {
-    showFilter.value = !showFilter.value;
-};
 
 
 function handleLoad() {
