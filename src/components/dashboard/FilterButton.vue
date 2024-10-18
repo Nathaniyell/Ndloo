@@ -1,5 +1,5 @@
 <script setup>
-import { filterIcon } from "@/data/data"
+import { filterIcon } from "@/store/data"
 const props = defineProps({
     showFilter: Boolean
 });

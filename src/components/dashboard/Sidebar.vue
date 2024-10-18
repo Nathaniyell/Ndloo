@@ -3,22 +3,22 @@ import NavItem from "./NavItem.vue";
 import MoreItems from "./MoreItems.vue";
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
-import {logo, moreIcon, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/data/data"; // Import relevant assets
+import { logo, moreIcon, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/store/data"; // Import relevant assets
+import { useShowMoreStore } from "@/store/state";
 
-const showMore = ref(false);
-const setShowMore = () => showMore.value = !showMore.value;
+const showMoreStore = useShowMoreStore(); 
 const screenWidth = ref(window.innerWidth);
 
 const updateScreenWidth = () => {
-  screenWidth.value = window.innerWidth;
+    screenWidth.value = window.innerWidth;
 };
 
 onMounted(() => {
-  window.addEventListener('resize', updateScreenWidth);
+    window.addEventListener('resize', updateScreenWidth);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateScreenWidth);
+    window.removeEventListener('resize', updateScreenWidth);
 });
 
 const displayedNavItems = computed(() => screenWidth.value >= 768 ? navItems : navItems.slice(0, 4));
@@ -26,7 +26,6 @@ const logout = () => {
     // handle logout
 };
 </script>
-
 
 <template>
     <aside
@@ -40,18 +39,18 @@ const logout = () => {
             <NavItem v-for="item in displayedNavItems" :key="item.path" :item="item" />
         </nav>
 
-        <MoreItems v-if="showMore" :navItems="navItems.slice(4, 8)" :moreItems="moreItems" @toggleMore="setShowMore" />
+        <MoreItems v-if="showMoreStore.showMore" :navItems="navItems.slice(4, 8)" :moreItems="moreItems" />
 
-        <button class="text-light hover:text-white md:hidden" v-if="!showMore" @click="setShowMore" >
-            <img class="w-5 h-5 !text-white"  :src="moreIcon" alt="Icon" />
+        <button type="button" class="text-light hover:text-white md:hidden" v-if="!showMoreStore.showMore" @click="showMoreStore.toggleShowMore">
+            <img class="w-5 h-5 !text-white" :src="moreIcon" alt="Icon" />
             <span class="hidden md:block">More</span>
         </button>
-        
+
         <div class="hidden md:flex md:flex-col md:!mt-4">
             <NavItem :item="{ path: '/dashboard/settings', label: 'Settings', icon: settingsIcon }" />
 
             <button @click="logout" title="Logout"
-            class="flex flex-col md:flex-row items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white">
+                class="flex flex-col md:flex-row items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white">
                 <img class="h-5 w-5" :src="logoutIcon" alt="Logout" /> Logout
             </button>
         </div>

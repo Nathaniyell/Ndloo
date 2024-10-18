@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import VueSplide from '@splidejs/vue-splide';
+import { createPinia } from 'pinia'
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -18,10 +19,12 @@ import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-ico
 /* add icons to the library */
 library.add(faTwitter, faInstagram, faFacebook, faYoutube, faEye, faEyeSlash, faPhone, faLocation, faEnvelope, faLocationDot)
 
+const pinia = createPinia()
 const app = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(router);
 app.use( VueSplide );
+app.use(pinia)
 
 app.mount('#app');
