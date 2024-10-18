@@ -3,7 +3,7 @@ import NavItem from "./NavItem.vue";
 import MoreItems from "./MoreItems.vue";
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { logo, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/data/data"; // Import relevant assets
+import { moreIcon, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/data/data"; // Import relevant assets
 
 const showMore = ref(false);
 const setShowMore = () => showMore.value = !showMore.value;
@@ -30,13 +30,17 @@ const logout = () => {
 
         <MoreItems v-if="showMore" :navItems="navItems.slice(4, 8)" :moreItems="moreItems" @toggleMore="setShowMore" />
 
-        <button v-if="!showMore" @click="setShowMore" class="more-button">More</button>
+        <button class="text-light hover:text-white md:hidden size-full bg-white" v-if="!showMore" @click="setShowMore" >
+            <img class="w-5 h-5 !text-white"  :src="moreIcon" alt="Icon" />
+            <span class="hidden md:block">More</span>
+        </button>
         
         <div class="hidden md:flex md:flex-col md:!mt-4">
             <NavItem :item="{ path: '/dashboard/settings', label: 'Settings', icon: settingsIcon }" />
 
-            <button @click="logout" class="logout-button">
-                <img :src="logoutIcon" alt="Logout" /> Logout
+            <button @click="logout" title="Logout"
+            class="flex flex-col md:flex-row items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white">
+                <img class="h-5 w-5" :src="logoutIcon" alt="Logout" /> Logout
             </button>
         </div>
     </aside>
