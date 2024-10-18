@@ -7,7 +7,7 @@ const props = defineProps({
 
 
 <template>
-    <button @click="$emit('toggleFilter')" class="filter-button">
+    <button @click="$emit('toggleFilter')" class="h-8 w-8">
         <img :src="filterIcon" alt="Icon" />
     </button>
 </template>

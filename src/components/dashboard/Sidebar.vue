@@ -1,13 +1,25 @@
 <script setup>
 import NavItem from "./NavItem.vue";
 import MoreItems from "./MoreItems.vue";
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import {logo, moreIcon, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/data/data"; // Import relevant assets
 
 const showMore = ref(false);
 const setShowMore = () => showMore.value = !showMore.value;
 const screenWidth = ref(window.innerWidth);
+
+const updateScreenWidth = () => {
+  screenWidth.value = window.innerWidth;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', updateScreenWidth);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateScreenWidth);
+});
 
 const displayedNavItems = computed(() => screenWidth.value >= 768 ? navItems : navItems.slice(0, 4));
 const logout = () => {
