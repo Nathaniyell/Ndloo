@@ -3,7 +3,9 @@ import { useRoute } from "vue-router";
 import Header from "./Header.vue";
 import Filter from "../Filter.vue";
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import { useShowFilterStore } from "@/store/state";
 
+const showFilterStore = useShowFilterStore()
 const route = useRoute();
 const showFilter = ref(false);
 const loading = ref(true);
@@ -29,9 +31,9 @@ onBeforeUnmount(() => {
 
 
 <template>
-    <main  class="relative w-full md:w-3/4 ml-0 md:ml-auto pb-20 md:pb-0" :class="showFilter ? '' : 'bg-light'"
-    :style="showFilter && route.path === '/dashboard/' ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}">
-      <Header :toggleFilter="toggleFilter" />
+    <main  class="relative w-full md:w-3/4 ml-0 md:ml-auto pb-20 md:pb-0" :class="showFilterStore.showFilter ? '' : 'bg-light'"
+    :style="showFilterStore.showFilter && route.path === '/dashboard/' ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}">
+      <Header :toggleFilter="showFilterStore.toggleShowFilter" />
       <div v-if="loading"
         class="inset-0 grid place-content-center min-h-screen items-center justify-center z-50 w-full">
         <!-- Loading Spinner -->
@@ -39,8 +41,8 @@ onBeforeUnmount(() => {
           role="status"></div>
       </div>
       <div v-if="!loading">
-        <RouterView v-if="route.path !== '/dashboard/' || !showFilter" />
-        <Filter v-if="showFilter && route.path === '/dashboard/'" :closeFilter="toggleFilter" />
+        <RouterView v-if="route.path !== '/dashboard/' || !showFilterStore.showFilter" />
+        <Filter v-if="showFilterStore.showFilter && route.path === '/dashboard/'" :closeFilter="showFilterStore.toggleShowFilter" />
       </div>
     </main>
   </template>
