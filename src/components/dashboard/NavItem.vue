@@ -3,7 +3,9 @@
 import { useRoute } from 'vue-router';
   
   const props = defineProps({
-    item: Object
+    item: Object,
+    containerStyle: String,
+    labelStyle: String
   });
   
   const route = useRoute();
@@ -16,9 +18,9 @@ import { useRoute } from 'vue-router';
 
 
 <template>
-    <RouterLink :to="item.path" :class="activeClass">
+    <RouterLink :to="item.path" :class="[activeClass, containerStyle]">
       <img class="w-5 h-5 !text-white"  :src="item.icon" alt="Icon" />
-      <span class="hidden md:block">{{ item.label }}</span>
+      <span :class="[labelStyle,'hidden md:block']">{{ item.label }}</span>
     </RouterLink>
   </template>
   

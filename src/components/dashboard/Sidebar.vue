@@ -42,7 +42,7 @@ const logout = () => {
 
         <MoreItems v-if="showMore" :navItems="navItems.slice(4, 8)" :moreItems="moreItems" @toggleMore="setShowMore" />
 
-        <button class="text-light hover:text-white md:hidden size-full bg-white" v-if="!showMore" @click="setShowMore" >
+        <button class="text-light hover:text-white md:hidden" v-if="!showMore" @click="setShowMore" >
             <img class="w-5 h-5 !text-white"  :src="moreIcon" alt="Icon" />
             <span class="hidden md:block">More</span>
         </button>
