@@ -3,10 +3,12 @@ import { onMounted, ref } from "vue"
 import logo from "@/assets/images/ndloo.png";
 import logo2 from "@/assets/images/red-logo.png";
 import loginBg from "@/assets/images/loginBg.png"
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
 
+
+const router = useRouter();
 const formData = ref({
   firstName: "",
   lastName: "",
@@ -82,22 +84,9 @@ const signUpFormSubmitHandler = async () => {
           });
 
           // Success handling
-          successMessage.value = response.message
-                 // Log the details and reset the form
-          console.log({
-            email,
-            firstname: firstName,
-            lastname: lastName,
-            age,
-            country,
-            phone: `+${country}${phone}`,
-            gender,
-            latitude,
-            longitude,
-            password: password1,
-            password_confirmation: password2
-          });
-
+          successMessage.value = response.message || "Registration successful!"
+          await router.push({name: "otp", state:{email: email}})  
+          
           formData.value = {
             firstName: "",
             lastName: "",
@@ -111,6 +100,7 @@ const signUpFormSubmitHandler = async () => {
             termsAndConditions: false
           };
           currentStep.value = 1;
+                   
         } catch (error) {
           // Handle any errors during the registration process
           console.error("Registration error:", error);
