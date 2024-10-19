@@ -9,7 +9,7 @@ const countDown = ref(60);
 let timer = null;
 const isButtonDisabled = ref(false);
 const route = useRoute();
-const email = route?.state?.email || "No email provided";
+const email = route?.state?.email || "No email provided"; // Safely access email from route state
 
 const startCountdown = () => {
   isButtonDisabled.value = true;
@@ -58,8 +58,6 @@ const verifyOTP = () => {
   alert(`email: ${email}`);
 };
 </script>
-
-
 <template>
     <main class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
       <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"

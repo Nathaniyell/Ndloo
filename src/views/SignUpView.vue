@@ -6,119 +6,125 @@ import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink, useRouter } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 
 const router = useRouter();
 const formData = ref({
-  firstName: "",
-  lastName: "",
-  phone: "",
-  country: "",
-  gender: "",
-  age: "",
-  email: "",
-  password1: "",
-  password2: "",
-  termsAndConditions: false
+    firstName: "",
+    lastName: "",
+    phone: "",
+    country: "",
+    gender: "",
+    age: "",
+    email: "",
+    password1: "",
+    password2: "",
+    termsAndConditions: false
 });
 const currentStep = ref(1);
 const countries = ref([]);
 const totalSteps = 2;
 const errorMessage = ref(null);
 const successMessage = ref(null);
+const isSubmitting = ref(false);
 
 const nextStep = () => {
-  if (currentStep.value < totalSteps) {
-    currentStep.value += 1;
-  }
+    if (currentStep.value < totalSteps) {
+        currentStep.value += 1;
+    }
 };
 
 const prevStep = () => {
-  if (currentStep.value > 1) {
-    currentStep.value -= 1;
-  }
+    if (currentStep.value > 1) {
+        currentStep.value -= 1;
+    }
 };
 
 // Fetch countries and extract iso3 and phonecode
 onMounted(async () => {
-  try {
-    const countriesData = await getCountries();
-    if (countriesData.status === "success" && countriesData.data) {
-      countries.value = countriesData.data.countries.map(country => ({
-        iso3: country.iso3,
-        phonecode: country.phonecode
-      }));
-    //   console.log(countries.value); 
-      successMessage.value = "Successfully fetched Countries data"
+    try {
+        const countriesData = await getCountries();
+        if (countriesData.status === "success" && countriesData.data) {
+            countries.value = countriesData.data.countries.map(country => ({
+                iso3: country.iso3,
+                phonecode: country.phonecode
+            }));
+            //   console.log(countries.value); 
+            successMessage.value = "Successfully fetched Countries data"
+        }
+    } catch (error) {
+        console.error("Error fetching countries:", error);
+        errorMessage.value = error.message
     }
-  } catch (error) {
-    console.error("Error fetching countries:", error);
-    errorMessage.value = error.message
-  }
 });
 
 const signUpFormSubmitHandler = async () => {
-  const { firstName, lastName, phone, gender, age, email, password1, password2, country } = formData.value;
+    isSubmitting.value = true;
+    const { firstName, lastName, phone, gender, age, email, password1, password2, country } = formData.value;
+    // Check if geolocation is available
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
 
-  // Check if geolocation is available
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
+                try {
+                    // Attempt to register the user
+                    const response = await registerUser({
+                        email: email,
+                        firstname: firstName,
+                        lastname: lastName,
+                        age: age,
+                        country: country,
+                        phone: `+${country}${phone}`,
+                        gender: gender,
+                        latitude: `${latitude}`,
+                        longitude: `${longitude}`,
+                        password: password1,
+                        password_confirmation: password2
+                    });
 
-        try {
-          // Attempt to register the user
-          const response = await registerUser({
-            email: email,
-            firstname: firstName,
-            lastname: lastName,
-            age: age,
-            country: country,
-            phone: `+${country}${phone}`,
-            gender: gender,
-            latitude: `${latitude}`,
-            longitude: `${longitude}`,
-            password: password1,
-            password_confirmation: password2
-          });
+                    // Success handling
+                    successMessage.value = response.message || "Registration successful!"
+                    setTimeout(async () => {
+                        await router.push({ name: "otp", query: { email: email } });
+                    }, 5000); // 5000ms equals 5 seconds
 
-          // Success handling
-          successMessage.value = response.message || "Registration successful!"
-          await router.push({name: "otp", state:{email: email}})  
-          
-          formData.value = {
-            firstName: "",
-            lastName: "",
-            phone: "",
-            country: "",
-            gender: "",
-            age: "",
-            email: "",
-            password1: "",
-            password2: "",
-            termsAndConditions: false
-          };
-          currentStep.value = 1;
-                   
-        } catch (error) {
-          // Handle any errors during the registration process
-          console.error("Registration error:", error);
-          errorMessage.value = error?.message || "Registration failed. Please try again.";
-        }
-      },
-      (error) => {
-        // Handle location errors
-        console.error("Error getting location:", error);
-        errorMessage.value = "Unable to retrieve location. Please enable location services and try again.";
+
+                    formData.value = {
+                        firstName: "",
+                        lastName: "",
+                        phone: "",
+                        country: "",
+                        gender: "",
+                        age: "",
+                        email: "",
+                        password1: "",
+                        password2: "",
+                        termsAndConditions: false
+                    };
+                    currentStep.value = 1;
+
+                } catch (error) {
+                    // Handle any errors during the registration process
+                    isSubmitting.value = false
+                    console.error("Registration error:", error);
+                    errorMessage.value = error?.message || "Registration failed. Please try again.";
+                }
+            },
+            (error) => {
+                // Handle location errors
+                console.error("Error getting location:", error);
+                errorMessage.value = "Unable to retrieve location. Please enable location services and try again.";
+                alert(errorMessage.value);
+            }
+        );
+    } else {
+        // Geolocation not supported
+        errorMessage.value = "Geolocation is not supported by your browser.";
         alert(errorMessage.value);
-      }
-    );
-  } else {
-    // Geolocation not supported
-    errorMessage.value = "Geolocation is not supported by your browser.";
-    alert(errorMessage.value);
-  }
+    }
 };
 
 
@@ -132,12 +138,12 @@ const togglePasswordVisibility = () => {
 
     <main class="font-inter md:flex md:items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
         <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
-        :style="{ backgroundImage: `url(${loginBg})` }">
-        <img :src="logo" alt="logo" />
-    </div>
-    
-    
-    <FormToast :error="errorMessage" :success="successMessage" />
+            :style="{ backgroundImage: `url(${loginBg})` }">
+            <img :src="logo" alt="logo" />
+        </div>
+
+
+        <FormToast :error="errorMessage" :success="successMessage" />
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="signUpFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-10 lg:gap-8">
 
@@ -237,9 +243,10 @@ const togglePasswordVisibility = () => {
                         class="bg-white text-primary3 p-3 font-semibold w-full text-center grid place-items-center border border-[#C9C9C9] outline-none rounded ">
                         Previous
                     </button>
-                    <button v-if="currentStep === 2" type="submit"
-                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                        Sign Up
+                    <button v-if="currentStep === 2" :disabled="isSubmitting" type="submit"
+                        class="relative bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded">
+                        <span v-if="!isSubmitting">Sign Up</span>
+                       <LoadingSpinner v-if="isSubmitting" />
                     </button>
                     <label class="text-sm">Already have an account? <RouterLink to="/login"
                             class="text-primary3 font-semibold text-base">Login</RouterLink></label>
@@ -253,3 +260,4 @@ const togglePasswordVisibility = () => {
         </form>
     </main>
 </template>
+
