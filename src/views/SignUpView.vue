@@ -58,67 +58,80 @@ onMounted(async () => {
 const signUpFormSubmitHandler = async () => {
   const { firstName, lastName, phone, gender, age, email, password1, password2, country } = formData.value;
 
+  // Check if geolocation is available
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        await registerUser({
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          age: age,
-          country: country,
-           phone: `+${country}${phone}`,
-          gender: gender,
-          latitude: latitude,
-          longitude: longitude,
-          password: password1,
-          password_confirmation: password2
-        });
-        successMessage.value = "Registration successful!";
-        console.log({
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          age: age,
-          country: country,
-          phone: `+${country}${phone}`,
-          gender: gender,
-          latitude: latitude,
-          longitude: longitude,
-          password: password1,
-          password_confirmation: password2
-        });
-        toastMessage
+        try {
+          // Attempt to register the user
+          await registerUser({
+            email: email,
+            firstname: firstName,
+            lastname: lastName,
+            age: age,
+            country: country,
+            phone: `+${country}${phone}`,
+            gender: gender,
+            latitude: `${latitude}`,
+            longitude: `${longitude}`,
+            password: password1,
+            password_confirmation: password2
+          });
 
-        // Reset the form data
-        formData.value = {
-          firstName: "",
-          lastName: "",
-          phone: "",
-          country: "",
-          gender: "",
-          age: "",
-          email: "",
-          password1: "",
-          password2: "",
-          termsAndConditions: false
-        };
-        currentStep.value = 1;
+          // Success handling
+          successMessage.value = "Registration successful!";
+        
+          // Log the details and reset the form
+          console.log({
+            email,
+            firstname: firstName,
+            lastname: lastName,
+            age,
+            country,
+            phone: `+${country}${phone}`,
+            gender,
+            latitude,
+            longitude,
+            password: password1,
+            password_confirmation: password2
+          });
+
+          formData.value = {
+            firstName: "",
+            lastName: "",
+            phone: "",
+            country: "",
+            gender: "",
+            age: "",
+            email: "",
+            password1: "",
+            password2: "",
+            termsAndConditions: false
+          };
+          currentStep.value = 1;
+        } catch (error) {
+          // Handle any errors during the registration process
+          console.error("Registration error:", error);
+          errorMessage.value = error?.message || "Registration failed. Please try again.";
+        }
       },
       (error) => {
-        console.error("Error getting location", error);
-        errorMessage.value = error.message
-        alert("Unable to retrieve location. Please enable location services and try again.");
+        // Handle location errors
+        console.error("Error getting location:", error);
+        errorMessage.value = "Unable to retrieve location. Please enable location services and try again.";
+        alert(errorMessage.value);
       }
     );
   } else {
-    errorMessage.value = "Geolocation is not supported by your browser."
-    alert("Geolocation is not supported by your browser.");
+    // Geolocation not supported
+    errorMessage.value = "Geolocation is not supported by your browser.";
+    alert(errorMessage.value);
   }
 };
+
 
 const isPasswordVisible = ref(false)
 const togglePasswordVisibility = () => {
@@ -129,18 +142,19 @@ const togglePasswordVisibility = () => {
 <template>
 
     <main class="font-inter md:flex md:items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
-        <FormToast :error="errorMessage" :success="successMessage" />
         <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
-            :style="{ backgroundImage: `url(${loginBg})` }">
-            <img :src="logo" alt="logo" />
-        </div>
-        <img class="md:hidden mx-auto" :src="logo2" alt="logo" />
-
+        :style="{ backgroundImage: `url(${loginBg})` }">
+        <img :src="logo" alt="logo" />
+    </div>
+    
+    
+    <FormToast :error="errorMessage" :success="successMessage" />
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="signUpFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-10 lg:gap-8">
 
 
                 <div class="flex flex-col space-y-2 text-center">
+                    <img class="md:hidden mx-auto" :src="logo2" alt="logo" />
                     <h1 class="text-4xl font-semibold">Create an account </h1>
                     <p class="text-[#6A6A6A]">Let the love journey begin now</p>
                 </div>
