@@ -46,7 +46,7 @@ onMounted(async () => {
         iso3: country.iso3,
         phonecode: country.phonecode
       }));
-      console.log(countries.value); // Check the extracted data in the console
+    //   console.log(countries.value); 
       successMessage.value = "Successfully fetched Countries data"
     }
   } catch (error) {
@@ -67,7 +67,7 @@ const signUpFormSubmitHandler = async () => {
 
         try {
           // Attempt to register the user
-          await registerUser({
+          const response = await registerUser({
             email: email,
             firstname: firstName,
             lastname: lastName,
@@ -82,9 +82,8 @@ const signUpFormSubmitHandler = async () => {
           });
 
           // Success handling
-          successMessage.value = "Registration successful!";
-        
-          // Log the details and reset the form
+          successMessage.value = response.message
+                 // Log the details and reset the form
           console.log({
             email,
             firstname: firstName,
