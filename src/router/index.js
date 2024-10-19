@@ -49,6 +49,7 @@ const router = createRouter({
       path: '/otp',
       name: 'otp',
       component: OTPView,
+      // props: true,
       meta: { showNavbarAndFooter: false },
       // meta: { showNavbarAndFooter: false, requiresAuth: true  },
     },

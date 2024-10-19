@@ -9,10 +9,10 @@
 <style scoped>
 .loading-spinner {
     border: 2px solid #f3f3f3;
-    border-top: 2px solid green;
+    border-top: 2px solid black;
     border-radius: 50%;
-    width: 16px;
-    height: 16px;
+    width: 30px;
+    height: 30px;
     animation: spin 1s linear infinite;
 }
 

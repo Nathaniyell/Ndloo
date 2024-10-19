@@ -88,9 +88,8 @@ const signUpFormSubmitHandler = async () => {
                     // Success handling
                     successMessage.value = response.message || "Registration successful!"
                     setTimeout(async () => {
-                        await router.push({ name: "otp", query: { email: email } });
-                    }, 5000); // 5000ms equals 5 seconds
-
+                        await router.push({ name: "otp", state: { email: email } });
+                    }, 5000);
 
                     formData.value = {
                         firstName: "",
@@ -246,7 +245,7 @@ const togglePasswordVisibility = () => {
                     <button v-if="currentStep === 2" :disabled="isSubmitting" type="submit"
                         class="relative bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded">
                         <span v-if="!isSubmitting">Sign Up</span>
-                       <LoadingSpinner v-if="isSubmitting" />
+                        <LoadingSpinner v-if="isSubmitting" />
                     </button>
                     <label class="text-sm">Already have an account? <RouterLink to="/login"
                             class="text-primary3 font-semibold text-base">Login</RouterLink></label>
@@ -260,4 +259,3 @@ const togglePasswordVisibility = () => {
         </form>
     </main>
 </template>
-
