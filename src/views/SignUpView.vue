@@ -97,7 +97,7 @@ const signUpFormSubmitHandler = async () => {
                     isLoading.value = true
                     setTimeout(async () => {
                         await router.push({ path: "/otp", state: { email: response.data.email } });
-                    }, 500);
+                    }, 5000);
 
                     formData.value = {
                         firstName: "",
