@@ -2,16 +2,41 @@
 import { ref } from "vue"
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
+import { userLoginWithOtp } from "@/composables/FetchData";
+import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
+import { useRouter } from "vue-router";
+import FormToast from "@/components/FormToast.vue";
 
 
-const loginFormData = ref({
-    email: "",
+const email = ref("")
+const errorMessage = ref(null);
+const successMessage = ref(null);
+const isSubmitting = ref(false);
+const isLoading = ref(false);
+const router = useRouter()
 
+const loginFormSubmitHandler = async() => {
+    isSubmitting.value = true;
+    try{
+
+const response = await userLoginWithOtp({
+    email: email.value
 })
-
-const loginFormSubmitHandler = () => {
+        
+    successMessage.value = response?.message || "OTP  sent!";
+    isLoading.value = true
+    setTimeout(async () => {
+      await router.push("/otp"); // Redirect to dashboard after success
+    }, 5000);
+    }catch(error){
+        console.error("OTP error:", error);
+    errorMessage.value = error?.message || "OTP Verification failed. Please try again.";
+  } finally {
+    isSubmitting.value = false;
+    isLoading.value = false
+  }
         console.log({
-        email: loginFormData.value.email,
+        email: email.value,
 
     });
 
@@ -29,7 +54,9 @@ const loginFormSubmitHandler = () => {
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
-        <form class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
+        <FormToast v-if="!isLoading" :error="errorMessage" :success="successMessage" />
+        <LoadingSpinner :loading="isLoading" />
+        <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
             @submit.prevent="loginFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
 
@@ -41,7 +68,7 @@ const loginFormSubmitHandler = () => {
                 <div class="grid space-y-8 md:space-y-10">
                     <div class="relative">
 
-                        <input v-model="loginFormData.email" required type="email" placeholder="Email"
+                        <input v-model="email" required type="email" placeholder="Email"
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3  pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                         <button
                             class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
@@ -53,15 +80,16 @@ const loginFormSubmitHandler = () => {
                                 <path
                                     d="M27 19.5C22.86 19.5 19.5 22.845 19.5 27C19.5 31.14 22.86 34.5 27 34.5C31.155 34.5 34.5 31.14 34.5 27C34.5 22.845 31.155 19.5 27 19.5ZM30.075 26.325L29.52 26.865L26.25 30.15C26.1 30.285 25.815 30.435 25.605 30.465L24.135 30.675C23.61 30.75 23.235 30.375 23.31 29.85L23.52 28.38C23.55 28.17 23.685 27.885 23.835 27.735L27.105 24.48L27.645 23.925C28.005 23.565 28.41 23.325 28.83 23.325C29.19 23.325 29.595 23.49 30.045 23.925C31.05 24.9 30.735 25.665 30.075 26.325Z"
                                     fill="#E68D8D" />
-                            </svg>
+                            </svg> 
                         </button>
                     </div>
 
 
 
-                    <button type="submit"
+                    <button :disabled="isSubmitting" type="submit"
                         class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                        Get Code
+                        {{ isSubmitting? "Submitting..." : "Get Code"}}
+                        
                     </button>
 
 

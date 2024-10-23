@@ -32,6 +32,20 @@ export const loginUser = async (loginData) => {
         throw new Error(error.response?.data?.message || "Login failed");
     }
 };
+export const userLoginWithOtp = async (email) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/otp/login`, email, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        return response.data; // Return response data if successful
+    } catch (error) {
+        console.error("Error during login:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Login failed");
+    }
+};
 export const verifyEmailOtp = async (otpData) => {
     try {
         const response = await axios.post(`${BASE_URL}/email/verify`, otpData, {
@@ -48,7 +62,7 @@ export const verifyEmailOtp = async (otpData) => {
 };
 export const verifyLoginOtp = async (otpData) => {
     try {
-        const response = await axios.post(`${BASE_URL}/email/verify`, otpData, {
+        const response = await axios.post(`${BASE_URL}/otp/verify`, otpData, {
             headers: {
                 "Content-Type": "application/json"
             }

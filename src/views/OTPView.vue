@@ -89,7 +89,7 @@ const verifyOTP = async () => {
     successMessage.value = response?.message || "OTP Verification successful!";
     setTimeout(async () => {
       await router.push("/dashboard"); // Redirect to dashboard after success
-    }, 500);
+    }, 5000);
   } catch (error) {
     console.error("OTP error:", error);
     errorMessage.value = error?.message || "OTP Verification failed. Please try again.";
