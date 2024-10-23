@@ -21,40 +21,41 @@ const isSubmitting = ref(false);
 
 const loginFormSubmitHandler = async () => {
     isSubmitting.value = true;
-const { email, password } = loginFormData.value;
+    const { email, password } = loginFormData.value;
 
-try {
-    const response = await loginUser({
-        email: email,
-        password: password,
-    });
-    successMessage.value = response.message || "Registration successful!";
-
-    setTimeout(async () => {
-        await router.push({ 
-            path: "/dashboard", 
-            state: { email: email } 
+    try {
+        const response = await loginUser({
+            email: email,
+            password: password,
         });
-    }, 5000);
-} catch (error) {
-    console.error("Registration error:", error);
-    errorMessage.value = error?.message || "Registration failed. Please try again.";
-} finally {
-    // Ensure that isSubmitting is set to false in both success and error cases
-    isSubmitting.value = false;
-}
+        successMessage.value = response.message || "Registration successful!";
 
-// Log the current values before resetting
-console.log({
-    email: loginFormData.value.email,
-    password: loginFormData.value.password,
-    rememberMe: loginFormData.value.rememberMe
-});
+        setTimeout(async () => {
+            await router.push({
+                path: "/dashboard",
+                state: { email: email }
+            });
+        }, 5000);
+        // Reset the form data
+        loginFormData.value.email = "";
+        loginFormData.value.password = "";
+        loginFormData.value.rememberMe = false
+    } catch (error) {
+        console.error("Registration error:", error);
+        errorMessage.value = error?.message || "Registration failed. Please try again.";
+    } finally {
+        // Ensure that isSubmitting is set to false in both success and error cases
+        isSubmitting.value = false;
+    }
 
-// Reset the form data
-loginFormData.value.email = "";
-loginFormData.value.password = "";
-loginFormData.value.rememberMe = false
+    // Log the current values before resetting
+    console.log({
+        email: loginFormData.value.email,
+        password: loginFormData.value.password,
+        rememberMe: loginFormData.value.rememberMe
+    });
+
+
 }
 
 // Toggle visibility of the password
@@ -66,8 +67,7 @@ const togglePasswordVisibility = () => {
 
 <template>
 
-    <main
-        class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
+    <main class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
         <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
@@ -86,7 +86,8 @@ const togglePasswordVisibility = () => {
 
                         <input v-model="loginFormData.email" required type="email" placeholder="Email"
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3  pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
-                        <button class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                        <button
+                            class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
                             <svg width="24" height="24" viewBox="0 0 36 36" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -123,24 +124,27 @@ const togglePasswordVisibility = () => {
                 </div>
                 <section class="flex flex-col space-y-5 items-center text-[#6A6A6A]">
                     <div class="flex gap-3 items-center w-full">
-                     <span class="flex-1 bg-[#656565] h-[0.1rem]"></span>
-                     or
-                     <span class="flex-1 bg-[#656565] h-[0.1rem]"></span>
+                        <span class="flex-1 bg-[#656565] h-[0.1rem]"></span>
+                        or
+                        <span class="flex-1 bg-[#656565] h-[0.1rem]"></span>
                     </div>
 
 
-                    <RouterLink class="bg-transparent text-[#656565] p-3 font-semibold !border w-full text-center grid place-items-center rounded border-[#C9C9C9]"
+                    <RouterLink
+                        class="bg-transparent text-[#656565] p-3 font-semibold !border w-full text-center grid place-items-center rounded border-[#C9C9C9]"
                         to="/otp-login">
                         Login with OTP
                     </RouterLink>
                 </section>
                 <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
-                  
-                    <button :disabled="isSubmitting" type="submit" class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
+
+                    <button :disabled="isSubmitting" type="submit"
+                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
                         <span v-if="!isSubmitting">Log in</span>
                         <LoadingSpinner v-if="isSubmitting" />
                     </button>
-                    <label class="text-sm">Don't have an account?  <RouterLink to="/signup" class="text-primary3 font-semibold text-base">Sign up</RouterLink></label>
+                    <label class="text-sm">Don't have an account? <RouterLink to="/signup"
+                            class="text-primary3 font-semibold text-base">Sign up</RouterLink></label>
                 </section>
             </div>
         </form>
