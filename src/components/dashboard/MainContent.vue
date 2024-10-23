@@ -4,6 +4,7 @@ import Header from "./Header.vue";
 import Filter from "../Filter.vue";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { useShowFilterStore } from "@/store/state";
+import LoadingSpinner from "../LoadingSpinner.vue";
 
 const showFilterStore = useShowFilterStore()
 const route = useRoute();
@@ -30,12 +31,7 @@ onBeforeUnmount(() => {
     <main  class="relative w-full md:w-3/4 ml-0 md:ml-auto pb-20 md:pb-0" :class="showFilterStore.showFilter ? '' : 'bg-light'"
     :style="showFilterStore.showFilter && route.path === '/dashboard/' ? { backgroundImage: `url(${bgDesigned})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}">
       <Header :toggleFilter="showFilterStore.toggleShowFilter" />
-      <div v-if="loading"
-        class="inset-0 grid place-content-center min-h-screen items-center justify-center z-50 w-full">
-        <!-- Loading Spinner -->
-        <div class="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-primary4"
-          role="status"></div>
-      </div>
+     <LoadingSpinner :loading="loading" />
       <div v-if="!loading">
         <RouterView v-if="route.path !== '/dashboard/' || !showFilterStore.showFilter" />
         <Filter v-if="showFilterStore.showFilter && route.path === '/dashboard/'" :closeFilter="showFilterStore.toggleShowFilter" />

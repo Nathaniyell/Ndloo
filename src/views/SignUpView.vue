@@ -30,6 +30,7 @@ const totalSteps = 2;
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const isSubmitting = ref(false);
+const isLoading = ref(false);
 const updateEmail = (newEmail) => {
     signUpEmailStore.email = newEmail;
 
@@ -89,10 +90,11 @@ const signUpFormSubmitHandler = async () => {
                         password: password1,
                         password_confirmation: password2
                     });
-console.log(response)
-updateEmail(response.data.email)
+                    console.log(response)
+                    updateEmail(response.data.email)
                     // Success handling
                     successMessage.value = response.message || "Registration successful!"
+                    isLoading.value = true
                     setTimeout(async () => {
                         await router.push({ path: "/otp", state: { email: response.data.email } });
                     }, 500);
@@ -116,6 +118,9 @@ updateEmail(response.data.email)
                     isSubmitting.value = false
                     console.error("Registration error:", error);
                     errorMessage.value = error?.message || "Registration failed. Please try again.";
+                } finally{
+                    isSubmitting.value = false
+                    isLoading.value = false
                 }
             },
             (error) => {
@@ -147,8 +152,8 @@ const togglePasswordVisibility = () => {
             <img :src="logo" alt="logo" />
         </div>
 
-
-        <FormToast :error="errorMessage" :success="successMessage" />
+        <LoadingSpinner :loading="isLoading" />
+        <FormToast v-if="!isLoading" :error="errorMessage" :success="successMessage" />
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="signUpFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-10 lg:gap-8">
 

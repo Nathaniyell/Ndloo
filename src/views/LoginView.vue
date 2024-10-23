@@ -15,6 +15,8 @@ const loginFormData = ref({
     rememberMe: false
 })
 
+
+
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const isSubmitting = ref(false);
@@ -31,8 +33,8 @@ const loginFormSubmitHandler = async () => {
         });
         successMessage.value = response.message || "Login successful!";
 
+        isLoading.value = true
         setTimeout(async () => {
-            isLoading.value = true
             await router.push(
                 "/dashboard",
             );
@@ -49,14 +51,6 @@ const loginFormSubmitHandler = async () => {
         isSubmitting.value = false;
         isLoading.value = false
     }
-
-    // Log the current values before resetting
-    console.log({
-        email: loginFormData.value.email,
-        password: loginFormData.value.password,
-        rememberMe: loginFormData.value.rememberMe
-    });
-
 
 }
 
@@ -75,7 +69,8 @@ const togglePasswordVisibility = () => {
             <img :src="logo" alt="logo" />
         </div>
         <FormToast :error="errorMessage" :success="successMessage" />
-        <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
+        <LoadingSpinner :loading="isLoading" />
+        <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-12">
 
 
