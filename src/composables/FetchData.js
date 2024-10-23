@@ -32,6 +32,20 @@ export const loginUser = async (loginData) => {
         throw new Error(error.response?.data?.message || "Login failed");
     }
 };
+export const verifyEmailOtp = async (otpData) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/email/verify`, otpData, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        return response.data; // Return response data if successful
+    } catch (error) {
+        console.error("Error during login:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Login failed");
+    }
+};
 
 // Function to handle the GET request for countries
 export const getCountries = async () => {

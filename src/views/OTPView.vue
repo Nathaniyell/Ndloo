@@ -1,7 +1,7 @@
 <script setup>
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
-import { useRoute } from "vue-router";
+import { verifyEmailOtp } from "@/composables/FetchData";
 import { ref, nextTick, onMounted } from "vue";
 import { useSignUpEmailStore } from "@/store/state";
 
@@ -12,6 +12,9 @@ const otp = ref(["", "", "", ""]);
 const countDown = ref(60);
 let timer = null;
 const isButtonDisabled = ref(false);
+const errorMessage = ref(null);
+const successMessage = ref(null);
+const isSubmitting = ref(false);
 
 
 
@@ -56,56 +59,68 @@ const movePrev = (index) => {
   }
 };
 
-const verifyOTP = () => {
+const verifyOTP = async () => {
+  isSubmitting.value = true;
   const otpCode = otp.value.join("");
-  alert(`Entered OTP: ${otpCode}`);
-  alert(`email: ${signUpEmailStore.email}`);
+  try {
+    const response = await verifyEmailOtp({
+      email: signUpEmailStore.email,
+      token: otpCode
+    })
+    successMessage.value = response.message || "OTP Verification successful!"
+    setTimeout(async () => {
+      await router.push("/dashboard");
+    }, 500);
+  } catch (error) {
+    console.error("OTP error:", error);
+    errorMessage.value = error?.message || "OTP Verification failed. Please try again.";
+  } finally {
+    // Ensure that isSubmitting is set to false in both success and error cases
+    isSubmitting.value = false;
+  }
+
+  // alert(`Entered OTP: ${otpCode}`);
+  // alert(`email: ${signUpEmailStore.email}`);
 };
 </script>
 <template>
-    <main class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
-      <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
-        :style="{ backgroundImage: `url(${loginBg})` }">
-        <img :src="logo" alt="logo" />
-      </div>
-      <form class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center" @submit.prevent="loginFormSubmitHandler">
-        <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
-  
-          <div class="flex flex-col space-y-2 text-center">
-            <h1 class="text-4xl font-semibold">Input Code </h1>
-            <p class="text-[#6A6A6A]">Please check your mail for code</p>
+  <main class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
+    <div
+      class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
+      :style="{ backgroundImage: `url(${loginBg})` }">
+      <img :src="logo" alt="logo" />
+    </div>
+    <form class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
+      @submit.prevent="loginFormSubmitHandler">
+      <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
+
+        <div class="flex flex-col space-y-2 text-center">
+          <h1 class="text-4xl font-semibold">Input Code </h1>
+          <p class="text-[#6A6A6A]">Please check your mail for code</p>
+        </div>
+
+        <div class="grid space-y-8 md:space-y-10">
+          <div class="flex space-x-6 justify-center">
+
+            <input v-for="(value, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
+              class="otp-input w-12 h-12 text-center text-2xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary3 transform transition-transform duration-200 ease-out"
+              @input="handleInput(index)" @keydown.backspace="movePrev(index)" ref="otpInputRefs[index]" />
           </div>
-  
-          <div class="grid space-y-8 md:space-y-10">
-            <div class="flex space-x-6 justify-center">
-  
-              <input
-                v-for="(value, index) in otp"
-                :key="index"
-                v-model="otp[index]"
-                type="text"
-                maxlength="1"
-                class="otp-input w-12 h-12 text-center text-2xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary3 transform transition-transform duration-200 ease-out"
-                @input="handleInput(index)"
-                @keydown.backspace="movePrev(index)"
-                ref="otpInputRefs[index]"
-              />
-            </div>
-  
-            <div class="flex flex-col space-y-6">
-              <button @click="verifyOTP" type="submit"
-                class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded">
-                Done
-              </button>
-              <button @click="startCountdown" type="button"
-                :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm`">
-                Resend code &nbsp; <span :class="isButtonDisabled ? 'text-primary3' : 'text-gray-400 hidden'">({{ countDown
-                  }})</span>
-              </button>
-            </div>
+
+          <div class="flex flex-col space-y-6">
+            <button @click="verifyOTP" type="submit"
+              class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded">
+              Done
+            </button>
+            <button @click="startCountdown" type="button"
+              :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm`">
+              Resend code &nbsp; <span :class="isButtonDisabled ? 'text-primary3' : 'text-gray-400 hidden'">({{
+                countDown
+                }})</span>
+            </button>
           </div>
         </div>
-      </form>
-    </main>
-  </template>
-  
+      </div>
+    </form>
+  </main>
+</template>

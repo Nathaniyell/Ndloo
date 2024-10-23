@@ -18,6 +18,7 @@ const loginFormData = ref({
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const isSubmitting = ref(false);
+const isLoading = ref(false);
 
 const loginFormSubmitHandler = async () => {
     isSubmitting.value = true;
@@ -28,24 +29,25 @@ const loginFormSubmitHandler = async () => {
             email: email,
             password: password,
         });
-        successMessage.value = response.message || "Registration successful!";
+        successMessage.value = response.message || "Login successful!";
 
         setTimeout(async () => {
-            await router.push({
-                path: "/dashboard",
-                state: { email: response.body.email }
-            });
+            isLoading.value = true
+            await router.push(
+                "/dashboard",
+            );
         }, 5000);
         // Reset the form data
         loginFormData.value.email = "";
         loginFormData.value.password = "";
         loginFormData.value.rememberMe = false
     } catch (error) {
-        console.error("Registration error:", error);
-        errorMessage.value = error?.message || "Registration failed. Please try again.";
+        console.error("Login error:", error);
+        errorMessage.value = error?.message || "Login failed. Please try again.";
     } finally {
         // Ensure that isSubmitting is set to false in both success and error cases
         isSubmitting.value = false;
+        isLoading.value = false
     }
 
     // Log the current values before resetting
