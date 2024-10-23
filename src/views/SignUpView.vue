@@ -7,6 +7,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import { useSignUpEmailStore } from "@/store/state";
 
 
 const router = useRouter();
@@ -22,13 +23,17 @@ const formData = ref({
     password2: "",
     termsAndConditions: false
 });
+const signUpEmailStore = useSignUpEmailStore();
 const currentStep = ref(1);
 const countries = ref([]);
 const totalSteps = 2;
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const isSubmitting = ref(false);
+const updateEmail = (newEmail) => {
+    signUpEmailStore.email = newEmail;
 
+}
 const nextStep = () => {
     if (currentStep.value < totalSteps) {
         currentStep.value += 1;
@@ -84,12 +89,13 @@ const signUpFormSubmitHandler = async () => {
                         password: password1,
                         password_confirmation: password2
                     });
-
+console.log(response)
+updateEmail(response.data.email)
                     // Success handling
                     successMessage.value = response.message || "Registration successful!"
                     setTimeout(async () => {
-                        await router.push({ name: "otp", state: { email: email } });
-                    }, 5000);
+                        await router.push({ path: "/otp", state: { email: response.data.email } });
+                    }, 500);
 
                     formData.value = {
                         firstName: "",

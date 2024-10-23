@@ -33,7 +33,7 @@ const loginFormSubmitHandler = async () => {
         setTimeout(async () => {
             await router.push({
                 path: "/dashboard",
-                state: { email: email }
+                state: { email: response.body.email }
             });
         }, 5000);
         // Reset the form data

@@ -3,13 +3,17 @@ import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
 import { useRoute } from "vue-router";
 import { ref, nextTick, onMounted } from "vue";
+import { useSignUpEmailStore } from "@/store/state";
 
+
+
+const signUpEmailStore = useSignUpEmailStore();
 const otp = ref(["", "", "", ""]);
 const countDown = ref(60);
 let timer = null;
 const isButtonDisabled = ref(false);
-const route = useRoute();
-const email = route?.state?.email || "No email provided"; // Safely access email from route state
+
+
 
 const startCountdown = () => {
   isButtonDisabled.value = true;
@@ -55,7 +59,7 @@ const movePrev = (index) => {
 const verifyOTP = () => {
   const otpCode = otp.value.join("");
   alert(`Entered OTP: ${otpCode}`);
-  alert(`email: ${email}`);
+  alert(`email: ${signUpEmailStore.email}`);
 };
 </script>
 <template>
