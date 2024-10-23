@@ -4,6 +4,7 @@ import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink, useRouter } from 'vue-router';
 import { loginUser } from "@/composables/FetchData";
+import FormToast from "@/components/FormToast.vue";
 
 
 const router = useRouter();
@@ -70,6 +71,7 @@ const togglePasswordVisibility = () => {
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
+        <FormToast :error="errorMessage" :success="successMessage" />
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-12">
 
