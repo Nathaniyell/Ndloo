@@ -20,7 +20,7 @@ export const registerUser = async (userData) => {
 // Function to handle the POST request for login
 export const loginUser = async (loginData) => {
     try {
-        const response = await axios.post(`${BASE_URL}/details/login`, loginData, {
+        const response = await axios.post(`${BASE_URL}/login`, loginData, {
             headers: {
                 "Content-Type": "application/json"
             }

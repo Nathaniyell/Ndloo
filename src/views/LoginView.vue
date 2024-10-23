@@ -2,27 +2,59 @@
 import { ref } from "vue"
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
+import { loginUser } from "@/composables/FetchData";
 
+
+const router = useRouter();
 const loginFormData = ref({
     email: "",
     password: "",
     rememberMe: false
 })
 
-const loginFormSubmitHandler = () => {
-    // Log the current values before resetting
-    console.log({
-        email: loginFormData.value.email,
-        password: loginFormData.value.password,
-        rememberMe: loginFormData.value.rememberMe
-    });
+const errorMessage = ref(null);
+const successMessage = ref(null);
+const isSubmitting = ref(false);
 
-    // Reset the form data
-    loginFormData.value.email = "";
-    loginFormData.value.password = "";
-    loginFormData.value.rememberMe = false;
+const loginFormSubmitHandler = async () => {
+    isSubmitting.value = true;
+const { email, password } = loginFormData.value;
+
+try {
+    const response = await loginUser({
+        email: email,
+        password: password,
+    });
+    successMessage.value = response.message || "Registration successful!";
+
+    setTimeout(async () => {
+        await router.push({ 
+            path: "/dashboard", 
+            state: { email: email } 
+        });
+    }, 5000);
+} catch (error) {
+    console.error("Registration error:", error);
+    errorMessage.value = error?.message || "Registration failed. Please try again.";
+} finally {
+    // Ensure that isSubmitting is set to false in both success and error cases
+    isSubmitting.value = false;
 }
+
+// Log the current values before resetting
+console.log({
+    email: loginFormData.value.email,
+    password: loginFormData.value.password,
+    rememberMe: loginFormData.value.rememberMe
+});
+
+// Reset the form data
+loginFormData.value.email = "";
+loginFormData.value.password = "";
+loginFormData.value.rememberMe = false
+}
+
 // Toggle visibility of the password
 const isPasswordVisible = ref(false)
 const togglePasswordVisibility = () => {
