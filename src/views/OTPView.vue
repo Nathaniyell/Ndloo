@@ -5,6 +5,8 @@ import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
 import { verifyEmailOtp, verifyLoginOtp } from "@/composables/FetchData";
 import { useSignUpEmailStore } from "@/store/state";
+import FormToast from "@/components/FormToast.vue";
+import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
 
 // Access route and router
 const router = useRouter();
@@ -106,8 +108,9 @@ const verifyOTP = async () => {
       :style="{ backgroundImage: `url(${loginBg})` }">
       <img :src="logo" alt="logo" />
     </div>
-
-    <form class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center" @submit.prevent="verifyOTP">
+    <FormToast v-if="!isLoading" :error="errorMessage" :success="successMessage" />
+    <LoadingSpinner :loading="isLoading" />
+    <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center" @submit.prevent="verifyOTP">
       <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
 
         <div class="flex flex-col space-y-2 text-center">

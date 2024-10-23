@@ -5,7 +5,7 @@ import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink, useRouter } from 'vue-router';
 import { loginUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
 
 
 const router = useRouter();
