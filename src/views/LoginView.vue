@@ -5,6 +5,7 @@ import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink, useRouter } from 'vue-router';
 import { loginUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 
 const router = useRouter();
@@ -135,8 +136,9 @@ const togglePasswordVisibility = () => {
                 </section>
                 <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
                   
-                    <button type="submit" class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                        Login
+                    <button :disabled="isSubmitting" type="submit" class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
+                        <span v-if="!isSubmitting">Log in</span>
+                        <LoadingSpinner v-if="isSubmitting" />
                     </button>
                     <label class="text-sm">Don't have an account?  <RouterLink to="/signup" class="text-primary3 font-semibold text-base">Sign up</RouterLink></label>
                 </section>
