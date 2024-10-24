@@ -50,7 +50,7 @@ const data = [
 </script>
 
 <template>
-    <div class="grid gap-10 lg:grid-cols-[2fr_1fr] px-4 md:px-0">
+    <div class="grid gap-10 lg:gap-4 lg:grid-cols-[2fr_1fr] px-4 lg:pr-4">
         <!-- <h1>Likes</h1> -->
         <div :class="[
             'grid gap-6 place-items-center w-full',
