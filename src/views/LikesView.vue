@@ -5,6 +5,7 @@ import profile2 from "@/assets/images/profile2.png"
 import virtue from "@/assets/images/virtue.png"
 import RouteButton from '@/components/RouteButton.vue';
 import emptyMatch from "@/assets/images/empty match.png"
+import AsideProfile from '@/components/AsideProfile.vue';
 
 const data = [
     {
@@ -49,13 +50,14 @@ const data = [
 </script>
 
 <template>
-    <div class="grid place-items-center">
+    <div class="grid lg:grid-cols-[2fr_1fr]">
         <!-- <h1>Likes</h1> -->
         <div :class="[
             'grid gap-6 place-items-center w-full',
-            data.length > 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'w-full flex justify-center items-center'
+            data.length > 0 ? 'md:grid-cols-2' : 'w-full flex justify-center items-center'
         ]">
             <ProfileCard :cardDetails="data" />
+
             <!-- Message and image for empty state -->
             <div v-if="data.length < 1" class="flex flex-col items-center justify-center gap-10 w-full md:w-1/2">
                 <img :src="emptyMatch" alt="Empty Match">
@@ -69,7 +71,7 @@ const data = [
             </div>
         </div>
 
-
+        <AsideProfile />
     </div>
 
 </template>

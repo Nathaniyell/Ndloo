@@ -49,7 +49,7 @@ const data = [
 </script>
 
 <template>
-    <div class="grid lg:grid-cols-[2fr_1fr] gap-">
+    <div class="grid lg:grid-cols-[2fr_1fr]">
         <div class="grid md:grid-cols-2 gap-6 place-items-center md:gap-4">
 
             <ProfileCard :cardDetails="data" :dislikes="true" />
