@@ -3,6 +3,7 @@ import ProfileCard from '@/components/ProfileCard.vue';
 import profile1 from "@/assets/images/profile1.png"
 import profile2 from "@/assets/images/profile2.png"
 import virtue from "@/assets/images/virtue.png"
+import AsideProfile from '@/components/AsideProfile.vue';
 
 const data = [
     {
@@ -41,15 +42,18 @@ const data = [
         name: "Virtue Andrew",
         age: "23"
     },
-   
-    
+
+
 ]
 
 </script>
 
 <template>
-    <div class="mt-4 grid md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+    <div class="grid lg:grid-cols-[2fr_1fr] gap-">
+        <div class="mt-4 grid md:grid-cols-2 gap-6 place-items-center md:gap-4">
 
-        <ProfileCard :cardDetails="data" :dislikes="true" />
+            <ProfileCard :cardDetails="data" :dislikes="true" />
+        </div>
+        <AsideProfile />
     </div>
 </template>

@@ -2,6 +2,7 @@
 import NavItem from "./NavItem.vue";
 import { caretIcon } from "@/store/data"; 
 import { useShowMoreStore } from "@/store/state";
+import { RouterLink } from "vue-router";
 
 
 const showMoreStore = useShowMoreStore();
@@ -25,7 +26,7 @@ const props = defineProps({
             <button @click="toggleMore"
                 class="bg-white text-primary3 text-2xl  h-8 w-8 flex justify-center items-center rounded-full">x</button>
         </header>
-        <section class="w-full flex items-center justify-between">
+        <RouterLink @click="toggleMore" to="/dashboard/profile" class="w-full flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="bg-light rounded-full h-10 w-10"></div>
                 <div>
@@ -36,7 +37,7 @@ const props = defineProps({
             <button class="text-white">
                 <img class="w-8 h-8" :src="caretIcon" alt="Icon" />
             </button>
-        </section>
+        </RouterLink>
 
 
         <NavItem @click="toggleMore" labelStyle="!block" containerStyle="!justify-start self-start !flex-row" v-for="item in navItems"
