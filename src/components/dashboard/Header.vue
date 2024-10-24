@@ -28,7 +28,7 @@ watch(() => route.path, (newPath) => {
 
 
 <template>
-    <header class="w-full px-4 h-20 flex items-center justify-between">
+    <header class="w-full px-4 h-[4rem] flex items-center justify-between">
         <div>
             <p class="text-[#767676]" v-if="route.path === '/dashboard/'">Good morning,</p>
             <p class="text-dark text-xl font-semibold">{{ headerText }}</p>
