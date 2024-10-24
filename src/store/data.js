@@ -32,7 +32,7 @@ export const navItems = [
   
   export const moreItems = [
     { path: '', label: 'Upgrade', icon: diamondIcon },
-    { path: '', label: 'Wallet', icon: walletIcon },
+    { path: '/dashboard/wallet', label: 'Wallet', icon: walletIcon },
     { path: '/dashboard/settings', label: 'Settings', icon: settingsIcon },
     { path: '/dashboard/settings', label: 'Change Email', icon: smsIcon },
     { path: '/dashboard/settings', label: 'Change Password', icon: lockIcon },
@@ -41,6 +41,7 @@ export const navItems = [
   export const getHeaderText = (path) => {
     switch (path) {
       case "/dashboard/likes": return "My Likes";
+      case "/dashboard/wallet": return "Wallet";
       case "/dashboard/who-likes-me": return "Who Likes Me";
       case "/dashboard/blocked": return "Blocked Users";
       case "/dashboard/settings": return "Settings";

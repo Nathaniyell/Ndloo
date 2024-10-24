@@ -16,6 +16,7 @@ import Blocked from '@/views/BlockedView.vue'
 import WhoLikesMe from '@/views/WhoLikesMeView.vue'
 import BoostProfile from '@/views/BoostProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue';
+import WalletView from '@/views/WalletView.vue';
 
 
 const router = createRouter({
@@ -70,6 +71,10 @@ const router = createRouter({
         {
           path: 'likes',
           component: Likes
+        },
+        {
+          path: 'wallet',
+          component: WalletView
         },
         {
           path: 'who-likes-me',
