@@ -49,7 +49,7 @@ const data = [
 </script>
 
 <template>
-   <div class="grid lg:grid-cols-[2fr_1fr]">
+   <div class="grid gap-10 lg:grid-cols-[2fr_1fr] px-4 md:px-0">
     <div class="grid md:grid-cols-2 gap-6 place-items-center">
 
         <ProfileCard :cardDetails="data" :whoLikesMe="true" />

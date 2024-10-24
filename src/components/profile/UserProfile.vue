@@ -48,7 +48,7 @@ const sellGift = (credits) => {
 
 
 <template>
-    <div class="bg-white w-11/12 h-fit shadow rounded-lg  p-6 max-w-2xl mx-auto">
+    <div class="bg-white w-full h-fit shadow rounded-lg  p-6 max-w-2xl mx-auto">
         <h2 class="text-2xl font-bold mb-4">Details</h2>
 
         <div class="mb-6">

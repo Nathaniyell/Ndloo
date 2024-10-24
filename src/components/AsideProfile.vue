@@ -30,7 +30,7 @@ const buyGift = () => {
 </script>
 
 <template>
-  <div class="w-11/12 p-6 mx-auto bg-white rounded-lg overflow-hidden h-fit shadow-lg space-y-8 flex flex-col justify-between">
+  <div class="w-full p-6 mx-auto bg-white rounded-lg overflow-hidden h-fit shadow-lg space-y-8 flex flex-col justify-between">
     <div class="relative space-y-4">
       <img :src="mainImage" alt="Profile picture" class="w-full h-48 object-cover rounded-md" />
       <div class="absolute top-2 right-2 flex space-x-2">
