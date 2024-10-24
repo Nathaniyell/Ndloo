@@ -48,13 +48,13 @@ const sellGift = (credits) => {
 
 
 <template>
-    <div class="bg-white h-fit shadow rounded-lg p-6 max-w-2xl mx-auto">
+    <div class="bg-white w-11/12 h-fit shadow rounded-lg  p-6 max-w-2xl mx-auto">
         <h2 class="text-2xl font-bold mb-4">Details</h2>
 
         <div class="mb-6">
-            <nav class="flex space-x-4">
+            <nav class="flex overflow-scroll lg:overflow-hidden space-x-3">
                 <button v-for="tab in tabs" :key="tab" @click="activeTab = tab"
-                    class="px-3 py-2 rounded-md text-sm font-medium"
+                    class="md:px-3 px-1 md:py-2 rounded-md text-sm font-medium"
                     :class="activeTab === tab ? 'bg-red-800 text-white' : 'text-gray-700 hover:bg-gray-100'">
                     {{ tab }}
                 </button>
