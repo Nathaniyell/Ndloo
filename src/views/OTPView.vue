@@ -87,7 +87,7 @@ const verifyOTP = async () => {
         token: otpCode,
       });
     }
-
+console.log(signUpEmailStore.email)
     successMessage.value = response?.message || "OTP Verification successful!";
     setTimeout(async () => {
       await router.push("/dashboard"); // Redirect to dashboard after success
