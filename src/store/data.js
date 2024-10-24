@@ -33,9 +33,9 @@ export const navItems = [
   export const moreItems = [
     { path: '', label: 'Upgrade', icon: diamondIcon },
     { path: '', label: 'Wallet', icon: walletIcon },
-    { path: '', label: 'Settings', icon: settingsIcon },
-    { path: '', label: 'Change Email', icon: smsIcon },
-    { path: '', label: 'Change Password', icon: lockIcon },
+    { path: '/dashboard/settings', label: 'Settings', icon: settingsIcon },
+    { path: '/dashboard/settings', label: 'Change Email', icon: smsIcon },
+    { path: '/dashboard/settings', label: 'Change Password', icon: lockIcon },
   ]
 
   export const getHeaderText = (path) => {
