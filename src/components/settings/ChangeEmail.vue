@@ -16,39 +16,31 @@ const changeEmail = reactive({
 });
 const router = useRouter();
 
-const changeEmail = () => {
-    // Implement email change logic here
-    console.log('Changing email...')
-    console.log('Old email:', oldEmail.value)
-    console.log('New email:', newEmail.value)
-    console.log('Confirm email:', confirmEmail.value)
-    // Reset form fields after submission
-    oldEmail.value = ''
-    newEmail.value = ''
-    confirmEmail.value = ''
+const handleEmailChange = () => {
+
 }
 </script>
 
 
 <template>
-    <form @submit.prevent="changeEmail">
+    <form @submit.prevent="handleEmailChange">
         <div class="space-y-4">
           
             <div>
-                <label for="new-email" class="sr-only">New email</label>
-                <input id="new-email" v-model="newEmail" type="email" required
+                <label for="email" class="sr-only">Email</label>
+                <input id="email" v-model="changeEmail.email" type="email" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary3"
-                    placeholder="New email" />
+                    placeholder="johndoe@mail.com" />
             </div>
             <div>
-                <label for="new-password" class="sr-only">New password</label>
+                <label for="password" class="sr-only">Password</label>
                 <input
-                    id="new-password"
-                    v-model="changePasswordFields.newPassword"
+                    id="password"
+                    v-model="changeEmail.password"
                     type="password"
                     required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary3"
-                    placeholder="New password"
+                    placeholder="Password"
                 />
             </div>
         </div>
