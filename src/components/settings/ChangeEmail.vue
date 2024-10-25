@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import FormToast from "@/components/FormToast.vue";
 import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
-import { passwordChange } from '@/composables/FetchData';
+import { emailChange } from '@/composables/FetchData';
 import { useRouter } from 'vue-router';
 
 const errorMessage = ref(null);
@@ -16,8 +16,17 @@ const changeEmail = reactive({
 });
 const router = useRouter();
 
-const handleEmailChange = () => {
+const handleEmailChange = async() => {
+    isSubmitting.value = true;
+    const { email, password } = changeEmail; 
 
+    try{
+const response = await emailChange({
+    email, password
+})
+    }catch(error){
+
+    }
 }
 </script>
 
