@@ -86,3 +86,24 @@ export const getCountries = async () => {
         throw new Error(error.response?.data?.message || "Fetching countries failed");
     }
 };
+
+export const passwordChange = async () => {
+    try {
+        const response = await axios.post(`https://api.ndloo.com/api/account/password/change`);
+
+        return response.data; // Return response data if successful
+    } catch (error) {
+        console.error("Error during fetching countries:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Fetching countries failed");
+    }
+};
+export const emailChange = async () => {
+    try {
+        const response = await axios.post(`https://api.ndloo.com/api/api/account/email/change`);
+
+        return response.data; // Return response data if successful
+    } catch (error) {
+        console.error("Error during fetching countries:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Fetching countries failed");
+    }
+};
