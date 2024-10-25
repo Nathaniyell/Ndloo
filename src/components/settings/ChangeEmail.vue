@@ -24,8 +24,18 @@ const handleEmailChange = async() => {
 const response = await emailChange({
     email, password
 })
-    }catch(error){
+successMessage.value = response.message || "Password change successful!";
+        isLoading.value = true;
 
+        setTimeout(async () => {
+            await router.push("/dashboard");
+            isLoading.value = false; // Set loading to false after navigation
+        }, 5000);
+    }catch(error){
+        console.error("Email change error:", error); // Changed log message to be more specific
+        errorMessage.value = error?.message || "Email change failed. Please try again.";
+    }finally{
+        isSubmitting.value = false
     }
 }
 </script>
