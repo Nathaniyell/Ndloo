@@ -99,7 +99,7 @@ export const passwordChange = async () => {
 };
 export const emailChange = async () => {
     try {
-        const response = await axios.post(`https://api.ndloo.com/api/api/account/email/change`);
+        const response = await axios.post(`https://api.ndloo.com/api/account/email/change`);
 
         return response.data; // Return response data if successful
     } catch (error) {
