@@ -42,7 +42,10 @@ successMessage.value = response.message || "Password change successful!";
 
 
 <template>
-    <form @submit.prevent="handleEmailChange">
+    <FormToast :error="errorMessage" :success="successMessage" />
+    <LoadingSpinner :loading="isLoading" />
+    
+    <form v-if="!isLoading" @submit.prevent="handleEmailChange">
         <div class="space-y-4">
           
             <div>
