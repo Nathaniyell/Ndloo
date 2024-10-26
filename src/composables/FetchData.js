@@ -111,9 +111,9 @@ export const toggleNotification = async () => {
     try {
         const response = await axios.post(`${BASE_URL}/account/notifications/toggle`);
 
-        return response.data; // Return response data if successful
+        return response.data; 
     } catch (error) {
-        console.error("Error during fetching countries:", error.response?.data?.message || error.message);
-        throw new Error(error.response?.data?.message || "Fetching countries failed");
+        console.error("Error toggling notifications:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Toggling notifications");
     }
 };
