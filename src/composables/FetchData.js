@@ -93,8 +93,8 @@ export const passwordChange = async () => {
 
         return response.data; // Return response data if successful
     } catch (error) {
-        console.error("Error during fetching countries:", error.response?.data?.message || error.message);
-        throw new Error(error.response?.data?.message || "Fetching countries failed");
+        console.error("Error during password change:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Changing password failed");
     }
 };
 export const emailChange = async () => {
@@ -103,13 +103,13 @@ export const emailChange = async () => {
 
         return response.data; // Return response data if successful
     } catch (error) {
-        console.error("Error during fetching countries:", error.response?.data?.message || error.message);
-        throw new Error(error.response?.data?.message || "Fetching countries failed");
+        console.error("Error during email change:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Changing email failed");
     }
 };
 export const toggleNotification = async () => {
     try {
-        const response = await axios.post(`${BASE_URL}/account/notifications/toggle`);
+        const response = await axios.get(`${BASE_URL}/account/notifications/toggle`);
 
         return response.data; 
     } catch (error) {
