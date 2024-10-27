@@ -117,3 +117,13 @@ export const toggleNotification = async () => {
         throw new Error(error.response?.data?.message || "Toggling notifications");
     }
 };
+export const getMatches = async () => {
+    try {
+        const response = await axios.get(`${BASE_URL}/matches/`);
+
+        return response.data; 
+    } catch (error) {
+        console.error("Error Fetching matches:", error.response?.data?.message || error.message);
+        throw new Error(error.response?.data?.message || "Fetching matches failed");
+    }
+};
