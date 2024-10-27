@@ -89,7 +89,7 @@ export const getCountries = async () => {
 
 export const passwordChange = async () => {
     try {
-        const response = await axios.post(`https://api.ndloo.com/api/account/password/change`);
+        const response = await axios.post(`${BASE_URL}/account/password/change`);
 
         return response.data; // Return response data if successful
     } catch (error) {
@@ -119,8 +119,8 @@ export const toggleNotification = async () => {
 };
 export const getMatches = async () => {
     try {
-        const response = await axios.get(`${BASE_URL}/matches/`);
-
+        const response = await axios.get(`${BASE_URL}/matches`);
+console.log(response.data)
         return response.data; 
     } catch (error) {
         console.error("Error Fetching matches:", error.response?.data?.message || error.message);

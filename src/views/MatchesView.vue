@@ -5,6 +5,7 @@ import profile2 from "@/assets/images/profile2.png"
 import virtue from "@/assets/images/virtue.png"
 import emptyMatch from "@/assets/images/empty match.png"
 import RouteButton from '@/components/RouteButton.vue';
+import { getMatches } from '@/composables/FetchData';
 
 const data = [
    
@@ -46,7 +47,17 @@ const data = [
     },
    
 ]
+const matchesArray = async()=>{
+  let response
+try{
+  response = await getMatches()
+  console.log(response.data)
+}catch(error){
+  console.log(error)
+}
+} 
 
+matchesArray()
 </script>
 
 <template>
