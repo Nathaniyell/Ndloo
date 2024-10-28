@@ -1,5 +1,5 @@
 import axios from "axios";
-import router from '../router'; // Assuming you have a router configured
+import router from "@/router";
 
 const BASE_URL = import.meta.env.VITE_BASE_BASE_URL;
 
