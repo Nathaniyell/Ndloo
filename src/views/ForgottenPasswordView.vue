@@ -42,7 +42,7 @@ const loginFormSubmitHandler = async () => {
 
         // Navigate to OTP verification page
         setTimeout(() => {
-            router.push("/otp-recover");
+            router.push("/otp");
         }, 2000);
 
     } catch (error) {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, nextTick, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
@@ -23,10 +23,10 @@ const successMessage = ref(null);
 const isSubmitting = ref(false);
 const isLoading = ref(false);
 
-// Check current route to determine page
-const loginPage = route.path === "/otp-login";
-const signupPage = route.path === "/signup";
-const recoverPage = route.path === "/forgot-password";
+// Check previous route to determine page
+const loginPage = route.query.from === "login";
+const signupPage = route.query.from === "signup"; 
+const recoverPage = route.query.from === "forgot-password";
 
 // Countdown logic
 const startCountdown = () => {
@@ -45,6 +45,13 @@ const startCountdown = () => {
 
 onMounted(() => {
   startCountdown(); // Start countdown when component mounts
+
+  // Verify email exists in store
+  if (!signUpEmailStore.email) {
+    console.error("No email found in store")
+    router.push('/login')
+    return
+  }
 });
 
 // OTP Input logic
@@ -88,34 +95,33 @@ const verifyOTP = async () => {
   
   try {
     let response;
-    if (loginPage) {
-      response = await verifyLoginOtp({
-        email: signUpEmailStore.email,
-        token: otpCode,
-      });
-    } else if (signupPage) {
-      response = await verifyEmailOtp({
-        email: signUpEmailStore.email,
-        token: otpCode,
-      });
-    } else if (recoverPage) {
+    
+    // Route checks
+    const currentPath = route.path
+    const isRecoveryFlow = route.query.type === 'forgot-password' // Add this query parameter to your routes
+
+    if (isRecoveryFlow) {
       response = await verifyRecoverOtp({
         email: signUpEmailStore.email,
-        token: otpCode,
+        token: otpCode
+      });
+    } else if (currentPath === '/otp-login') {
+      response = await verifyLoginOtp({
+        email: signUpEmailStore.email,
+        token: otpCode
+      });
+    } else {
+      response = await verifyEmailOtp({
+        email: signUpEmailStore.email,
+        token: otpCode
       });
     }
 
-    successMessage.value = response?.message || "OTP Verification successful!";
+    successMessage.value = response?.message || "Verification successful!";
     
-    // Set loading before navigation
-    isLoading.value = true;
-    
-    // Clear OTP fields after success
-    otp.value = ["", "", "", ""];
-    
-    // Navigate based on the page type
+    // Navigate based on flow type
     setTimeout(() => {
-      if (recoverPage) {
+      if (isRecoveryFlow) {
         router.push("/reset-password");
       } else {
         router.push("/dashboard");
@@ -124,8 +130,7 @@ const verifyOTP = async () => {
 
   } catch (error) {
     console.error("OTP error:", error);
-    errorMessage.value = error?.message || "OTP Verification failed. Please try again.";
-    isLoading.value = false;
+    errorMessage.value = error.message;
   } finally {
     isSubmitting.value = false;
   }

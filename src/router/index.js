@@ -50,9 +50,8 @@ const router = createRouter({
       path: '/otp',
       name: 'otp',
       component: OTPView,
-      // props: true,
+      props: (route) => ({ type: route.query.type }),
       meta: { showNavbarAndFooter: false },
-      // meta: { showNavbarAndFooter: false, requiresAuth: true  },
     },
     {
       path: '/forgot-password',
