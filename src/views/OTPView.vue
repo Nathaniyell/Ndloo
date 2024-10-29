@@ -36,9 +36,11 @@ const startCountdown = async () => {
       await userLoginWithOtp({ email: signUpEmailStore.email });
     } else if (recoverPage) {
       await sendRecoverOtp({ email: signUpEmailStore.email });
-    } else {
-      await verifyEmailOtp({ email: signUpEmailStore.email });
     }
+    
+    //else {
+    //   await verifyEmailOtp({ email: signUpEmailStore.email });
+    // }
 
     // Start countdown after successful OTP send
     isButtonDisabled.value = true;
@@ -114,17 +116,13 @@ const verifyOTP = async () => {
   try {
     let response;
     
-    // Route checks
-    const currentPath = route.path
-    const isRecoveryFlow = route.query.type === 'forgot-password' // Add this query parameter to your routes
-
-    if (isRecoveryFlow) {
-      response = await verifyRecoverOtp({
+    if (loginPage) {
+      response = await verifyLoginOtp({
         email: signUpEmailStore.email,
         token: otpCode
       });
-    } else if (currentPath === '/otp-login') {
-      response = await verifyLoginOtp({
+    } else if (recoverPage) {
+      response = await verifyRecoverOtp({
         email: signUpEmailStore.email,
         token: otpCode
       });
@@ -138,8 +136,9 @@ const verifyOTP = async () => {
     successMessage.value = response?.message || "Verification successful!";
     
     // Navigate based on flow type
+    isLoading.value = true;
     setTimeout(() => {
-      if (isRecoveryFlow) {
+      if (recoverPage) {
         router.push("/reset-password");
       } else {
         router.push("/dashboard");

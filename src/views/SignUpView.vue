@@ -123,7 +123,10 @@ const signUpFormSubmitHandler = async () => {
                     successMessage.value = response.message || "Registration successful!"
                     isLoading.value = true
                     setTimeout(async () => {
-                        await router.push({ path: "/otp", state: { email: response.data.email } });
+                        await router.push({ 
+                            path: "/otp", 
+                            query: { from: 'signup' } 
+                        });
                     }, 5000);
 
                     formData.value = {
