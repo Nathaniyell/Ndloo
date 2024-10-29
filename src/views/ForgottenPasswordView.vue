@@ -1,10 +1,14 @@
 <script setup>
 import { ref } from "vue";
 import { forgotPassword } from "@/composables/FetchData";
+import { useSignUpEmailStore } from "@/store/state";
+import { useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
 import FormToast from "@/components/FormToast.vue";
 
+const router = useRouter();
+const signUpEmailStore = useSignUpEmailStore();
 const loginFormData = ref({
     email: "",
 });
@@ -30,8 +34,16 @@ const loginFormSubmitHandler = async () => {
             email: loginFormData.value.email
         });
         
+        // Save email to store
+        signUpEmailStore.setEmail(loginFormData.value.email);
+        
         successMessage.value = response.message || "Reset code has been sent to your email";
         loginFormData.value.email = ""; // Clear form after success
+
+        // Navigate to OTP verification page
+        setTimeout(() => {
+            router.push("/otp-recover");
+        }, 2000);
 
     } catch (error) {
         console.error("Password reset error:", error);

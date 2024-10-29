@@ -1,9 +1,9 @@
 <script setup>
-import { ref, nextTick, onMounted } from "vue";
+import { ref, nextTick, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
-import { verifyEmailOtp, verifyLoginOtp } from "@/composables/FetchData";
+import { verifyEmailOtp, verifyLoginOtp, verifyRecoverOtp } from "@/composables/FetchData";
 import { useSignUpEmailStore } from "@/store/state";
 import FormToast from "@/components/FormToast.vue";
 import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
@@ -21,10 +21,12 @@ const isButtonDisabled = ref(false);
 const errorMessage = ref(null);
 const successMessage = ref(null);
 const isSubmitting = ref(false);
+const isLoading = ref(false);
 
 // Check current route to determine page
 const loginPage = route.path === "/otp-login";
 const signupPage = route.path === "/signup";
+const recoverPage = route.path === "/forgot-password";
 
 // Countdown logic
 const startCountdown = () => {
@@ -71,8 +73,18 @@ const movePrev = (index) => {
 
 // OTP Verification logic
 const verifyOTP = async () => {
-  isSubmitting.value = true;
+  // Clear previous messages
+  errorMessage.value = null;
+  successMessage.value = null;
+
+  // Validate OTP is complete
   const otpCode = otp.value.join("");
+  if (otpCode.length !== 4) {
+    errorMessage.value = "Please enter all 4 digits";
+    return;
+  }
+
+  isSubmitting.value = true;
   
   try {
     let response;
@@ -86,19 +98,43 @@ const verifyOTP = async () => {
         email: signUpEmailStore.email,
         token: otpCode,
       });
+    } else if (recoverPage) {
+      response = await verifyRecoverOtp({
+        email: signUpEmailStore.email,
+        token: otpCode,
+      });
     }
-console.log(signUpEmailStore.email)
+
     successMessage.value = response?.message || "OTP Verification successful!";
-    setTimeout(async () => {
-      await router.push("/dashboard"); // Redirect to dashboard after success
-    }, 5000);
+    
+    // Set loading before navigation
+    isLoading.value = true;
+    
+    // Clear OTP fields after success
+    otp.value = ["", "", "", ""];
+    
+    // Navigate based on the page type
+    setTimeout(() => {
+      if (recoverPage) {
+        router.push("/reset-password");
+      } else {
+        router.push("/dashboard");
+      }
+    }, 2000);
+
   } catch (error) {
     console.error("OTP error:", error);
     errorMessage.value = error?.message || "OTP Verification failed. Please try again.";
+    isLoading.value = false;
   } finally {
     isSubmitting.value = false;
   }
 };
+
+// Cleanup timer on component unmount
+onUnmounted(() => {
+  if (timer) clearInterval(timer);
+});
 </script>
 
 <template>
@@ -135,17 +171,19 @@ console.log(signUpEmailStore.email)
 
           <div class="flex flex-col space-y-6">
             <button
-              @click="verifyOTP"
               type="submit"
               :disabled="isSubmitting"
-              class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded"
+              class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70"
             >
-              Done
+              <div v-if="isSubmitting" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <span v-else>Done</span>
             </button>
+
             <button
               @click="startCountdown"
               type="button"
-              :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm`"
+              :disabled="isButtonDisabled || isSubmitting"
+              :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm disabled:opacity-50`"
             >
               Resend code &nbsp;
               <span :class="isButtonDisabled ? 'text-primary3' : 'text-gray-400 hidden'">({{ countDown }})</span>

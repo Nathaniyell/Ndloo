@@ -178,3 +178,18 @@ export const forgotPassword = async (emailData) => {
         throw new Error(error.response?.data?.message || "Password recovery request failed");
     }
 };
+
+export const verifyRecoverOtp = async (otpData) => {
+    try {
+        const response = await api.post('/account/recover/code', {
+            email: otpData.email,
+            token: otpData.token
+        });
+        if (response.data.token) {
+            setToken(response.data.token);
+        }
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Recovery code verification failed");
+    }
+};
