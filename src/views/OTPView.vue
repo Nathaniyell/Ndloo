@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
-import { verifyEmailOtp, verifyLoginOtp, verifyRecoverOtp } from "@/composables/FetchData";
+import { verifyEmailOtp, verifyLoginOtp, verifyRecoverOtp, userLoginWithOtp } from "@/composables/FetchData";
 import { useSignUpEmailStore } from "@/store/state";
 import FormToast from "@/components/FormToast.vue";
 import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
@@ -29,18 +29,36 @@ const signupPage = route.query.from === "signup";
 const recoverPage = route.query.from === "forgot-password";
 
 // Countdown logic
-const startCountdown = () => {
-  isButtonDisabled.value = true;
-  countDown.value = 60;
-
-  timer = setInterval(() => {
-    if (countDown.value > 0) {
-      countDown.value--;
+const startCountdown = async () => {
+  try {
+    // Send new OTP based on the page type
+    if (loginPage) {
+      await userLoginWithOtp({ email: signUpEmailStore.email });
+    } else if (recoverPage) {
+      await sendRecoverOtp({ email: signUpEmailStore.email });
     } else {
-      clearInterval(timer);
-      isButtonDisabled.value = false; // Enable button after countdown
+      await verifyEmailOtp({ email: signUpEmailStore.email });
     }
-  }, 1000);
+
+    // Start countdown after successful OTP send
+    isButtonDisabled.value = true;
+    countDown.value = 60;
+    
+    timer = setInterval(() => {
+      if (countDown.value > 0) {
+        countDown.value--;
+      } else {
+        clearInterval(timer);
+        isButtonDisabled.value = false;
+      }
+    }, 1000);
+
+    successMessage.value = "New OTP sent!";
+  } catch (error) {
+    console.error("Resend OTP error:", error);
+    errorMessage.value = error.message || "Failed to resend OTP";
+    isButtonDisabled.value = false;
+  }
 };
 
 onMounted(() => {
