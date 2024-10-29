@@ -167,3 +167,14 @@ export const uploadImages = async (images) => {
         throw new Error(error.response?.data?.message || "Image upload failed");
     }
 };
+
+export const forgotPassword = async (emailData) => {
+    try {
+        const response = await api.post('/account/recover', {
+            email: emailData.email
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Password recovery request failed");
+    }
+};

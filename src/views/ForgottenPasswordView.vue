@@ -1,49 +1,80 @@
 <script setup>
-import { ref } from "vue"
+import { ref } from "vue";
+import { forgotPassword } from "@/composables/FetchData";
 import logo from "@/assets/images/ndloo.png";
-import loginBg from "@/assets/images/loginBg.png"
+import loginBg from "@/assets/images/loginBg.png";
+import FormToast from "@/components/FormToast.vue";
 
 const loginFormData = ref({
     email: "",
+});
 
-})
+const isSubmitting = ref(false);
+const errorMessage = ref(null);
+const successMessage = ref(null);
 
-const loginFormSubmitHandler = () => {
-        console.log({
-        email: loginFormData.value.email,
+const loginFormSubmitHandler = async () => {
+    errorMessage.value = null;
+    successMessage.value = null;
 
-    });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(loginFormData.value.email)) {
+        errorMessage.value = "Please enter a valid email address";
+        return;
+    }
 
-    // Reset the form data
-    loginFormData.value.email = "";
+    isSubmitting.value = true;
 
-}
+    try {
+        const response = await forgotPassword({
+            email: loginFormData.value.email
+        });
+        
+        successMessage.value = response.message || "Reset code has been sent to your email";
+        loginFormData.value.email = ""; // Clear form after success
 
+    } catch (error) {
+        console.error("Password reset error:", error);
+        errorMessage.value = error.message;
+    } finally {
+        isSubmitting.value = false;
+    }
+};
 </script>
 
 <template>
-
     <main class="font-inter md:flex items-stretch px-4 md:px-0 h-fit justify-center md:justify-between">
+        <!-- Left side with logo -->
         <div class="hidden text-white bg-[#85002882] bg-opacity-50 bg-no-repeat bg-origin-border bg-center bg-cover bg-blend-multiply items-center justify-center flex-1 md:flex"
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
+        <FormToast :error="errorMessage" :success="successMessage" />
+        <!-- Form side -->
         <form class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
             @submit.prevent="loginFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
-
-
+                <!-- Header -->
                 <div class="flex flex-col space-y-2 text-center">
-                    <h1 class="text-4xl font-semibold">Forgotten password? </h1>
+                    <h1 class="text-4xl font-semibold">Forgotten password?</h1>
                     <p class="text-[#6A6A6A]">Please input your used email below</p>
                 </div>
-                <div class="grid space-y-8 md:space-y-10">
-                    <div class="relative">
 
-                        <input v-model="loginFormData.email" required type="email" placeholder="Email"
-                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3  pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
-                        <button
-                            class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                <!-- Form content -->
+                <div class="grid space-y-8 md:space-y-10">
+                
+
+                    <!-- Email input -->
+                    <div class="relative">
+                        <input 
+                            v-model="loginFormData.email" 
+                            required 
+                            type="email" 
+                            placeholder="Email"
+                            :disabled="isSubmitting"
+                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded disabled:opacity-50" 
+                        />
+                        <span class="absolute right-3 top-1/2 transform -translate-y-1/2">
                             <svg width="24" height="24" viewBox="0 0 36 36" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -53,17 +84,18 @@ const loginFormSubmitHandler = () => {
                                     d="M27 19.5C22.86 19.5 19.5 22.845 19.5 27C19.5 31.14 22.86 34.5 27 34.5C31.155 34.5 34.5 31.14 34.5 27C34.5 22.845 31.155 19.5 27 19.5ZM30.075 26.325L29.52 26.865L26.25 30.15C26.1 30.285 25.815 30.435 25.605 30.465L24.135 30.675C23.61 30.75 23.235 30.375 23.31 29.85L23.52 28.38C23.55 28.17 23.685 27.885 23.835 27.735L27.105 24.48L27.645 23.925C28.005 23.565 28.41 23.325 28.83 23.325C29.19 23.325 29.595 23.49 30.045 23.925C31.05 24.9 30.735 25.665 30.075 26.325Z"
                                     fill="#E68D8D" />
                             </svg>
-                        </button>
+                        </span>
                     </div>
 
-
-
-                    <button type="submit"
-                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                        Get Code
+                    <!-- Submit button -->
+                    <button 
+                        type="submit"
+                        :disabled="isSubmitting"
+                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70"
+                    >
+                        <div v-if="isSubmitting" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span v-else>Get Code</span>
                     </button>
-
-
                 </div>
             </div>
         </form>
