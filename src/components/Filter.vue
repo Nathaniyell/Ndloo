@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import { defineProps } from 'vue';
 
 
 const filters = ref({
