@@ -17,6 +17,7 @@ import WhoLikesMe from '@/views/WhoLikesMeView.vue'
 import BoostProfile from '@/views/BoostProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue';
 import WalletView from '@/views/WalletView.vue';
+import ResetPasswordView from '@/views/ResetPasswordView.vue';
 
 
 const router = createRouter({
@@ -57,6 +58,12 @@ const router = createRouter({
       path: '/forgot-password',
       name: 'forgot-password',
       component: ForgottenPasswordView,
+      meta: { showNavbarAndFooter: false },
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: ResetPasswordView,
       meta: { showNavbarAndFooter: false },
     },
     {

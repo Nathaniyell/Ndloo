@@ -42,7 +42,7 @@ api.interceptors.response.use(
 // Logout handler
 export const handleLogout = () => {
     removeToken();
-    router.push('/login');
+    // router.push('/login');
 };
 
 // Authentication functions

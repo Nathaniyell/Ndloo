@@ -2,7 +2,7 @@
 import NavItem from "./NavItem.vue";
 import MoreItems from "./MoreItems.vue";
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useRoute } from 'vue-router';
+import { handleLogout } from "@/composables/FetchData";
 import { logo, moreIcon, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/store/data"; // Import relevant assets
 import { useShowMoreStore } from "@/store/state";
 
@@ -51,7 +51,7 @@ const logout = () => {
         <div class="hidden md:flex md:flex-col md:!mt-4">
             <NavItem :item="{ path: '/dashboard/settings', label: 'Settings', icon: settingsIcon }" />
 
-            <button @click="logout" title="Logout"
+            <button @click="handleLogout" title="Logout"
                 class="flex flex-col md:flex-row items-center justify-center md:justify-start space-x-2 p-1 md:p-2 rounded hover:translate-x-2 transition-all ease-in-out duration-200 text-light hover:text-white">
                 <img class="h-5 w-5" :src="logoutIcon" alt="Logout" /> Logout
             </button>
