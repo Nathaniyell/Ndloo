@@ -23,7 +23,11 @@ const isSubmitting = ref(false);
 const isLoading = ref(false);
 
 const loginFormSubmitHandler = async () => {
+    // Clear any previous messages
+    errorMessage.value = null;
+    successMessage.value = null;
     isSubmitting.value = true;
+
     const { email, password } = loginFormData.value;
 
     try {
@@ -32,26 +36,27 @@ const loginFormSubmitHandler = async () => {
             password: password,
         });
         successMessage.value = response.message || "Login successful!";
-
-        isLoading.value = true
-        setTimeout(async () => {
-            await router.push(
-                "/dashboard",
-            );
-        }, 5000);
-        // Reset the form data
+        
+        // Set loading state before navigation
+        isLoading.value = true;
+        
+        // Reset form data immediately after successful login
         loginFormData.value.email = "";
         loginFormData.value.password = "";
-        loginFormData.value.rememberMe = false
+        loginFormData.value.rememberMe = false;
+
+        // Navigate after a short delay
+        setTimeout(() => {
+            router.push("/dashboard");
+        }, 2000); // Reduced from 5000ms to 2000ms for better UX
+
     } catch (error) {
         console.error("Login error:", error);
         errorMessage.value = error?.message || "Login failed. Please try again.";
+        isLoading.value = false; // Ensure loading is false on error
     } finally {
-        // Ensure that isSubmitting is set to false in both success and error cases
         isSubmitting.value = false;
-        isLoading.value = false
     }
-
 }
 
 // Toggle visibility of the password
@@ -100,11 +105,21 @@ const togglePasswordVisibility = () => {
                         <input v-model="loginFormData.password" :type="isPasswordVisible ? 'text' : 'password'"
                             placeholder="Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
-                        <button @click="togglePasswordVisibility" type="button"
-                            class="pointer-events-none  absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
-                            <font-awesome-icon v-if="isPasswordVisible" icon="fa-regular fa-eye-slash"
-                                class="text-[#E68D8D]" />
-                            <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
+                        <button 
+                            @click="togglePasswordVisibility" 
+                            type="button"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
+                        >
+                            <font-awesome-icon 
+                                v-if="isPasswordVisible" 
+                                icon="fa-regular fa-eye-slash"
+                                class="text-[#E68D8D]" 
+                            />
+                            <font-awesome-icon 
+                                v-else 
+                                icon="fa-regular fa-eye" 
+                                class="text-[#E68D8D]" 
+                            />
                         </button>
 
                         <div class="flex w-full justify-between items-center mt-4 absolute">
@@ -135,10 +150,13 @@ const togglePasswordVisibility = () => {
                 </section>
                 <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
 
-                    <button :disabled="isSubmitting" type="submit"
-                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded ">
-                        <span v-if="!isSubmitting">Log in</span>
-                        <LoadingSpinner v-if="isSubmitting" />
+                    <button 
+                        :disabled="isSubmitting" 
+                        type="submit"
+                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70"
+                    >
+                        <div v-if="isSubmitting" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span v-else>Log in</span>
                     </button>
                     <label class="text-sm">Don't have an account? <RouterLink to="/signup"
                             class="text-primary3 font-semibold text-base">Sign up</RouterLink></label>
