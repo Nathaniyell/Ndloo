@@ -6,23 +6,23 @@ import { useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
 import FormToast from "@/components/FormToast.vue";
+import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
 
 const router = useRouter();
 const signUpEmailStore = useSignUpEmailStore();
-const loginFormData = ref({
-    email: "",
-});
 
-const isSubmitting = ref(false);
+const email = ref("");
 const errorMessage = ref(null);
 const successMessage = ref(null);
+const isSubmitting = ref(false);
+const isLoading = ref(false);
 
 const loginFormSubmitHandler = async () => {
     errorMessage.value = null;
     successMessage.value = null;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(loginFormData.value.email)) {
+    if (!emailRegex.test(email.value)) {
         errorMessage.value = "Please enter a valid email address";
         return;
     }
@@ -31,23 +31,27 @@ const loginFormSubmitHandler = async () => {
 
     try {
         const response = await forgotPassword({
-            email: loginFormData.value.email
+            email: email.value
         });
         
-        // Save email to store
-        signUpEmailStore.setEmail(loginFormData.value.email);
+        // Save email to Pinia store
+        signUpEmailStore.setEmail(email.value);
         
-        successMessage.value = response.message || "Reset code has been sent to your email";
-        loginFormData.value.email = ""; // Clear form after success
-
-        // Navigate to OTP verification page
+        successMessage.value = response?.message || "Reset code has been sent to your email";
+        isLoading.value = true;
+        
+        // Navigate to OTP page with recovery type
         setTimeout(() => {
-            router.push("/otp");
+            router.push({ 
+                path: "/otp",
+                query: { type: 'forgot-password' }
+            });
         }, 2000);
 
     } catch (error) {
         console.error("Password reset error:", error);
         errorMessage.value = error.message;
+        isLoading.value = false;
     } finally {
         isSubmitting.value = false;
     }
@@ -61,9 +65,13 @@ const loginFormSubmitHandler = async () => {
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
-        <FormToast :error="errorMessage" :success="successMessage" />
+
+        <FormToast v-if="!isLoading" :error="errorMessage" :success="successMessage" />
+        <LoadingSpinner :loading="isLoading" />
+
         <!-- Form side -->
-        <form class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
+        <form v-if="!isLoading" 
+            class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
             @submit.prevent="loginFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
                 <!-- Header -->
@@ -74,12 +82,10 @@ const loginFormSubmitHandler = async () => {
 
                 <!-- Form content -->
                 <div class="grid space-y-8 md:space-y-10">
-                
-
                     <!-- Email input -->
                     <div class="relative">
                         <input 
-                            v-model="loginFormData.email" 
+                            v-model="email" 
                             required 
                             type="email" 
                             placeholder="Email"

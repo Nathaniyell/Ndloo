@@ -6,6 +6,7 @@ import { userLoginWithOtp } from "@/composables/FetchData";
 import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
 import { useRouter } from "vue-router";
 import FormToast from "@/components/FormToast.vue";
+import { useSignUpEmailStore } from "@/store/state"; 
 
 
 const email = ref("")
@@ -14,7 +15,7 @@ const successMessage = ref(null);
 const isSubmitting = ref(false);
 const isLoading = ref(false);
 const router = useRouter()
-
+const signUpEmailStore = useSignUpEmailStore();
 const loginFormSubmitHandler = async() => {
     isSubmitting.value = true;
     try{
@@ -41,7 +42,7 @@ const response = await userLoginWithOtp({
     });
 
     // Reset the form data
-    loginFormData.value.email = "";
+    email.value = "";
 
 }
 
