@@ -73,10 +73,10 @@ const togglePasswordVisibility = () => {
             :style="{ backgroundImage: `url(${loginBg})` }">
             <img :src="logo" alt="logo" />
         </div>
-        <FormToast :error="errorMessage" :success="successMessage" />
+        <FormToast class="z-50" :error="errorMessage" :success="successMessage" />
         <LoadingSpinner :loading="isLoading" />
         <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
-            <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-12">
+            <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-12">
 
 
                 <div class="flex flex-col space-y-2 text-center">
@@ -134,7 +134,7 @@ const togglePasswordVisibility = () => {
                         </div>
                     </div>
                 </div>
-                <section class="flex flex-col space-y-5 items-center text-[#6A6A6A]">
+                <section class="flex flex-col space-y-4 items-center text-[#6A6A6A]">
                     <div class="flex gap-3 items-center w-full">
                         <span class="flex-1 bg-[#656565] h-[0.1rem]"></span>
                         or
