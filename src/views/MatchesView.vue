@@ -4,9 +4,13 @@ import emptyMatch from "@/assets/images/empty match.png"
 import RouteButton from '@/components/RouteButton.vue';
 import { getMatches } from '@/composables/FetchData';
 import { ref } from 'vue';
+import FullPageSpinner from '@/components/loading-spinners/FullPageSpinner.vue';
 
 const data = ref([])
+const isLoading = ref(true)
+
 const matchesArray = async () => {
+  isLoading.value = true
   try {
     const response = await getMatches()
     console.log('Raw response:', response)
@@ -19,12 +23,14 @@ const matchesArray = async () => {
         age: calculateAge(match.profile.dob),
         location: match.profile.country.name,
         image: match.profile.images[0].image,
-        distance: `${Math.round(match.distance / 1000)}km away` // Convert meters to kilometers
+        distance: `${Math.round(match.distance / 1000)}km away`
       }]
     }))
     console.log('Transformed matches:', data.value)
   } catch (error) {
     console.error('Error fetching matches:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -46,7 +52,11 @@ matchesArray()
 </script>
 
 <template>
-  <div class="grid place-items-center">
+  <!-- Show loading spinner while data is being fetched -->
+  <FullPageSpinner v-if="isLoading" text="Finding your matches..." />
+
+  <!-- Show content after loading -->
+  <div v-else class="grid place-items-center">
     <div :class="[
       'grid gap-6 place-items-center w-full',
       data.length > 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'w-full flex justify-center items-center'
