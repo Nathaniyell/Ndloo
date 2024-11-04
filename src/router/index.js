@@ -79,7 +79,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: Dashboard,
-      beforeEnter: requireAuth,
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',

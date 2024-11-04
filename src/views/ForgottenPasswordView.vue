@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
 import FormToast from "@/components/FormToast.vue";
-import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
+import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
 
 const router = useRouter();
 const signUpEmailStore = useSignUpEmailStore();

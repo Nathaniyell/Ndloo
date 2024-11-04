@@ -6,7 +6,7 @@ import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink, useRouter } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
-import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
+import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
 import { useSignUpEmailStore } from "@/store/state";
 
 
@@ -118,6 +118,13 @@ const signUpFormSubmitHandler = async () => {
                         password_confirmation: password2
                     });
                     console.log(response)
+                    
+                    // Verify token is in localStorage
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        throw new Error("Registration successful but authentication failed - no token received");
+                    }
+
                     updateEmail(response.data.email)
                     // Success handling
                     successMessage.value = response.message || "Registration successful!"
@@ -148,9 +155,8 @@ const signUpFormSubmitHandler = async () => {
                     isSubmitting.value = false
                     console.error("Registration error:", error);
                     errorMessage.value = error?.message || "Registration failed. Please try again.";
-                } finally{
-                    isSubmitting.value = false
-                    isLoading.value = false
+                    isSubmitting.value = false;
+                    isLoading.value = false;
                 }
             },
             (error) => {

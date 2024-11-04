@@ -13,7 +13,14 @@ const api = axios.create({
 
 // Token management
 const getToken = () => localStorage.getItem('token');
-const setToken = (token) => localStorage.setItem('token', token);
+const setToken = (token) => {
+    if (!token) {
+        console.error('Attempted to set null/undefined token');
+        return;
+    }
+    localStorage.setItem('token', token);
+    console.log('Token set successfully:', token); // For debugging
+};
 const removeToken = () => localStorage.removeItem('token');
 
 // Axios interceptor for adding auth token
@@ -60,12 +67,31 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (loginData) => {
     try {
+        console.log('Making login request to:', `${BASE_URL}/login`);
         const response = await api.post('/login', loginData);
-        if (response.data.token) {
-            setToken(response.data.token);
+        console.log('Server response:', response.data);
+        
+        // Check for token in the nested data structure
+        if (response.data?.data?.token) {
+            setToken(response.data.data.token);
+            // Verify token was set
+            const storedToken = getToken();
+            console.log('Token stored successfully:', !!storedToken);
+            
+            if (!storedToken) {
+                throw new Error("Token storage failed");
+            }
+        } else {
+            console.error('No token in response:', response.data);
+            throw new Error("No token received from server");
         }
         return response.data;
     } catch (error) {
+        console.error('Login error:', {
+            status: error.response?.status,
+            data: error.response?.data,
+            message: error.message
+        });
         throw new Error(error.response?.data?.message || "Login failed");
     }
 };

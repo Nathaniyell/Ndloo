@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import FormToast from "@/components/FormToast.vue";
-import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
+import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
 import { emailChange } from '@/composables/FetchData';
 import { useRouter } from 'vue-router';
 

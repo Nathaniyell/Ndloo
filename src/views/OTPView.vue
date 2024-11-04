@@ -6,7 +6,7 @@ import loginBg from "@/assets/images/loginBg.png";
 import { verifyEmailOtp, verifyLoginOtp, verifyRecoverOtp, userLoginWithOtp } from "@/composables/FetchData";
 import { useSignUpEmailStore } from "@/store/state";
 import FormToast from "@/components/FormToast.vue";
-import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
+import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
 
 // Access route and router
 const router = useRouter();

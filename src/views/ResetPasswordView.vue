@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import FormToast from '@/components/FormToast.vue';
-import LoadingSpinner from '@/components/dashboard/LoadingSpinner.vue';
+import LoadingSpinner from '@/components/loading-spinners/LoadingSpinner.vue';
 import logo from "@/assets/images/ndloo.png";
 import logo2 from "@/assets/images/red-logo.png";
 import loginBg from "@/assets/images/loginBg.png";

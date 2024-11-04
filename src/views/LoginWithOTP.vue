@@ -3,7 +3,7 @@ import { ref } from "vue"
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png"
 import { userLoginWithOtp } from "@/composables/FetchData";
-import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
+import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
 import { useRouter } from "vue-router";
 import FormToast from "@/components/FormToast.vue";
 import { useSignUpEmailStore } from "@/store/state"; 

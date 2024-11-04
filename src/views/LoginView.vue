@@ -5,7 +5,8 @@ import loginBg from "@/assets/images/loginBg.png"
 import { RouterLink, useRouter } from 'vue-router';
 import { loginUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
-import LoadingSpinner from "@/components/dashboard/LoadingSpinner.vue";
+import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
+import FullPageSpinner from "@/components/loading-spinners/FullPageSpinner.vue";
 
 
 const router = useRouter();
@@ -23,7 +24,6 @@ const isSubmitting = ref(false);
 const isLoading = ref(false);
 
 const loginFormSubmitHandler = async () => {
-    // Clear any previous messages
     errorMessage.value = null;
     successMessage.value = null;
     isSubmitting.value = true;
@@ -31,29 +31,44 @@ const loginFormSubmitHandler = async () => {
     const { email, password } = loginFormData.value;
 
     try {
+        console.log('Attempting login with:', { email });
         const response = await loginUser({
             email: email,
             password: password,
         });
-        successMessage.value = response.message || "Login successful!";
         
-        // Set loading state before navigation
+        console.log('Login response:', response);
+        
+        // Verify token is in localStorage before navigation
+        const token = localStorage.getItem('token');
+        console.log('Token in localStorage:', token ? 'exists' : 'missing');
+        
+        if (!token) {
+            throw new Error("Authentication failed - no token received");
+        }
+
+        successMessage.value = response.message || "Login successful!";
         isLoading.value = true;
         
-        // Reset form data immediately after successful login
-        loginFormData.value.email = "";
-        loginFormData.value.password = "";
-        loginFormData.value.rememberMe = false;
+        // Reset form and navigate
+        loginFormData.value = {
+            email: "",
+            password: "",
+            rememberMe: false
+        };
 
-        // Navigate after a short delay
         setTimeout(() => {
             router.push("/dashboard");
-        }, 2000); // Reduced from 5000ms to 2000ms for better UX
+        }, 2000); 
 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Login error details:", {
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status
+        });
         errorMessage.value = error?.message || "Login failed. Please try again.";
-        isLoading.value = false; // Ensure loading is false on error
+        isLoading.value = false;
     } finally {
         isSubmitting.value = false;
     }
@@ -74,8 +89,8 @@ const togglePasswordVisibility = () => {
             <img :src="logo" alt="logo" />
         </div>
         <FormToast class="z-50" :error="errorMessage" :success="successMessage" />
-        <LoadingSpinner :loading="isLoading" />
-        <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
+        <FullPageSpinner v-if="isLoading" text="Redirecting to dashboard..." />
+        <form v-else class="h-screen bg-white md:w-1/2 py-4 md:py-2" @submit.prevent="loginFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-12">
 
 
