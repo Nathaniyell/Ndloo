@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useUserStore } from '@/stores/user'
 
+
+
+const DashboardView = () => import('@/views/DashboardView.vue');
 const HomeView = () => import('@/views/HomeView.vue');
 const SignUpView = () => import('@/views/SignUpView.vue');
 const LoginView = () => import('@/views/LoginView.vue');
 const LoginWithOTP = () => import('@/views/LoginWithOTP.vue');
 const OTPView = () => import('@/views/OTPView.vue');
 const ForgottenPasswordView = () => import('@/views/ForgottenPasswordView.vue');
-const Dashboard = () => import('@/views/DashboardView.vue')
 const Messages = () => import('@/views/MessagesView.vue')
 const Matches = () => import('@/views/MatchesView.vue')
 const Likes = () => import('@/views/LikesView.vue')
@@ -81,7 +83,7 @@ const router = createRouter({
     },
     {
       path: '/dashboard',
-      component: Dashboard,
+      component: DashboardView,
       meta: { requiresAuth: true },
       children: [
         {
@@ -139,11 +141,16 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
 
-  if (to.meta.requiresAuth && !userStore.isAuthenticated) {
-    next('/login')
-  } else {
-    next()
+  if (to.meta.requiresAuth) {
+    if (!userStore.isAuthenticated) {
+      // Check localStorage for token
+      if (!userStore.checkAuth()) {
+        next('/login')
+        return
+      }
+    }
   }
+  next()
 })
 
 export default router;

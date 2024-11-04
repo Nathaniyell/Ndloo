@@ -50,7 +50,7 @@ export const navItems = [
       case "/dashboard/profile": return "Profile";
       case "/dashboard/dislikes": return "My Dislikes";
       case "/dashboard/boost-profile": return "Boost Profile";
-      default: return `Welcome Back, ${userStore.user.firstname || "Virtue"}`;
+      default: return `Welcome Back, ${userStore?.user?.firstname || "Virtue"}`;
     }
   };
 export {bgDesigned, profilePicture,settingsIcon,logoutIcon,boostIcon,likesIcon,messageIcon,disklikesIcon, blockedIcon,whoLikesIcon,smsIcon,diamondIcon,lockIcon,walletIcon,matchesIcon,asideImg,logo, filterIcon, caretIcon, moreIcon}

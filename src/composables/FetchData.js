@@ -15,7 +15,7 @@ const api = axios.create({
 // Token management
 const getToken = () => {
     const userStore = useUserStore()
-    return userStore.token
+    return userStore.token || localStorage.getItem('token')
 }
 
 const setToken = (token) => {
@@ -52,6 +52,12 @@ api.interceptors.response.use(
         if (error.response?.status === 403 || error.response?.status === 401) {
             handleLogout();
         }
+        if (error.response?.status === 401) {
+            const userStore = useUserStore();
+            userStore.clearUserData();
+            // Redirect to login if needed
+            window.location.href = '/login';
+        }
         return Promise.reject(error);
     }
 );
@@ -82,7 +88,8 @@ export const loginUser = async (loginData) => {
         console.log('Server response:', response.data);
 
         if (response.data?.data?.token) {
-            setToken(response.data.data.token);
+            const userStore = useUserStore();
+            userStore.setUserData(response.data);
         } else {
             throw new Error("No token received from server");
         }
