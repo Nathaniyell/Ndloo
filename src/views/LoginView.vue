@@ -7,8 +7,9 @@ import { loginUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
 import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
 import FullPageSpinner from "@/components/loading-spinners/FullPageSpinner.vue";
+import { useUserStore } from '@/stores/user'
 
-
+const userStore = useUserStore();
 const router = useRouter();
 const loginFormData = ref({
     email: "",
@@ -31,26 +32,17 @@ const loginFormSubmitHandler = async () => {
     const { email, password } = loginFormData.value;
 
     try {
-        console.log('Attempting login with:', { email });
         const response = await loginUser({
             email: email,
             password: password,
         });
-        
-        console.log('Login response:', response);
-        
-        // Verify token is in localStorage before navigation
-        const token = localStorage.getItem('token');
-        console.log('Token in localStorage:', token ? 'exists' : 'missing');
-        
-        if (!token) {
-            throw new Error("Authentication failed - no token received");
-        }
+
+        // Store user data in Pinia
+        userStore.setUserData(response.data);
 
         successMessage.value = response.message || "Login successful!";
         isLoading.value = true;
-        
-        // Reset form and navigate
+
         loginFormData.value = {
             email: "",
             password: "",
@@ -59,14 +51,10 @@ const loginFormSubmitHandler = async () => {
 
         setTimeout(() => {
             router.push("/dashboard");
-        }, 2000); 
+        }, 2000);
 
     } catch (error) {
-        console.error("Login error details:", {
-            message: error.message,
-            response: error.response?.data,
-            status: error.response?.status
-        });
+        console.error("Login error details:", error);
         errorMessage.value = error?.message || "Login failed. Please try again.";
         isLoading.value = false;
     } finally {
@@ -120,21 +108,11 @@ const togglePasswordVisibility = () => {
                         <input v-model="loginFormData.password" :type="isPasswordVisible ? 'text' : 'password'"
                             placeholder="Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
-                        <button 
-                            @click="togglePasswordVisibility" 
-                            type="button"
-                            class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
-                        >
-                            <font-awesome-icon 
-                                v-if="isPasswordVisible" 
-                                icon="fa-regular fa-eye-slash"
-                                class="text-[#E68D8D]" 
-                            />
-                            <font-awesome-icon 
-                                v-else 
-                                icon="fa-regular fa-eye" 
-                                class="text-[#E68D8D]" 
-                            />
+                        <button @click="togglePasswordVisibility" type="button"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
+                            <font-awesome-icon v-if="isPasswordVisible" icon="fa-regular fa-eye-slash"
+                                class="text-[#E68D8D]" />
+                            <font-awesome-icon v-else icon="fa-regular fa-eye" class="text-[#E68D8D]" />
                         </button>
 
                         <div class="flex w-full justify-between items-center mt-4 absolute">
@@ -165,12 +143,10 @@ const togglePasswordVisibility = () => {
                 </section>
                 <section class="flex flex-col space-y-3 items-center text-[#6A6A6A]">
 
-                    <button 
-                        :disabled="isSubmitting" 
-                        type="submit"
-                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70"
-                    >
-                        <div v-if="isSubmitting" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <button :disabled="isSubmitting" type="submit"
+                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70">
+                        <div v-if="isSubmitting"
+                            class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                         <span v-else>Log in</span>
                     </button>
                     <label class="text-sm">Don't have an account? <RouterLink to="/signup"

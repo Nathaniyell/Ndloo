@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { forgotPassword } from "@/composables/FetchData";
-import { useSignUpEmailStore } from "@/store/state";
+import { useSignUpEmailStore } from "@/stores/state";
 import { useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
@@ -33,16 +33,16 @@ const loginFormSubmitHandler = async () => {
         const response = await forgotPassword({
             email: email.value
         });
-        
+
         // Save email to Pinia store
         signUpEmailStore.setEmail(email.value);
-        
+
         successMessage.value = response?.message || "Reset code has been sent to your email";
         isLoading.value = true;
-        
+
         // Navigate to OTP page with recovery type
         setTimeout(() => {
-            router.push({ 
+            router.push({
                 path: "/otp",
                 query: { type: 'forgot-password' }
             });
@@ -70,8 +70,7 @@ const loginFormSubmitHandler = async () => {
         <LoadingSpinner :loading="isLoading" />
 
         <!-- Form side -->
-        <form v-if="!isLoading" 
-            class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
+        <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
             @submit.prevent="loginFormSubmitHandler">
             <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
                 <!-- Header -->
@@ -84,14 +83,8 @@ const loginFormSubmitHandler = async () => {
                 <div class="grid space-y-8 md:space-y-10">
                     <!-- Email input -->
                     <div class="relative">
-                        <input 
-                            v-model="email" 
-                            required 
-                            type="email" 
-                            placeholder="Email"
-                            :disabled="isSubmitting"
-                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded disabled:opacity-50" 
-                        />
+                        <input v-model="email" required type="email" placeholder="Email" :disabled="isSubmitting"
+                            class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 pr-10 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded disabled:opacity-50" />
                         <span class="absolute right-3 top-1/2 transform -translate-y-1/2">
                             <svg width="24" height="24" viewBox="0 0 36 36" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -106,12 +99,10 @@ const loginFormSubmitHandler = async () => {
                     </div>
 
                     <!-- Submit button -->
-                    <button 
-                        type="submit"
-                        :disabled="isSubmitting"
-                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70"
-                    >
-                        <div v-if="isSubmitting" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <button type="submit" :disabled="isSubmitting"
+                        class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70">
+                        <div v-if="isSubmitting"
+                            class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                         <span v-else>Get Code</span>
                     </button>
                 </div>

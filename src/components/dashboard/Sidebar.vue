@@ -3,10 +3,10 @@ import NavItem from "./NavItem.vue";
 import MoreItems from "./MoreItems.vue";
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { handleLogout } from "@/composables/FetchData";
-import { logo, moreIcon, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/store/data"; // Import relevant assets
-import { useShowMoreStore } from "@/store/state";
+import { logo, moreIcon, settingsIcon, logoutIcon, navItems, moreItems, asideImg } from "@/stores/data"; // Import relevant assets
+import { useShowMoreStore } from "@/stores/state";
 
-const showMoreStore = useShowMoreStore(); 
+const showMoreStore = useShowMoreStore();
 const screenWidth = ref(window.innerWidth);
 
 const updateScreenWidth = () => {
@@ -38,15 +38,16 @@ const logout = () => {
         <nav class="flex justify-around flex-row md:flex-col w-full md:space-y-3 md:justify-start">
             <NavItem v-for="item in displayedNavItems" :key="item.path" :item="item" />
 
-            <button type="button" class="text-light hover:text-white md:hidden" v-if="!showMoreStore.showMore" @click="showMoreStore.toggleShowMore">
-            <img class="w-5 h-5 !text-white" :src="moreIcon" alt="Icon" />
-            <span class="hidden md:block">More</span>
-        </button>
+            <button type="button" class="text-light hover:text-white md:hidden" v-if="!showMoreStore.showMore"
+                @click="showMoreStore.toggleShowMore">
+                <img class="w-5 h-5 !text-white" :src="moreIcon" alt="Icon" />
+                <span class="hidden md:block">More</span>
+            </button>
         </nav>
 
         <MoreItems v-if="showMoreStore.showMore" :navItems="navItems.slice(4, 8)" :moreItems="moreItems" />
 
-       
+
 
         <div class="hidden md:flex md:flex-col md:!mt-4">
             <NavItem :item="{ path: '/dashboard/settings', label: 'Settings', icon: settingsIcon }" />

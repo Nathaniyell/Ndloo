@@ -1,9 +1,10 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import FilterButton from './FilterButton.vue';
-import { getHeaderText } from "@/store/data"
+import { getHeaderText } from "@/stores/data"
 import { ref, watch } from 'vue';
-import { profilePicture } from '@/store/data';
+import { profilePicture } from '@/stores/data';
+
 
 
 defineProps({
@@ -13,6 +14,7 @@ defineProps({
 
 const route = useRoute();
 const headerText = ref(getHeaderText(route.path));
+
 
 
 // Watch for changes to route.path to update headerText dynamically

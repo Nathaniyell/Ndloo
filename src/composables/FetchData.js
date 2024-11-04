@@ -1,5 +1,6 @@
 import axios from "axios";
 import router from "@/router";
+import { useUserStore } from '@/stores/user'
 
 const BASE_URL = import.meta.env.VITE_BASE_BASE_URL;
 
@@ -12,16 +13,25 @@ const api = axios.create({
 });
 
 // Token management
-const getToken = () => localStorage.getItem('token');
+const getToken = () => {
+    const userStore = useUserStore()
+    return userStore.token
+}
+
 const setToken = (token) => {
     if (!token) {
         console.error('Attempted to set null/undefined token');
         return;
     }
-    localStorage.setItem('token', token);
-    console.log('Token set successfully:', token); // For debugging
+    const userStore = useUserStore()
+    userStore.token = token
+    console.log('Token set successfully:', token);
 };
-const removeToken = () => localStorage.removeItem('token');
+
+const removeToken = () => {
+    const userStore = useUserStore()
+    userStore.clearUserData()
+};
 
 // Axios interceptor for adding auth token
 api.interceptors.request.use(
@@ -42,7 +52,7 @@ api.interceptors.response.use(
         if (error.response?.status === 403 || error.response?.status === 401) {
             handleLogout();
         }
-        return Promise.reject(error); 
+        return Promise.reject(error);
     }
 );
 
@@ -70,28 +80,15 @@ export const loginUser = async (loginData) => {
         console.log('Making login request to:', `${BASE_URL}/login`);
         const response = await api.post('/login', loginData);
         console.log('Server response:', response.data);
-        
-        // Check for token in the nested data structure
+
         if (response.data?.data?.token) {
             setToken(response.data.data.token);
-            // Verify token was set
-            const storedToken = getToken();
-            console.log('Token stored successfully:', !!storedToken);
-            
-            if (!storedToken) {
-                throw new Error("Token storage failed");
-            }
         } else {
-            console.error('No token in response:', response.data);
             throw new Error("No token received from server");
         }
         return response.data;
     } catch (error) {
-        console.error('Login error:', {
-            status: error.response?.status,
-            data: error.response?.data,
-            message: error.message
-        });
+        console.error('Login error:', error);
         throw new Error(error.response?.data?.message || "Login failed");
     }
 };
@@ -182,7 +179,7 @@ export const uploadImages = async (images) => {
         images.forEach((image, index) => {
             formData.append(`image${index + 1}`, image);
         });
-        
+
         const response = await api.post('/upload-images', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'

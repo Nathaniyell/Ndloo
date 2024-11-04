@@ -7,7 +7,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import { getCountries, registerUser } from "@/composables/FetchData";
 import FormToast from "@/components/FormToast.vue";
 import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
-import { useSignUpEmailStore } from "@/store/state";
+import { useSignUpEmailStore } from "@/stores/state";
 
 
 const router = useRouter();
@@ -67,7 +67,7 @@ onMounted(async () => {
 
 const validateForm = () => {
     if (currentStep.value === 1) {
-        if (!formData.value.firstName || !formData.value.lastName || !formData.value.email || 
+        if (!formData.value.firstName || !formData.value.lastName || !formData.value.email ||
             !formData.value.phone || !formData.value.country || !formData.value.gender || !formData.value.age) {
             errorMessage.value = "Please fill in all fields";
             return false;
@@ -92,7 +92,7 @@ const signUpFormSubmitHandler = async () => {
         errorMessage.value = "Passwords do not match";
         return;
     }
-    
+
     isSubmitting.value = true;
     const { firstName, lastName, phone, gender, age, email, password1, password2, country } = formData.value;
     // Check if geolocation is available
@@ -118,7 +118,7 @@ const signUpFormSubmitHandler = async () => {
                         password_confirmation: password2
                     });
                     console.log(response)
-                    
+
                     // Verify token is in localStorage
                     const token = localStorage.getItem('token');
                     if (!token) {
@@ -130,9 +130,9 @@ const signUpFormSubmitHandler = async () => {
                     successMessage.value = response.message || "Registration successful!"
                     isLoading.value = true
                     setTimeout(async () => {
-                        await router.push({ 
-                            path: "/otp", 
-                            query: { from: 'signup' } 
+                        await router.push({
+                            path: "/otp",
+                            query: { from: 'signup' }
                         });
                     }, 5000);
 
@@ -253,7 +253,8 @@ const togglePassword2Visibility = () => {
 
                 <div v-if="currentStep === 2" class="flex flex-col space-y-6">
                     <div class="relative">
-                        <input v-model="formData.password1" :type="isPassword1Visible ? 'text' : 'password'" placeholder="Password" required
+                        <input v-model="formData.password1" :type="isPassword1Visible ? 'text' : 'password'"
+                            placeholder="Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                         <button @click="togglePassword1Visibility" type="button"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
@@ -263,7 +264,8 @@ const togglePassword2Visibility = () => {
                         </button>
                     </div>
                     <div class="relative">
-                        <input v-model="formData.password2" :type="isPassword2Visible ? 'text' : 'password'" placeholder="Confirm Password" required
+                        <input v-model="formData.password2" :type="isPassword2Visible ? 'text' : 'password'"
+                            placeholder="Confirm Password" required
                             class="text-[#6A6A6A] font-semibold bg-light bg-opacity-20 w-full p-3 border border-[#C9C9C9] outline-none focus:!border-primary3 active:border-primary3 rounded" />
                         <button @click="togglePassword2Visibility" type="button"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none">
@@ -296,7 +298,8 @@ const togglePassword2Visibility = () => {
                     <button v-if="currentStep === 2" :disabled="isSubmitting" type="submit"
                         class="relative bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded">
                         <span v-if="!isSubmitting">Sign Up</span>
-                        <div v-else class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <div v-else
+                            class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     </button>
                     <label class="text-sm">Already have an account? <RouterLink to="/login"
                             class="text-primary3 font-semibold text-base">Login</RouterLink></label>

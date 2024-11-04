@@ -4,7 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import logo from "@/assets/images/ndloo.png";
 import loginBg from "@/assets/images/loginBg.png";
 import { verifyEmailOtp, verifyLoginOtp, verifyRecoverOtp, userLoginWithOtp } from "@/composables/FetchData";
-import { useSignUpEmailStore } from "@/store/state";
+import { useSignUpEmailStore } from "@/stores/state";
 import FormToast from "@/components/FormToast.vue";
 import LoadingSpinner from "@/components/loading-spinners/LoadingSpinner.vue";
 
@@ -25,7 +25,7 @@ const isLoading = ref(false);
 
 // Check previous route to determine page
 const loginPage = route.query.from === "login";
-const signupPage = route.query.from === "signup"; 
+const signupPage = route.query.from === "signup";
 const recoverPage = route.query.from === "forgot-password";
 
 // Countdown logic
@@ -37,7 +37,7 @@ const startCountdown = async () => {
     } else if (recoverPage) {
       await sendRecoverOtp({ email: signUpEmailStore.email });
     }
-    
+
     //else {
     //   await verifyEmailOtp({ email: signUpEmailStore.email });
     // }
@@ -45,7 +45,7 @@ const startCountdown = async () => {
     // Start countdown after successful OTP send
     isButtonDisabled.value = true;
     countDown.value = 60;
-    
+
     timer = setInterval(() => {
       if (countDown.value > 0) {
         countDown.value--;
@@ -112,10 +112,10 @@ const verifyOTP = async () => {
   }
 
   isSubmitting.value = true;
-  
+
   try {
     let response;
-    
+
     if (loginPage) {
       response = await verifyLoginOtp({
         email: signUpEmailStore.email,
@@ -134,7 +134,7 @@ const verifyOTP = async () => {
     }
 
     successMessage.value = response?.message || "Verification successful!";
-    
+
     // Navigate based on flow type
     isLoading.value = true;
     setTimeout(() => {
@@ -168,7 +168,8 @@ onUnmounted(() => {
     </div>
     <FormToast v-if="!isLoading" :error="errorMessage" :success="successMessage" />
     <LoadingSpinner :loading="isLoading" />
-    <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center" @submit.prevent="verifyOTP">
+    <form v-if="!isLoading" class="h-screen bg-white md:w-1/2 py-4 md:py-2 grid place-items-center"
+      @submit.prevent="verifyOTP">
       <div class="w-11/12 lg:w-[75%] mx-auto flex flex-col py-6 lg:py-4 gap-14 lg:gap-20">
 
         <div class="flex flex-col space-y-2 text-center">
@@ -178,35 +179,21 @@ onUnmounted(() => {
 
         <div class="grid space-y-8 md:space-y-10">
           <div class="flex space-x-6 justify-center">
-            <input
-              v-for="(value, index) in otp"
-              :key="index"
-              v-model="otp[index]"
-              type="text"
-              maxlength="1"
+            <input v-for="(value, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
               class="otp-input w-12 h-12 text-center text-2xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary3 transform transition-transform duration-200 ease-out"
-              @input="handleInput(index)"
-              @keydown.backspace="movePrev(index)"
-              ref="otpInputRefs[index]"
-            />
+              @input="handleInput(index)" @keydown.backspace="movePrev(index)" ref="otpInputRefs[index]" />
           </div>
 
           <div class="flex flex-col space-y-6">
-            <button
-              type="submit"
-              :disabled="isSubmitting"
-              class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70"
-            >
-              <div v-if="isSubmitting" class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <button type="submit" :disabled="isSubmitting"
+              class="bg-primary3 text-white p-3 font-semibold w-full text-center grid place-items-center rounded disabled:opacity-70">
+              <div v-if="isSubmitting"
+                class="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               <span v-else>Done</span>
             </button>
 
-            <button
-              @click="startCountdown"
-              type="button"
-              :disabled="isButtonDisabled || isSubmitting"
-              :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm disabled:opacity-50`"
-            >
+            <button @click="startCountdown" type="button" :disabled="isButtonDisabled || isSubmitting"
+              :class="`${isButtonDisabled ? 'text-[#6A6A6A]' : 'text-primary3'} bg-transparent p-3 font-semibold w-full text-center flex items-center justify-center text-sm disabled:opacity-50`">
               Resend code &nbsp;
               <span :class="isButtonDisabled ? 'text-primary3' : 'text-gray-400 hidden'">({{ countDown }})</span>
             </button>

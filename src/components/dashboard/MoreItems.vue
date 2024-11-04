@@ -1,7 +1,7 @@
 <script setup>
 import NavItem from "./NavItem.vue";
-import { caretIcon } from "@/store/data"; 
-import { useShowMoreStore } from "@/store/state";
+import { caretIcon } from "@/stores/data";
+import { useShowMoreStore } from "@/stores/state";
 import { RouterLink } from "vue-router";
 
 
@@ -40,9 +40,9 @@ const props = defineProps({
         </RouterLink>
 
 
-        <NavItem @click="toggleMore" labelStyle="!block" containerStyle="!justify-start self-start !flex-row" v-for="item in navItems"
-            :key="item.label" :item="item" />
-        <NavItem @click="toggleMore" labelStyle="!block" containerStyle="!justify-start self-start !flex-row" v-for="item in moreItems"
-            :key="item.label" :item="item" />
+        <NavItem @click="toggleMore" labelStyle="!block" containerStyle="!justify-start self-start !flex-row"
+            v-for="item in navItems" :key="item.label" :item="item" />
+        <NavItem @click="toggleMore" labelStyle="!block" containerStyle="!justify-start self-start !flex-row"
+            v-for="item in moreItems" :key="item.label" :item="item" />
     </div>
 </template>

@@ -18,7 +18,9 @@ import bgDesigned from "@/assets/images/bg-designed.png";
 import filterIcon from "@/assets/icons/filter-edit.svg"
 import caretIcon from "@/assets/icons/caret-right.svg"
 import moreIcon from "@/assets/icons/more.svg"
+import { useUserStore } from '@/stores/user'
 
+const userStore = useUserStore();
 
 export const navItems = [
     { path: '/dashboard/', label: 'My Matches', icon: matchesIcon },
@@ -48,7 +50,7 @@ export const navItems = [
       case "/dashboard/profile": return "Profile";
       case "/dashboard/dislikes": return "My Dislikes";
       case "/dashboard/boost-profile": return "Boost Profile";
-      default: return "Welcome Back, Virtue";
+      default: return `Welcome Back, ${userStore.user.firstname || "Virtue"}`;
     }
   };
 export {bgDesigned, profilePicture,settingsIcon,logoutIcon,boostIcon,likesIcon,messageIcon,disklikesIcon, blockedIcon,whoLikesIcon,smsIcon,diamondIcon,lockIcon,walletIcon,matchesIcon,asideImg,logo, filterIcon, caretIcon, moreIcon}

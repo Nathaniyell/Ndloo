@@ -1,29 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-import SignUpView from '@/views/SignUpView.vue';
-import LoginView from '@/views/LoginView.vue';
-import LoginWithOTP from '@/views/LoginWithOTP.vue';
-import OTPView from '@/views/OTPView.vue';
-import ForgottenPasswordView from '@/views/ForgottenPasswordView.vue';
-import Dashboard from '@/views/DashboardView.vue'
-import Messages from '@/views/MessagesView.vue'
-import Matches from '@/views/MatchesView.vue'
-import Likes from '@/views/LikesView.vue'
-import Dislikes from '@/views/DislikesView.vue'
-import Profile from '@/views/ProfileView.vue'
-import Settings from '@/views/SettingsView.vue'
-import Blocked from '@/views/BlockedView.vue'
-import WhoLikesMe from '@/views/WhoLikesMeView.vue'
-import BoostProfile from '@/views/BoostProfileView.vue'
-import NotFoundView from '@/views/NotFoundView.vue';
-import WalletView from '@/views/WalletView.vue';
-import ResetPasswordView from '@/views/ResetPasswordView.vue';
+import { useUserStore } from '@/stores/user'
+
+const HomeView = () => import('@/views/HomeView.vue');
+const SignUpView = () => import('@/views/SignUpView.vue');
+const LoginView = () => import('@/views/LoginView.vue');
+const LoginWithOTP = () => import('@/views/LoginWithOTP.vue');
+const OTPView = () => import('@/views/OTPView.vue');
+const ForgottenPasswordView = () => import('@/views/ForgottenPasswordView.vue');
+const Dashboard = () => import('@/views/DashboardView.vue')
+const Messages = () => import('@/views/MessagesView.vue')
+const Matches = () => import('@/views/MatchesView.vue')
+const Likes = () => import('@/views/LikesView.vue')
+const Dislikes = () => import('@/views/DislikesView.vue')
+const Profile = () => import('@/views/ProfileView.vue')
+const Settings = () => import('@/views/SettingsView.vue')
+const Blocked = () => import('@/views/BlockedView.vue')
+const WhoLikesMe = () => import('@/views/WhoLikesMeView.vue')
+const BoostProfile = () => import('@/views/BoostProfileView.vue')
+const NotFoundView = () => import('@/views/NotFoundView.vue');
+const WalletView = () => import('@/views/WalletView.vue');
+const ResetPasswordView = () => import('@/views/ResetPasswordView.vue');
 
 
 // Auth guard function
 const requireAuth = (to, from, next) => {
-  const token = localStorage.getItem('token')
-  if (!token) {
+  const userStore = useUserStore()
+
+  if (!userStore.isAuthenticated) {
     next('/login')
   } else {
     next()
@@ -134,9 +137,10 @@ const router = createRouter({
 
 // Move the beforeEach after router creation
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    console.log("requiresAuth")
-    requireAuth(to, from, next)
+  const userStore = useUserStore()
+
+  if (to.meta.requiresAuth && !userStore.isAuthenticated) {
+    next('/login')
   } else {
     next()
   }
