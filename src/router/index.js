@@ -20,6 +20,16 @@ import WalletView from '@/views/WalletView.vue';
 import ResetPasswordView from '@/views/ResetPasswordView.vue';
 
 
+// Auth guard function
+const requireAuth = (to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    next('/login')
+  } else {
+    next()
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -69,6 +79,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: Dashboard,
+      beforeEnter: requireAuth,
       children: [
         {
           path: '',
@@ -121,19 +132,14 @@ const router = createRouter({
   ],
 });
 
-async function authenticateUser(next) {
-  next("/login")
-  //write logic to redirect the user to the login page if the user is not authenticated
-}
-
+// Move the beforeEach after router creation
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     console.log("requiresAuth")
-    authenticateUser(next)
+    requireAuth(to, from, next)
   } else {
     next()
   }
 })
-
 
 export default router;
