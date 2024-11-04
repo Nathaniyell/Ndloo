@@ -1,9 +1,11 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import FilterButton from './FilterButton.vue';
 import { getHeaderText } from "@/stores/data"
 import { ref, watch } from 'vue';
 import { profilePicture } from '@/stores/data';
+import { useUserStore } from '@/stores/user';
+import { computed } from 'vue';
 
 
 
@@ -13,8 +15,14 @@ defineProps({
 })
 
 const route = useRoute();
+const router = useRouter();
 const headerText = ref(getHeaderText(route.path));
+const userStore = useUserStore();
 
+// Computed property for avatar
+const userAvatar = computed(() => {
+    return userStore.user?.avatar || profilePicture;
+});
 
 
 // Watch for changes to route.path to update headerText dynamically
@@ -37,9 +45,16 @@ watch(() => route.path, (newPath) => {
         </div>
         <aside class="flex items-center space-x-3">
             <FilterButton v-if="route.path === '/dashboard/'" @click="toggleFilter" />
-
-            <button @click="route.push('/dashboard/profile')" class=""><img class="h-10 w-10" :src="profilePicture"
-                    alt="Profile Picture">
+            <button 
+                @click="router.push('/dashboard/profile')" 
+                class="h-10 w-10 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center"
+            >
+                <img 
+                    :src="userAvatar" 
+                    :alt="`${userStore.user?.firstname || 'User'}'s Profile Picture`"
+                    class="h-full w-full object-cover"
+                    @error="$event.target.src = profilePicture"
+                />
             </button>
         </aside>
     </header>
