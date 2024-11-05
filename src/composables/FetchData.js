@@ -223,3 +223,12 @@ export const verifyRecoverOtp = async (otpData) => {
         throw new Error(error.response?.data?.message || "Recovery code verification failed");
     }
 };
+
+export const getProfile = async (id) => {
+    try {
+        const response = await api.get(`/profile/${id}`)
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Failed to fetch profile data");
+    }
+};
