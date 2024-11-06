@@ -22,7 +22,7 @@ const BoostProfile = () => import('@/views/BoostProfileView.vue')
 const NotFoundView = () => import('@/views/NotFoundView.vue');
 const WalletView = () => import('@/views/WalletView.vue');
 const ResetPasswordView = () => import('@/views/ResetPasswordView.vue');
-
+const UserView = () => import('@/views/UserView.vue');
 
 // Auth guard function
 const requireAuth = (to, from, next) => {
@@ -67,6 +67,12 @@ const router = createRouter({
       name: 'otp',
       component: OTPView,
       props: (route) => ({ type: route.query.type }),
+      meta: { showNavbarAndFooter: false },
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: UserView,
       meta: { showNavbarAndFooter: false },
     },
     {
